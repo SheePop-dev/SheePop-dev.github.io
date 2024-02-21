@@ -25,7 +25,9 @@
 
 <img id="heart_ace" style="position: absolute; top: 615px; left: -60px; z-index: -2;" width="60" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Playing_card_heart_A.svg/130px-Playing_card_heart_A.svg.png">
 
- <img id="coin" style="position: absolute; top: 260px; left: 385px; z-index: -2;display:none;" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209580202250866788/2024_02_20_0ti_Kleki.png?ex=65e77059&is=65d4fb59&hm=1b6c7993702a94027e4298917c9530cda92a728ad0656467fba76fd48f664402&;" width="30">
+ <img id="coin" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209580202250866788/2024_02_20_0ti_Kleki.png?ex=65e77059&is=65d4fb59&hm=1b6c7993702a94027e4298917c9530cda92a728ad0656467fba76fd48f664402&;">
+ 
+<img id="symbol_x" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209587885251104768/2024_02_20_0x2_Kleki.png?ex=65e77780&is=65d50280&hm=2aba5967b6d3a2ad34135b0efa0c2e56442aff01f67ce77f92952071d36097e1&;"> 
  
  
 <canvas id="canvas"></canvas>
@@ -252,6 +254,12 @@ ctx.fillText("Press Y key to start game.", 10, 50);
 
 var throwingCoin = false;
 var throwingCards = false;
+var coinX = 0; 
+var coinY = 0;
+var coinDestinationX = 0;
+var coinDestinationY = 0;
+var tempx = 0;
+var tempy = 0;
 
 function damagePlayer() {
   player.hp--;
@@ -259,6 +267,7 @@ function damagePlayer() {
     document.getElementById("content").innerHTML = "<div style='text-align:center;margin-top:200px;'><h1>You got smushed Zarel<br>wwins</h1></div>"
   }
 }
+
 
 function update() {
     // check keys
@@ -284,27 +293,7 @@ function update() {
     }
     
     if (keys[90]) { // Z
-		
-        if (!throwingCoin) {
-          throwingCoin = true;
-          document.getElementById("coin").style.display = "inline";
-          var ii = 0;
-          var abc = setTimeout(function() {
-            var coinThrowing = setInterval(function() {
-              ii++;
-              document.getElementById("coin").style.top = 260 + ii*10;
-              document.getElementById("coin").style.left = 380 + ii*2;
-              if (ii > 47) {
-                 clearInterval(coinThrowing);
-                 document.getElementById("coin").src ="https://cdn.discordapp.com/attachments/1096317517754011658/1209587885251104768/2024_02_20_0x2_Kleki.png?ex=65e77780&is=65d50280&hm=2aba5967b6d3a2ad34135b0efa0c2e56442aff01f67ce77f92952071d36097e1&;";
-                 if(player.gridY == 0) {
-                   damagePlayer();
-                 }
-              }
-            }, 50);
-          }, 750);
-          
-        }
+	  throwCoin();	
     }
     
     if (keys[88]) { // X
@@ -335,6 +324,9 @@ function update() {
     player.grounded = false;
     
     ctx.drawImage(document.getElementById("relicanth"), (width / 2) - 100, 20, 200, 160);
+    ctx.drawImage(document.getElementById("coin"),coinX, coinY, gridSize, gridSize);
+    ctx.drawImage(document.getElementById("symbol_x"),coinDestinationX, coinDestinationY, gridSize, gridSize);
+    
     
     var hpi;
     for (hpi = 0; hpi < 3; hpi++) {
@@ -433,6 +425,47 @@ function update() {
     requestAnimationFrame(update);
 }
 
+
+function throwCoin() {
+
+if (!throwingCoin) {
+          throwingCoin = true;
+          coinX = width/2 - 60; 
+          coinY = 100;
+          tempx = Math.floor(Math.random() * (10) + 8);
+          tempy = Math.floor(Math.random() * (7) + 1);
+          coinDestinationX = boxes[tempx].x;
+          coinDestinationY = boxes[tempy].y;
+          
+          tempx -= 8;
+          tempy -= 1;
+          tempy = Math.abs(tempy - 6);
+
+          var ii = 0;
+          var abc = setTimeout(function() {
+            var coinThrowing = setInterval(function() {
+              ii++;
+              
+              
+              coinX = coinDestinationX * (ii / 20) ;
+              coinY = coinDestinationY * (ii / 20) ;
+              if (ii > 20) {
+                 clearInterval(coinThrowing);
+                 coinX = coinDestinationX;
+                 coinY = coinDestinationY;
+                 throwingCoin = false;
+                 keys[90] = true;
+                 if(player.gridY == tempy && player.gridX == tempx) {
+                   damagePlayer();
+                 }
+              }
+            }, 50);
+          }, 750);
+          
+        }
+    }
+
+
 function colCheck(shapeA, shapeB) {
     // get the vectors to check against
     var vX = (shapeA.x + (shapeA.width / 2)) - (shapeB.x + (shapeB.width / 2)),
@@ -493,6 +526,7 @@ function startGame() {
   update();
 } 
 window.addEventListener("load", function () {
+	keys[90] = true;
     update();
 });
 </script>
