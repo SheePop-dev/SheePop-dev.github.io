@@ -1,0 +1,496 @@
+<html style="background:#bbb; overflow: hidden">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<span id="content">
+<div id="touchScreen" style="position:fixed;top:80vh;">
+ <table>
+   <td></td><td><button style="font-size:24px" id="up" onClick="move(0)">U</button></td><td></td><tr>
+   <td><button style="font-size:24px" id="left" onClick="move(1)">L</button></td><td></td><td><button style="font-size:24px" id="right" onClick="move(2)">R</button></td><tr>
+    <td></td><td><button style="font-size:24px" id="down" onClick="move(3)">D</button></td><td></td> 
+ </table>
+</div>
+  <!-- Assets -->
+  <img width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209548253079801907/iMarkup_20240220_171215.png?ex=65e75297&is=65d4dd97&hm=27ba4fdb037782f0de4dc0806e10dfc3544b96531f3757908cfa9410a4e8228a&;">
+  
+  <img id="relicanth" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1208102928376926319/IMG_20240216_1125421162.jpg?ex=65e21087&is=65cf9b87&hm=b5d29fb825047bf24e938f909a1666f3e14d864cd8d48d03eb696e465570e37b&;">
+
+  <img id="hp_red" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209610818233311283/2024_02_20_0zl_Kleki_1.png?ex=65e78cdc&is=65d517dc&hm=4ae9c11c9c4483895131e3860e733ac98da5763d19a9df3b795c6aa1ffe7631a&;">
+
+  <img id="hp_black" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209612689072984095/2024_02_20_0zs_Kleki.png?ex=65e78e9a&is=65d5199a&hm=323bcb25ed61f537b3918ca04d5b7dc66d97be221b09c5cb075ea339488755c7&;">
+<!--
+<img style="position: absolute; top: 580px; left: 315px; z-index: -2;" width="180" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209610817906147328/2024_02_20_0zl_Kleki.png?ex=65e78cdc&is=65d517dc&hm=587c6447519bbee18d02301d2cd4f5dc3dc0d9d1217bd4479214df9db519e8dd&;">
+-->
+
+<img id="heart_ace" style="position: absolute; top: 615px; left: -60px; z-index: -2;" width="60" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Playing_card_heart_A.svg/130px-Playing_card_heart_A.svg.png">
+
+ <img id="coin" style="position: absolute; top: 260px; left: 385px; z-index: -2;display:none;" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209580202250866788/2024_02_20_0ti_Kleki.png?ex=65e77059&is=65d4fb59&hm=1b6c7993702a94027e4298917c9530cda92a728ad0656467fba76fd48f664402&;" width="30">
+ 
+ 
+<canvas id="canvas"></canvas>
+</span>
+
+
+
+<script>
+(function () {
+    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    window.requestAnimationFrame = requestAnimationFrame;
+})();
+
+function move(int) {
+  if(int == 0 && player.gridY > 0) {
+    keys[38] = true;
+  } else if(int == 2 && player.gridX < 9) {
+    keys[39] = true;
+  } else if(int == 1 && player.gridX > 0) {
+    keys[37] = true;
+  } else if(int == 3 && player.gridY < 6) {
+    keys[40] = true;
+  }
+}
+
+const gridSize = 30;
+
+var canvas = document.getElementById("canvas"),
+    ctx = canvas.getContext("2d"),
+    width = window.innerWidth,
+    height = window.innerHeight,
+    player = {
+        gridX: 5,
+        gridY: 2,
+        x: 0,
+        y: 0,
+        width: 25,
+        height: 25,
+        speed: 3,
+        velX: 0,
+        velY: 0,
+        hp: 3,
+        jumping: false,
+        grounded: false,
+        color:'#E6AC27',
+        draw: function () {
+    		ctx.drawImage("https://cdn.discordapp.com/attachments/1096317517754011658/1209548253079801907/iMarkup_20240220_171215.png?ex=65e75297&is=65d4dd97&hm=27ba4fdb037782f0de4dc0806e10dfc3544b96531f3757908cfa9410a4e8228a&;", this.x, this.y, this.size, this.size);
+  		}
+    },
+    keys = [],
+    friction = 0.8,
+    gravity = 0.4,
+    boxes = [],
+    powerup = [];  
+
+// dimensions
+
+boxes.push({//box for the ground
+    x: (width / 2) - gridSize*5,
+    y: (height / 1.5) + gridSize*3,
+    width: gridSize*10 + 3,
+    height: 3,
+    color: '#aaaaaa'
+});
+
+boxes.push({//box for the ground
+    x: (width / 2) - gridSize*5,
+    y: (height / 1.5) + gridSize*2,
+    width: gridSize*10 + 3,
+    height: 3,
+    color: '#aaaaaa'
+});
+
+boxes.push({//box for the ground
+    x: (width / 2) - gridSize*5,
+    y: (height / 1.5) + gridSize,
+    width: gridSize*10 + 3,
+    height: 3,
+    color: '#aaaaaa'
+});
+
+boxes.push({//box for the ground
+    x: (width / 2) - gridSize*5,
+    y: (height / 1.5),
+    width: gridSize*10 + 3,
+    height: 3,
+    color: '#aaaaaa'
+});
+
+boxes.push({//box for the ground
+    x: (width / 2) - gridSize*5,
+    y: (height / 1.5) - gridSize,
+    width: gridSize*10 + 3,
+    height: 3,
+    color: '#aaaaaa'
+});
+
+boxes.push({//box for the ground
+    x: (width / 2) - gridSize*5,
+    y: (height / 1.5) - gridSize*2,
+    width: gridSize*10 + 3,
+    height: 3,
+    color: '#aaaaaa'
+});
+
+boxes.push({//box for the ground
+    x: (width / 2) - gridSize*5,
+    y: (height / 1.5) - gridSize*3,
+    width: gridSize*10 + 3,
+    height: 3,
+    color: '#aaaaaa'
+});
+
+boxes.push({//box for the top
+    x: (width / 2) - gridSize*5,
+    y: (height / 1.5) - gridSize*4,
+    width: gridSize*10 + 3,
+    height: 3,
+    color: '#aaaaaa'
+});
+
+//--
+
+boxes.push({//box for the right
+    x: (width / 2) - gridSize*5,
+    y: (height / 1.5) - gridSize*4,
+    width: 3,
+    height: gridSize*7,
+    color: '#aaaaaa'
+});
+
+boxes.push({//box for the left
+    x: (width / 2) - gridSize*4,
+    y: (height / 1.5) - gridSize*4,
+    width: 3,
+    height: gridSize*7,
+    color: '#aaaaaa'
+});
+
+boxes.push({//box for the left
+    x: (width / 2) - gridSize*3,
+    y: (height / 1.5) - gridSize*4,
+    width: 3,
+    height: gridSize*7,
+    color: '#aaaaaa'
+});
+
+boxes.push({//box for the left
+    x: (width / 2) - gridSize*2,
+    y: (height / 1.5) - gridSize*4,
+    width: 3,
+    height: gridSize*7,
+    color: '#aaaaaa'
+});
+
+boxes.push({//box for the left
+    x: (width / 2) - gridSize,
+    y: (height / 1.5) - gridSize*4,
+    width: 3,
+    height: gridSize*7,
+    color: '#000000'
+});
+
+boxes.push({//box for the left
+    x: width / 2,
+    y: (height / 1.5) - gridSize*4,
+    width: 3,
+    height: gridSize*7,
+    color: '#aaaaaa'
+});
+
+boxes.push({//box for the left
+    x: (width / 2) + gridSize,
+    y: (height / 1.5) - gridSize*4,
+    width: 3,
+    height: gridSize*7,
+    color: '#aaaaaa'
+});
+
+boxes.push({//box for the left
+    x: (width / 2) + gridSize*2,
+    y: (height / 1.5) - gridSize*4,
+    width: 3,
+    height: gridSize*7,
+    color: '#aaaaaa'
+});
+
+boxes.push({//box for the left
+    x: (width / 2) + gridSize*3,
+    y: (height / 1.5) - gridSize*4,
+    width: 3,
+    height: gridSize*7,
+    color: '#aaaaaa'
+});
+
+boxes.push({//box for the left
+    x: (width / 2) + gridSize*4,
+    y: (height / 1.5) - gridSize*4,
+    width: 3,
+    height: gridSize*7,
+    color: '#aaaaaa'
+});
+
+boxes.push({//box for the left
+    x: (width / 2) + gridSize*5,
+    y: (height / 1.5) - gridSize*4,
+    width: 3,
+    height: gridSize*7,
+    color: '#aaaaaa'
+});
+
+
+player.x = boxes[13].x + 6;
+player.y = boxes[5].y + 6;
+
+canvas.width = width;
+canvas.height = height;
+
+
+/*
+ctx.font = "48px serif";
+ctx.fillText("Press Y key to start game.", 10, 50);
+*/
+
+var throwingCoin = false;
+var throwingCards = false;
+
+function damagePlayer() {
+  player.hp--;
+  if (player.hp <= 0) {
+    document.getElementById("content").innerHTML = "<div style='text-align:center;margin-top:200px;'><h1>You got smushed Zarel<br>wwins</h1></div>"
+  }
+}
+
+function update() {
+    // check keys
+    if (keys[38] && player.gridY > 0) { // up
+        player.y -= gridSize;
+        keys[38] = false;
+        player.gridY--;
+    }
+    if (keys[39] && player.gridX < 9) { // right
+        player.x += gridSize;
+        keys[39] = false;
+        player.gridX++;
+    }
+    if (keys[37] && player.gridX > 0) { // left
+        player.x -= gridSize;
+        keys[37] = false;
+        player.gridX--;
+    }
+     if (keys[40] && player.gridY < 6) { // down
+        player.y += gridSize;
+        keys[40] = false;
+        player.gridY++;
+    }
+    
+    if (keys[90]) { // Z
+		
+        if (!throwingCoin) {
+          throwingCoin = true;
+          document.getElementById("coin").style.display = "inline";
+          var ii = 0;
+          var abc = setTimeout(function() {
+            var coinThrowing = setInterval(function() {
+              ii++;
+              document.getElementById("coin").style.top = 260 + ii*10;
+              document.getElementById("coin").style.left = 380 + ii*2;
+              if (ii > 47) {
+                 clearInterval(coinThrowing);
+                 document.getElementById("coin").src ="https://cdn.discordapp.com/attachments/1096317517754011658/1209587885251104768/2024_02_20_0x2_Kleki.png?ex=65e77780&is=65d50280&hm=2aba5967b6d3a2ad34135b0efa0c2e56442aff01f67ce77f92952071d36097e1&;";
+                 if(player.gridY == 0) {
+                   damagePlayer();
+                 }
+              }
+            }, 50);
+          }, 750);
+          
+        }
+    }
+    
+    if (keys[88]) { // X
+      if (!throwingCards) {
+          throwingCards = true;
+          var iii = 0;
+          var abcd = setTimeout(function() {
+            var cardThrowing = setInterval(function() {
+              iii++;
+              document.getElementById("heart_ace").style.left = -60 + iii*20;
+              if (iii > 47) {
+                 clearInterval(cardThrowing);
+                 if(player.gridY == 0) {
+                   damagePlayer();
+                 }
+              }
+            }, 50);
+          }, 750);
+          
+        }
+    }
+    
+  	
+
+    ctx.clearRect(0, 0, width, height);
+    ctx.beginPath();
+    
+    player.grounded = false;
+    
+    ctx.drawImage(document.getElementById("relicanth"), (width / 2) - 100, 20, 200, 160);
+    
+    var hpi;
+    for (hpi = 0; hpi < 3; hpi++) {
+      if (player.hp > hpi) {
+        ctx.drawImage(document.getElementById("hp_red"), boxes[17].x + (gridSize * hpi) - gridSize*3.5, boxes[7].y - gridSize*2, gridSize*4, gridSize*3);
+      } else {
+        ctx.drawImage(document.getElementById("hp_black"), boxes[17].x + (gridSize * hpi) - gridSize*3.5, boxes[7].y - gridSize*2, gridSize*4, gridSize*3);
+      }
+    }
+    
+
+    
+    
+    
+    for (var i = 0; i < boxes.length; i++) {//print boxes
+        ctx.fillStyle = "black";
+        ctx.rect(boxes[i].x, boxes[i].y, boxes[i].width, boxes[i].height);
+        
+        var dir = colCheck(player, boxes[i]);
+
+        if (dir === "l" || dir === "r") {
+            player.velX = 0;
+            player.jumping = false;
+        } else if (dir === "b") {
+            player.grounded = true;
+            player.jumping = false;
+        } else if (dir === "t") {
+            player.velY *= -1;
+        }
+
+    }
+    
+    
+   
+    
+    
+    if(player.grounded){
+         player.velY = 0;
+    }
+    
+    player.x += player.velX;
+    player.y += player.velY;
+  
+  
+    ctx.fill();//Draw charater stuff
+    ctx.fillStyle = player.color;
+    ctx.fillRect(player.x, player.y, gridSize *.75, gridSize * .75);
+    
+    //draw powerup stuff 
+    for(var j = 0; j < powerup.length; j++){
+      ctx.save();
+      var cx = powerup[j].x + 0.5 * powerup[j].width,   // x of shape center
+      cy = powerup[j].y + 0.5 * powerup[j].height; //y of shape center
+      ctx.translate(cx, cy);  //translate to center of shape
+      ctx.rotate( (Math.PI / 180) * 45);//rotate 25 degrees.
+      if(powerup[j].effect  === 'tele'){
+        ctx.rotate( (Math.PI / 180) * powerup[j].rotate);//rotate 25 degrees.
+        powerup[j].rotate = (Math.PI / 180) * powerup[j].rotate;
+      }
+      ctx.translate(-cx, -cy);            //translate center back to 0,0
+      ctx.fillStyle = powerup[j].color;
+      ctx.fillRect(powerup[j].x, powerup[j].y, powerup[j].width, powerup[j].height);
+      ctx.restore();
+      
+      //powerup collision
+      if(colCheck(player, powerup[j])!==null){//touched power up!
+        if(powerup[j].effect==='gravity'){
+          gravity= 0.4;//decrease gravity
+          player.speed = 4;
+          player.color = 'white';
+        }
+        else if (powerup[j].effect==='shrink'){
+          player.width= 10;
+          player.height= 10;
+          player.speed = 5;
+        }
+        else if (powerup[j].effect==='tele'){
+          player.x=powerup[j].px;
+          player.y=powerup[j].py;
+        }
+        else if (powerup[j].effect==='win'){
+          var r = confirm("You win! Play again?");
+          if (r == false) {
+               player.x=200;
+               player.y=200;
+          } else {
+               window.location.href = window.location.href;
+          }
+        }
+        if(powerup[j].stay!==true)
+        powerup[j].width=0;//make power up go away
+      }
+    }
+    //powerup stuff
+	
+    requestAnimationFrame(update);
+}
+
+function colCheck(shapeA, shapeB) {
+    // get the vectors to check against
+    var vX = (shapeA.x + (shapeA.width / 2)) - (shapeB.x + (shapeB.width / 2)),
+        vY = (shapeA.y + (shapeA.height / 2)) - (shapeB.y + (shapeB.height / 2)),
+        // add the half widths and half heights of the objects
+        hWidths = (shapeA.width / 2) + (shapeB.width / 2),
+        hHeights = (shapeA.height / 2) + (shapeB.height / 2),
+        colDir = null;
+
+    // if the x and y vector are less than the half width or half height, they we must be inside the object, causing a collision
+    if (Math.abs(vX) < hWidths && Math.abs(vY) < hHeights) {
+        // figures out on which side we are colliding (top, bottom, left, or right)
+        var oX = hWidths - Math.abs(vX),
+            oY = hHeights - Math.abs(vY);
+        if (oX >= oY) {
+            if (vY > 0) {
+                colDir = "t";
+                shapeA.y += oY;
+            } else {
+                colDir = "b";
+                shapeA.y -= oY;
+            }
+        } else {
+            if (vX > 0) {
+                colDir = "l";
+                shapeA.x += oX;
+            } else {
+                colDir = "r";
+                shapeA.x -= oX;
+            }
+        }
+    }
+    return colDir;
+}
+
+document.body.addEventListener("keydown", function (e) {
+    keys[e.keyCode] = true;
+});
+
+document.body.addEventListener("keyup", function (e) {
+    keys[e.keyCode] = false;
+});
+
+
+make_base();
+
+function make_base()
+{
+  base_image = new Image();
+  base_image.src = 'https://i.stack.imgur.com/zqElV.png?s=64&g=1';
+  base_image.onload = function(){
+    context.drawImage(base_image, 400, 400);
+  }
+}
+
+
+function startGame() {
+  update();
+} 
+window.addEventListener("load", function () {
+    update();
+});
+</script>
+</html>
