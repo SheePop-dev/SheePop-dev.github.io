@@ -1,14 +1,14 @@
 <html style="background:#bbb; overflow: hidden">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <span id="content">
-<iframe src="https://github.com/anars/blank-audio/blob/master/250-milliseconds-of-silence.mp3" allow="autoplay" id="audio" style="display: none"></iframe>
 <div id="touchScreen" style="position:fixed;top:75vh;">
  <table>
-   <td></td><td><button style="font-size:24px" id="up" onClick="move(0)">U</button></td><td></td><tr>
-   <td><button style="font-size:24px" id="left" onClick="move(1)">L</button></td><td></td><td><button style="font-size:24px" id="right" onClick="move(2)">R</button></td><tr>
-    <td></td><td><button style="font-size:24px" id="down" onClick="move(3)">D</button></td><td></td> 
+   <td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:40px;height:40px;" id="up" onClick="move(0)">⇧</button></td><td></td><tr>
+   <td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:40px;height:40px;" id="left" onClick="move(1)">⇦</button></td><td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:40px;height:40px;" id="right" onClick="move(2)">⇨</button></td><tr>
+    <td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:40px;height:40px;" id="down" onClick="move(3)">⇩</button></td><td></td> 
  </table>
 </div>
+<button id="sound" onclick="toggleSound()" style="position:fixed;background: rgba(255,255,255,0.1);float:right;top:20px;">Sound</button>
   <!-- Assets -->
   <img width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209548253079801907/iMarkup_20240220_171215.png?ex=65e75297&is=65d4dd97&hm=27ba4fdb037782f0de4dc0806e10dfc3544b96531f3757908cfa9410a4e8228a&;">
   
@@ -525,9 +525,13 @@ function startGame() {
 } 
 window.addEventListener("load", function () {
 	keys[90] = true;
-	var audio = new Audio('https://SheePop-dev.github.io/Battle_Theme.mp3');
-	audio.play();
     	update();
 });
+
+function toggleSound() {
+	var audio = new Audio('https://SheePop-dev.github.io/Battle_Theme.mp3');
+	audio.play();
+}
+
 </script>
 </html>
