@@ -2,6 +2,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <span id="content">
 <div id="touchScreen" style="position:fixed;top:70vh;">
+  <button id="z" style="position:fixed;right:48px;font-size:30px; background: rgba(255,255,255,0.1);width:80px;height:80px;margin-top:24px;">Z</button>
  <table>
    <td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:40px;height:40px;" id="up" onClick="move(0)">⇧</button></td><td></td><tr>
    <td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:40px;height:40px;" id="left" onClick="move(1)">⇦</button></td><td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:40px;height:40px;" id="right" onClick="move(2)">⇨</button></td><tr>
@@ -40,13 +41,13 @@
 })();
 
 function move(int) {
-  if(int == 0 && player.gridY > 0) {
+  if(int == 0) {
     keys[38] = true;
-  } else if(int == 2 && player.gridX < 9) {
+  } else if(int == 2) {
     keys[39] = true;
-  } else if(int == 1 && player.gridX > 0) {
+  } else if(int == 1) {
     keys[37] = true;
-  } else if(int == 3 && player.gridY < 6) {
+  } else if(int == 3) {
     keys[40] = true;
   }
 }
@@ -245,11 +246,6 @@ canvas.width = width;
 canvas.height = height;
 
 
-/*
-ctx.font = "48px serif";
-ctx.fillText("Press Y key to start game.", 10, 50);
-*/
-
 var throwingCoin = false;
 var throwingCards = false;
 var coinX = 0; 
@@ -262,12 +258,42 @@ var tempy = 0;
 function damagePlayer() {
   player.hp--;
   if (player.hp <= 0) {
-    document.getElementById("content").innerHTML = "<div style='text-align:center;margin-top:200px;'><h1>You got smushed Zarel<br>wwins</h1></div>"
+    document.getElementById("content").innerHTML = "<div style='text-align:center;margin-top:200px;'><h1>You got smushed Zarel<br>wwins</h1></div>";
+    level = 2;
   }
 }
 
 
+
+var level = 0;
+var selectedOption = 0;
 function update() {
+    if (level == 0) {
+		if (keys[90]) { // X
+            if(selectedOption == 0) {
+ 	 			level = 1;
+            }
+		}
+        if (keys[38] && selectedOption == 1) { // up
+			selectedOption = 0;
+            keys[38] = false;
+    	}
+
+    	if (keys[40] && selectedOption == 0) { // down
+			selectedOption = 1;
+            keys[40] = false;
+    	}
+        ctx.clearRect(0, 0, width, height);
+		ctx.font = "36px serif";
+		ctx.fillText("New Game", width/2 - 100, 200);
+        ctx.fillText("Options", width/2 - 100, 250);
+        
+        ctx.fill();//Draw charater stuff
+    	ctx.fillRect(width/2 - 140, 179 + (selectedOption * 50), 20, 20);
+        
+    }  
+    if (level == 1) {
+    	
     // check keys
     if (keys[38] && player.gridY > 0) { // up
         player.y -= gridSize;
@@ -290,8 +316,12 @@ function update() {
         player.gridY++;
     }
     
+    if (!throwingCoin) {
+    	throwCoin();
+    }
+    
     if (keys[90]) { // Z
-	  throwCoin();	
+	  
     }
     
     if (keys[88]) { // X
@@ -419,6 +449,8 @@ function update() {
       }
     }
     //powerup stuff
+    
+    }
 	
     requestAnimationFrame(update);
 }
@@ -524,13 +556,19 @@ function startGame() {
   update();
 } 
 window.addEventListener("load", function () {
-	keys[90] = true;
-    	update();
+    update();
 });
 
+const sound = false;
+const audio = new Audio('https://SheePop-dev.github.io/Battle_Theme.mp3');
 function toggleSound() {
-	var audio = new Audio('https://SheePop-dev.github.io/Battle_Theme.mp3');
-	audio.play();
+  if(sound) {
+	audio.pause();
+    sound = false;
+  } else {
+    audio.play();
+    sound = true;
+  }
 }
 
 </script>
