@@ -2,9 +2,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <span id="content">
 <iframe src="https://github.com/anars/blank-audio/blob/master/250-milliseconds-of-silence.mp3" allow="autoplay" id="audio" style="display: none"></iframe>
-<audio loop autoplay>
-    <source src="https://SheePop-dev.github.io/Battle_Theme.mp3" type="audio/mp3">
-</audio>
 <div id="touchScreen" style="position:fixed;top:75vh;">
  <table>
    <td></td><td><button style="font-size:24px" id="up" onClick="move(0)">U</button></td><td></td><tr>
@@ -528,7 +525,9 @@ function startGame() {
 } 
 window.addEventListener("load", function () {
 	keys[90] = true;
-    update();
+	var audio = new Audio('https://SheePop-dev.github.io/Battle_Theme.mp3');
+	audio.play();
+    	update();
 });
 </script>
 </html>
