@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <span id="content">
 <div id="touchScreen" style="position:fixed;top:70vh;">
-  <button id="z" style="position:fixed;right:48px;font-size:30px; background: rgba(255,255,255,0.1);width:80px;height:80px;margin-top:24px;">Z</button>
+  <button id="z" onclick="move(4)" style="position:fixed;right:48px;font-size:30px; background: rgba(255,255,255,0.1);width:80px;height:80px;margin-top:24px;">Z</button>
  <table>
    <td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:40px;height:40px;" id="up" onClick="move(0)">⇧</button></td><td></td><tr>
    <td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:40px;height:40px;" id="left" onClick="move(1)">⇦</button></td><td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:40px;height:40px;" id="right" onClick="move(2)">⇨</button></td><tr>
@@ -49,6 +49,8 @@ function move(int) {
     keys[37] = true;
   } else if(int == 3) {
     keys[40] = true;
+  } else if(int == 4) {
+    keys[90] = true;
   }
 }
 
@@ -269,19 +271,24 @@ var level = 0;
 var selectedOption = 0;
 function update() {
     if (level == 0) {
-		if (keys[90]) { // X
+		if (keys[90]) { // Z
+            keys[90] = false;
             if(selectedOption == 0) {
  	 			level = 1;
             }
 		}
-        if (keys[38] && selectedOption == 1) { // up
-			selectedOption = 0;
-            keys[38] = false;
+        if (keys[38]) { // up
+        	keys[38] = false;
+			if (selectedOption == 1) {
+            	selectedOption = 0;
+            }
     	}
 
-    	if (keys[40] && selectedOption == 0) { // down
-			selectedOption = 1;
-            keys[40] = false;
+    	if (keys[40]) { // down
+			keys[40] = false;
+            if (selectedOption == 0) {
+	            selectedOption = 1;
+    		}        
     	}
         ctx.clearRect(0, 0, width, height);
 		ctx.font = "36px serif";
@@ -477,7 +484,7 @@ if (!throwingCoin) {
               ii++;
               
               
-              coinX = coinDestinationX * (ii / 20) ;
+              coinX = (coinDestinationX * (ii / 20)) ;
               coinY = coinDestinationY * (ii / 20) ;
               if (ii > 20) {
                  clearInterval(coinThrowing);
