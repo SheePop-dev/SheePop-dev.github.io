@@ -1,7 +1,7 @@
 <html style="background:#bbb; overflow: hidden">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <span id="content">
-<div id="touchScreen" style="position:fixed;bottom:48px;left:24px;">
+<div id="touchScreen" style="position:fixed;bottom:48px;left:48px;">
   <button id="z" onclick="move(4)" style="position:fixed;right:48px;font-size:30px; background: rgba(255,255,255,0.1);width:80px;height:80px;margin-top:48px;">Z</button>
  <table>
    <td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:60px;height:60px;" id="up" onClick="move(0)">⇧</button></td><td></td><tr>
@@ -74,7 +74,7 @@ var canvas = document.getElementById("canvas"),
         maxHp: 5,
         jumping: false,
         grounded: false,
-        color:'#E6AC27',
+        color:'blue',
         draw: function () {
     		ctx.drawImage("https://cdn.discordapp.com/attachments/1096317517754011658/1209548253079801907/iMarkup_20240220_171215.png?ex=65e75297&is=65d4dd97&hm=27ba4fdb037782f0de4dc0806e10dfc3544b96531f3757908cfa9410a4e8228a&;", this.x, this.y, this.size, this.size);
   		}
@@ -254,6 +254,7 @@ var throwingCards = false;
 
 var coinCount = 0;
 var coinSpeed = 20;
+var coinsPlaced = false;
 
 var coinX = [];
 var coinY = [];
@@ -261,6 +262,7 @@ var coinDestinationX = [];
 var coinDestinationY = [];
 var tempx = [];
 var tempy = [];
+
 
 
 var cardX = 0;
@@ -280,6 +282,9 @@ var level = 0;
 var selectedOption = 0;
 var menu = 0;
 var soundOn = true;
+
+
+
 function update() {
     if (level == 0) {
 		if (keys[90]) { // Z
@@ -328,9 +333,9 @@ function update() {
         	ctx.fillText("Options", width/2 - 130, 250);
         } else if (menu == 1) {
             if (soundOn) {
-            	ctx.fillText("Sound:  On", width/2 - 130, 200);
+            	ctx.fillText("Sound:      On", width/2 - 130, 200);
             } else {
-            	ctx.fillText("Sound:  Off", width/2 - 130, 200);
+            	ctx.fillText("Sound:      Off", width/2 - 130, 200);
             }
             ctx.fillText("Back", width/2 - 130, 250);
         }
@@ -408,8 +413,9 @@ function update() {
     
     var i = 0;
     for (i=0;i<coinCount;i++) {
+            ctx.drawImage(document.getElementById("symbol_x"),coinDestinationX[i], coinDestinationY[i], gridSize, gridSize);
     	ctx.drawImage(document.getElementById("coin"),coinX[i], coinY[i], gridSize, gridSize);
-        ctx.drawImage(document.getElementById("symbol_x"),coinDestinationX[i], coinDestinationY[i], gridSize, gridSize);
+
     }
     
     
@@ -458,7 +464,7 @@ function update() {
   
     ctx.fill();//Draw charater stuff
     ctx.fillStyle = player.color;
-    ctx.fillRect(player.x, player.y, gridSize *.75, gridSize * .75);
+    ctx.fillRect(player.x + 4, player.y + 4, gridSize *.5, gridSize * .5);
     
     //draw powerup stuff 
     for(var j = 0; j < powerup.length; j++){
@@ -535,60 +541,63 @@ function throwCard() {
 }
 
 
+
 function throwCoin() {
 
 if (!throwingCoin) {
-          throwingCoin = true;
-          coinCount++;
-          var i =0;
+  throwingCoin = true;
+  coinCount++;
+  var i =0;
 
-          for (i=0;i<coinCount;i++) {
-            tempx[i] = Math.floor(Math.random() * (10) + 8);
-            tempy[i] = Math.floor(Math.random() * (7) + 1);
-          	coinX[i] = width/2 - 60; 
-          	coinY[i] = 100;
-            coinDestinationX[i] = boxes[tempx[i]].x;
-            coinDestinationY[i] = boxes[tempy[i]].y;
-            tempx[i] -= 8;
-            tempy[i] -= 1;
-            tempy[i] = Math.abs(tempy[i] - 6);
-          }
-
-      
-
-          var ii = 0;
-          var abc = setTimeout(function() {
-            var coinThrowing = setInterval(function() {
-              ii++;
-              
-              for (i=0;i<coinCount;i++) {
-                coinX[i] = (coinDestinationX[i] * (ii / coinSpeed)) ;
-                coinY[i] = coinDestinationY[i] * (ii / coinSpeed) ;
-              }
-              
-              if (ii > coinSpeed) {
-                 clearInterval(coinThrowing);
-                 for (i=0;i<coinCount;i++) {
-                   coinX[i] = coinDestinationX[i];
-                   coinY[i] = coinDestinationY[i];
-                 }
-                 throwingCoin = false;
-                 keys[90] = true;
-                 for (i=0;i<coinCount;i++) {
-                   if(player.gridY == tempy[i] && player.gridX == tempx[i]) {
-                     damagePlayer();
-                   }
-                 }
-                 if (coinSpeed > 5) {
-                   coinSpeed--;
-                 }
-              }
-            }, 50);
-          }, coinSpeed * 20);
-          
-        }
+  // Determine where each coin will go
+  for (i=0;i<coinCount;i++) {
+    tempx[i] = Math.floor(Math.random() * (10) + 8);
+      tempy[i] = Math.floor(Math.random() * (7) + 1);
+      coinX[i] = width/2 - 60; 
+      coinY[i] = 100;
+      coinDestinationX[i] = boxes[tempx[i]].x;
+      coinDestinationY[i] = boxes[tempy[i]].y;
+      tempx[i] -= 8;
+      tempy[i] -= 1;
+      tempy[i] = Math.abs(tempy[i] - 6);
     }
 
+    var ii = 0;
+    var abc = setTimeout(function() {
+      var coinThrowing = setInterval(function() {
+        ii++;      
+        for (i=0;i<coinCount;i++) {
+         // coinX[i] = (width/2-60)/(ii+1) + coinDestinationX[i] * ii/coinSpeed ;   
+          coinX[i] = coinDestinationX[i] * (ii / coinSpeed);
+          coinY[i] = coinDestinationY[i] * (ii / coinSpeed) ;
+         // coinY[i] = 100/(ii+1) + coinDestinationY[i] * ii/coinSpeed ;
+        }
+              
+        if (ii > coinSpeed) {
+          clearInterval(coinThrowing);
+          for (i=0;i<coinCount;i++) {
+            coinX[i] = coinDestinationX[i];
+            coinY[i] = coinDestinationY[i];
+          }
+          coinsPlaced = true;
+          var def = setTimeout(function() {
+            coinsPlaced = false;
+            throwingCoin = false;
+          }, 500);
+          keys[90] = true;
+          for (i=0;i<coinCount;i++) {
+            if(player.gridY == tempy[i] && player.gridX == tempx[i]) {
+              damagePlayer();
+            }
+          }
+          if (coinSpeed > 5) {
+            coinSpeed--;
+          }
+        }
+      }, 50);
+    }, coinSpeed * 20);        
+  }
+}
 
 function colCheck(shapeA, shapeB) {
     // get the vectors to check against
