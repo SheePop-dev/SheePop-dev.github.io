@@ -9,7 +9,7 @@
     <td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:40px;height:40px;" id="down" onClick="move(3)">⇩</button></td><td></td> 
  </table>
 </div>
-<button id="sound" onclick="toggleSound()" style="position:fixed;background: rgba(255,255,255,0.1);float:right;top:20px;">Sound</button>
+<!--<button id="sound" onclick="toggleSound()" style="position:fixed;background: rgba(255,255,255,0.1);float:right;top:20px;">Sound</button> -->
   <!-- Assets -->
   <img width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209548253079801907/iMarkup_20240220_171215.png?ex=65e75297&is=65d4dd97&hm=27ba4fdb037782f0de4dc0806e10dfc3544b96531f3757908cfa9410a4e8228a&;">
   
@@ -70,7 +70,8 @@ var canvas = document.getElementById("canvas"),
         speed: 3,
         velX: 0,
         velY: 0,
-        hp: 3,
+        hp: 5,
+        maxHp: 5,
         jumping: false,
         grounded: false,
         color:'#E6AC27',
@@ -282,6 +283,7 @@ function update() {
 		if (keys[90]) { // Z
             keys[90] = false;
             if(selectedOption == 0) {
+            	toggleSound();
  	 			level = 1;
             }
 		}
@@ -382,11 +384,11 @@ function update() {
     
     
     var hpi;
-    for (hpi = 0; hpi < 3; hpi++) {
+    for (hpi = 0; hpi < player.maxHp; hpi++) {
       if (player.hp > hpi) {
-        ctx.drawImage(document.getElementById("hp_red"), boxes[17].x + (gridSize * hpi) - gridSize*3.5, boxes[7].y - gridSize*2, gridSize*4, gridSize*3);
+        ctx.drawImage(document.getElementById("hp_red"), boxes[17].x - (gridSize * hpi) - gridSize*1.5, boxes[7].y - gridSize*2, gridSize*4, gridSize*3);
       } else {
-        ctx.drawImage(document.getElementById("hp_black"), boxes[17].x + (gridSize * hpi) - gridSize*3.5, boxes[7].y - gridSize*2, gridSize*4, gridSize*3);
+        ctx.drawImage(document.getElementById("hp_black"), boxes[17].x - (gridSize * hpi) - gridSize*1.5, boxes[7].y - gridSize*2, gridSize*4, gridSize*3);
       }
     }
     
@@ -617,8 +619,8 @@ window.addEventListener("load", function () {
     update();
 });
 
-const sound = false;
-const audio = new Audio('https://SheePop-dev.github.io/Battle_Theme.mp3');
+var sound = false;
+var audio = new Audio('https://SheePop-dev.github.io/Battle_Theme.mp3');
 function toggleSound() {
   if(sound) {
 	audio.pause();
