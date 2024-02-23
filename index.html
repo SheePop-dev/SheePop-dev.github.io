@@ -1,7 +1,7 @@
 <html style="background:#bbb; overflow: hidden">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <span id="content">
-<div id="touchScreen" style="position:fixed;bottom:48px;left:48px;">
+<div id="touchScreen" style="position:fixed;bottom:48px;left:24px;">
   <button id="z" onclick="move(4)" style="position:fixed;right:48px;font-size:30px; background: rgba(255,255,255,0.1);width:80px;height:80px;margin-top:48px;">Z</button>
  <table>
    <td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:60px;height:60px;" id="up" onClick="move(0)">⇧</button></td><td></td><tr>
@@ -328,9 +328,9 @@ function update() {
         	ctx.fillText("Options", width/2 - 130, 250);
         } else if (menu == 1) {
             if (soundOn) {
-            	ctx.fillText("Sound:      On", width/2 - 130, 200);
+            	ctx.fillText("Sound:  On", width/2 - 130, 200);
             } else {
-            	ctx.fillText("Sound:      Off", width/2 - 130, 200);
+            	ctx.fillText("Sound:  Off", width/2 - 130, 200);
             }
             ctx.fillText("Back", width/2 - 130, 250);
         }
