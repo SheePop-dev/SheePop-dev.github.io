@@ -1,12 +1,12 @@
 <html style="background:#bbb; overflow: hidden">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <span id="content">
-<div id="touchScreen" style="position:fixed;top:70vh;">
-  <button id="z" onclick="move(4)" style="position:fixed;right:48px;font-size:30px; background: rgba(255,255,255,0.1);width:80px;height:80px;margin-top:24px;">Z</button>
+<div id="touchScreen" style="position:fixed;bottom:48px;left:48px;">
+  <button id="z" onclick="move(4)" style="position:fixed;right:48px;font-size:30px; background: rgba(255,255,255,0.1);width:80px;height:80px;margin-top:48px;">Z</button>
  <table>
-   <td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:40px;height:40px;" id="up" onClick="move(0)">⇧</button></td><td></td><tr>
-   <td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:40px;height:40px;" id="left" onClick="move(1)">⇦</button></td><td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:40px;height:40px;" id="right" onClick="move(2)">⇨</button></td><tr>
-    <td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:40px;height:40px;" id="down" onClick="move(3)">⇩</button></td><td></td> 
+   <td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:60px;height:60px;" id="up" onClick="move(0)">⇧</button></td><td></td><tr>
+   <td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:60px;height:60px;" id="left" onClick="move(1)">⇦</button></td><td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:60px;height:60px;" id="right" onClick="move(2)">⇨</button></td><tr>
+    <td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:60px;height:60px;" id="down" onClick="move(3)">⇩</button></td><td></td> 
  </table>
 </div>
 <!--<button id="sound" onclick="toggleSound()" style="position:fixed;background: rgba(255,255,255,0.1);float:right;top:20px;">Sound</button> -->
@@ -269,24 +269,45 @@ var cardY = 0;
 function damagePlayer() {
   player.hp--;
   if (player.hp <= 0) {
-    document.getElementById("content").innerHTML = "<div style='text-align:center;margin-top:200px;'><h1>You got smushed Zarel<br>wwins</h1></div>";
+    document.getElementById("content").innerHTML = "<div style='text-align:center;margin-top:200px;'><h1>You got smushed Zarel<br>wwins</h1><br><br><center>Final Score: " + score + "</div>";
     level = 2;
   }
 }
 
 
-
+var score = 0;
 var level = 0;
 var selectedOption = 0;
+var menu = 0;
+var soundOn = true;
 function update() {
     if (level == 0) {
 		if (keys[90]) { // Z
             keys[90] = false;
-            if(selectedOption == 0) {
-            	toggleSound();
- 	 			level = 1;
+            if (menu == 0) {
+            	if(selectedOption == 0) {
+            		toggleSound();
+ 	 				level = 1;
+            	}
+            	if(selectedOption == 1) {
+         	   		selectedOption = 0;
+            	    menu = 1;
+         	    }
+			} else if(menu == 1) {
+                if(selectedOption == 0) {
+                	if (soundOn) {
+            			soundOn = false;
+                    } else {
+                    	soundOn = true;
+                    }
+            	}
+                if(selectedOption == 1) {
+                  menu = 0;
+                  selectedOption = 0;
+                }
             }
-		}
+        }
+
         if (keys[38]) { // up
         	keys[38] = false;
 			if (selectedOption == 1) {
@@ -301,12 +322,20 @@ function update() {
     		}        
     	}
         ctx.clearRect(0, 0, width, height);
-		ctx.font = "36px serif";
-		ctx.fillText("New Game", width/2 - 100, 200);
-        ctx.fillText("Options", width/2 - 100, 250);
-        
+        ctx.font = "36px Courier";
+        if (menu == 0) {
+			ctx.fillText("New Game", width/2 - 130, 200);
+        	ctx.fillText("Options", width/2 - 130, 250);
+        } else if (menu == 1) {
+            if (soundOn) {
+            	ctx.fillText("Sound:      On", width/2 - 130, 200);
+            } else {
+            	ctx.fillText("Sound:      Off", width/2 - 130, 200);
+            }
+            ctx.fillText("Back", width/2 - 130, 250);
+        }
         ctx.fill();//Draw charater stuff
-    	ctx.fillRect(width/2 - 140, 179 + (selectedOption * 50), 20, 20);
+    	ctx.fillRect(width/2 - 180, 179 + (selectedOption * 50), 20, 20);
         
     }  
     if (level == 1) {
@@ -334,6 +363,7 @@ function update() {
     }
     
     if (!throwingCoin) {
+    	score++;
     	throwCoin();
     }
     
@@ -482,20 +512,24 @@ function update() {
     requestAnimationFrame(update);
 }
 
+var hurtByCard = false;
 
 function throwCard() {
   throwingCards = true;
-  cardX = boxes[8].x - 100;
-  cardY = boxes[Math.floor(Math.random() * (7 - 2 + 1) + 2)].y;
+  hurtByCard = false;
+  cardX = boxes[8].x - 60;
+  var tempCardY = Math.floor(Math.random() * (7 - 2 + 1) + 2);
+  cardY = boxes[tempCardY].y;
   var ii = 0;
   var abc = setTimeout(function() {
     var cardThrowing = setInterval(function() {
       ii++;
-      cardX = cardX + (2*ii);       
+      cardX = cardX + (3*ii);       
       if (ii > 20) {
         clearInterval(cardThrowing);
         throwingCards = false;
       }
+      
     }, 100);
   }, 1000);
 }
@@ -622,13 +656,15 @@ window.addEventListener("load", function () {
 var sound = false;
 var audio = new Audio('https://SheePop-dev.github.io/Battle_Theme.mp3');
 function toggleSound() {
-  if(sound) {
-	audio.pause();
-    sound = false;
-  } else {
-    audio.play();
-    audio.loop = true;
-    sound = true;
+  if (soundOn) {
+    if(sound) {
+	  audio.pause();
+      sound = false;
+    } else {
+      audio.play();
+      audio.loop = true;
+      sound = true;
+    }
   }
 }
 
