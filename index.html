@@ -3,36 +3,26 @@
 <span id="content">
 <div id="touchScreen" style="position:fixed;bottom:48px;left:48px;">
   <button id="z" onclick="move(4)" style="position:fixed;right:48px;font-size:30px; background: rgba(255,255,255,0.1);width:80px;height:80px;margin-top:48px;">Z</button>
- <table>
-   <td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:60px;height:60px;" id="up" onClick="move(0)">⇧</button></td><td></td><tr>
-   <td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:60px;height:60px;" id="left" onClick="move(1)">⇦</button></td><td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:60px;height:60px;" id="right" onClick="move(2)">⇨</button></td><tr>
+  <table>
+    <td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:60px;height:60px;" id="up" onClick="move(0)">⇧</button></td><td></td><tr>
+    <td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:60px;height:60px;" id="left" onClick="move(1)">⇦</button></td><td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:60px;height:60px;" id="right" onClick="move(2)">⇨</button></td><tr>
     <td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:60px;height:60px;" id="down" onClick="move(3)">⇩</button></td><td></td> 
- </table>
+  </table>
 </div>
 <!--<button id="sound" onclick="toggleSound()" style="position:fixed;background: rgba(255,255,255,0.1);float:right;top:20px;">Sound</button> -->
   <!-- Assets -->
   <img width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209548253079801907/iMarkup_20240220_171215.png?ex=65e75297&is=65d4dd97&hm=27ba4fdb037782f0de4dc0806e10dfc3544b96531f3757908cfa9410a4e8228a&;">
-  
   <img id="relicanth" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1208102928376926319/IMG_20240216_1125421162.jpg?ex=65e21087&is=65cf9b87&hm=b5d29fb825047bf24e938f909a1666f3e14d864cd8d48d03eb696e465570e37b&;">
-
   <img id="hp_red" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209610818233311283/2024_02_20_0zl_Kleki_1.png?ex=65e78cdc&is=65d517dc&hm=4ae9c11c9c4483895131e3860e733ac98da5763d19a9df3b795c6aa1ffe7631a&;">
-
   <img id="hp_black" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209612689072984095/2024_02_20_0zs_Kleki.png?ex=65e78e9a&is=65d5199a&hm=323bcb25ed61f537b3918ca04d5b7dc66d97be221b09c5cb075ea339488755c7&;">
 <!--
 <img style="position: absolute; top: 580px; left: 315px; z-index: -2;" width="180" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209610817906147328/2024_02_20_0zl_Kleki.png?ex=65e78cdc&is=65d517dc&hm=587c6447519bbee18d02301d2cd4f5dc3dc0d9d1217bd4479214df9db519e8dd&;">
 -->
-
-<img id="heart_ace" style="position: absolute; top: 615px; left: -60px; z-index: -2;" width="60" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Playing_card_heart_A.svg/130px-Playing_card_heart_A.svg.png">
-
- <img id="coin" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209580202250866788/2024_02_20_0ti_Kleki.png?ex=65e77059&is=65d4fb59&hm=1b6c7993702a94027e4298917c9530cda92a728ad0656467fba76fd48f664402&;">
- 
-<img id="symbol_x" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209587885251104768/2024_02_20_0x2_Kleki.png?ex=65e77780&is=65d50280&hm=2aba5967b6d3a2ad34135b0efa0c2e56442aff01f67ce77f92952071d36097e1&;"> 
- 
- 
-<canvas id="canvas"></canvas>
+  <img id="heart_ace" style="position: absolute; top: 615px; left: -60px; z-index: -2;" width="60" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Playing_card_heart_A.svg/130px-Playing_card_heart_A.svg.png">
+  <img id="coin" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209580202250866788/2024_02_20_0ti_Kleki.png?ex=65e77059&is=65d4fb59&hm=1b6c7993702a94027e4298917c9530cda92a728ad0656467fba76fd48f664402&;">
+  <img id="symbol_x" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209587885251104768/2024_02_20_0x2_Kleki.png?ex=65e77780&is=65d50280&hm=2aba5967b6d3a2ad34135b0efa0c2e56442aff01f67ce77f92952071d36097e1&;"> 
+ <canvas id="canvas"></canvas>
 </span>
-
-
 
 <script>
 (function () {
@@ -53,37 +43,36 @@ function move(int) {
     keys[90] = true;
   }
 }
-
 const gridSize = 30;
-
+	
 var canvas = document.getElementById("canvas"),
-    ctx = canvas.getContext("2d"),
-    width = window.innerWidth,
-    height = window.innerHeight,
-    player = {
-        gridX: 5,
-        gridY: 2,
-        x: 0,
-        y: 0,
-        width: 25,
-        height: 25,
-        speed: 3,
-        velX: 0,
-        velY: 0,
-        hp: 5,
-        maxHp: 5,
-        jumping: false,
-        grounded: false,
-        color:'blue',
-        draw: function () {
-    		ctx.drawImage("https://cdn.discordapp.com/attachments/1096317517754011658/1209548253079801907/iMarkup_20240220_171215.png?ex=65e75297&is=65d4dd97&hm=27ba4fdb037782f0de4dc0806e10dfc3544b96531f3757908cfa9410a4e8228a&;", this.x, this.y, this.size, this.size);
-  		}
-    },
-    keys = [],
-    friction = 0.8,
-    gravity = 0.4,
-    boxes = [],
-    powerup = [];  
+  ctx = canvas.getContext("2d"),
+  width = window.innerWidth,
+  height = window.innerHeight,
+  player = {
+    gridX: 5,
+    gridY: 2,
+    x: 0,
+    y: 0,
+    width: 25,
+    height: 25,
+    speed: 3,
+    velX: 0,
+    velY: 0,
+    hp: 5,
+    maxHp: 5,
+    jumping: false,
+    grounded: false,
+    color:'blue',
+    draw: function () {
+      ctx.drawImage("https://cdn.discordapp.com/attachments/1096317517754011658/1209548253079801907/iMarkup_20240220_171215.png?ex=65e75297&is=65d4dd97&hm=27ba4fdb037782f0de4dc0806e10dfc3544b96531f3757908cfa9410a4e8228a&;", this.x, this.y, this.size, this.size);
+    }
+  },
+  keys = [],
+  friction = 0.8,
+  gravity = 0.4,
+  boxes = [],
+  powerup = [];  
 
 // dimensions
 
@@ -284,6 +273,9 @@ var menu = 0;
 var soundOn = true;
 
 
+var gridTiles = [[0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0]];
+
+
 
 function update() {
     if (level == 0) {
@@ -333,9 +325,9 @@ function update() {
         	ctx.fillText("Options", width/2 - 130, 250);
         } else if (menu == 1) {
             if (soundOn) {
-            	ctx.fillText("Sound:      On", width/2 - 130, 200);
+            	ctx.fillText("Sound:  On", width/2 - 130, 200);
             } else {
-            	ctx.fillText("Sound:      Off", width/2 - 130, 200);
+            	ctx.fillText("Sound:  Off", width/2 - 130, 200);
             }
             ctx.fillText("Back", width/2 - 130, 250);
         }
@@ -347,24 +339,32 @@ function update() {
     	
     // check keys
     if (keys[38] && player.gridY > 0) { // up
+      if (gridTiles[player.gridX][player.gridY-1] == 0) {
         player.y -= gridSize;
-        keys[38] = false;
         player.gridY--;
+      }
+      keys[38] = false;
     }
     if (keys[39] && player.gridX < 9) { // right
+      if (gridTiles[player.gridX+1][player.gridY] == 0) {
         player.x += gridSize;
-        keys[39] = false;
         player.gridX++;
+      }
+      keys[39] = false;
     }
     if (keys[37] && player.gridX > 0) { // left
+      if (gridTiles[player.gridX-1][player.gridY] == 0) {
         player.x -= gridSize;
-        keys[37] = false;
         player.gridX--;
+      }
+      keys[37] = false;
     }
      if (keys[40] && player.gridY < 6) { // down
-        player.y += gridSize;
+       if (gridTiles[player.gridX][player.gridY+1] == 0) {
+          player.y += gridSize;
+          player.gridY++;
+        }
         keys[40] = false;
-        player.gridY++;
     }
     
     if (!throwingCoin) {
@@ -379,27 +379,6 @@ function update() {
     if (keys[90]) { // Z
 	  
     }
-    /*
-    if (keys[88]) { // X
-      if (!throwingCards) {
-          throwingCards = true;
-          var iii = 0;
-          var abcd = setTimeout(function() {
-            var cardThrowing = setInterval(function() {
-              iii++;
-              document.getElementById("heart_ace").style.left = -60 + iii*20;
-              if (iii > 47) {
-                 clearInterval(cardThrowing);
-                 if(player.gridY == 0) {
-                   damagePlayer();
-                 }
-              }
-            }, 50);
-          }, 750);
-          
-        }
-    }
-    */
   	
 
     ctx.clearRect(0, 0, width, height);
@@ -578,9 +557,13 @@ if (!throwingCoin) {
           for (i=0;i<coinCount;i++) {
             coinX[i] = coinDestinationX[i];
             coinY[i] = coinDestinationY[i];
+            gridTiles[tempx[i]][tempy[i]] = 1;
           }
           coinsPlaced = true;
           var def = setTimeout(function() {
+            for (i=0;i<coinCount;i++) {
+              gridTiles[tempx[i]][tempy[i]] = 0;
+            }
             coinsPlaced = false;
             throwingCoin = false;
           }, 500);
