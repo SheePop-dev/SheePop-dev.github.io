@@ -77,27 +77,27 @@ var canvas = document.getElementById("canvas"),
 // dimensions
 
 boxes.push({//box for the ground
-    x: (width / 2) - gridSize*5,
-    y: (height / 1.5) + gridSize*3,
-    width: gridSize*10 + 3,
-    height: 3,
-    color: '#aaaaaa'
+  x: (width / 2) - gridSize*5,
+  y: (height / 1.5) + gridSize*3,
+  width: gridSize*10 + 3,
+  height: 3,
+  color: '#aaaaaa'
 });
 
 boxes.push({//box for the ground
-    x: (width / 2) - gridSize*5,
-    y: (height / 1.5) + gridSize*2,
-    width: gridSize*10 + 3,
-    height: 3,
-    color: '#aaaaaa'
+  x: (width / 2) - gridSize*5,
+  y: (height / 1.5) + gridSize*2,
+  width: gridSize*10 + 3,
+  height: 3,
+  color: '#aaaaaa'
 });
 
 boxes.push({//box for the ground
-    x: (width / 2) - gridSize*5,
-    y: (height / 1.5) + gridSize,
-    width: gridSize*10 + 3,
-    height: 3,
-    color: '#aaaaaa'
+  x: (width / 2) - gridSize*5,
+  y: (height / 1.5) + gridSize,
+  width: gridSize*10 + 3,
+  height: 3,
+  color: '#aaaaaa'
 });
 
 boxes.push({//box for the ground
@@ -546,10 +546,11 @@ if (!throwingCoin) {
       var coinThrowing = setInterval(function() {
         ii++;      
         for (i=0;i<coinCount;i++) {
-         // coinX[i] = (width/2-60)/(ii+1) + coinDestinationX[i] * ii/coinSpeed ;   
-          coinX[i] = coinDestinationX[i] * (ii / coinSpeed);
-          coinY[i] = coinDestinationY[i] * (ii / coinSpeed) ;
-         // coinY[i] = 100/(ii+1) + coinDestinationY[i] * ii/coinSpeed ;
+          //coinX[i] = coinDestinationX[i] * (ii / coinSpeed);
+          
+          coinX[i] = ( ( width/2 - 60 ) * (coinSpeed - ii) / coinSpeed ) + (coinDestinationX[i] * (ii / coinSpeed));
+          coinY[i] = ( 100 * (coinSpeed - ii) / coinSpeed ) + (coinDestinationY[i] * (ii / coinSpeed));
+         // coinY[i] = coinDestinationY[i] * (ii / coinSpeed) ;
         }
               
         if (ii > coinSpeed) {
