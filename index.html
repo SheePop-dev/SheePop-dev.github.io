@@ -1,3 +1,7 @@
+
+
+
+
 <html style="background:#bbb; overflow: hidden">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <span id="content">
@@ -35,6 +39,7 @@
   <img id="meme17" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1208102928376926319/IMG_20240216_1125421162.jpg?ex=65e21087&is=65cf9b87&hm=b5d29fb825047bf24e938f909a1666f3e14d864cd8d48d03eb696e465570e37b&;">
 
   
+  <img id="sword" style="image-rendering: pixelated;" src="https://cdn.discordapp.com/attachments/311333557757018112/1212073575201251328/ezgif-2-59d9dca709.png?ex=65f0827b&is=65de0d7b&hm=af5b47e9f8aa27b5c8f965a85e9a8113571a3cf27df065f7b3d7f40c0ff36f36&" width="0">
   
   <img id="hp_red" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209610818233311283/2024_02_20_0zl_Kleki_1.png?ex=65e78cdc&is=65d517dc&hm=4ae9c11c9c4483895131e3860e733ac98da5763d19a9df3b795c6aa1ffe7631a&;">
   <img id="hp_black" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209612689072984095/2024_02_20_0zs_Kleki.png?ex=65e78e9a&is=65d5199a&hm=323bcb25ed61f537b3918ca04d5b7dc66d97be221b09c5cb075ea339488755c7&;">
@@ -116,77 +121,77 @@ boxes.push({//box for the ground
 });
 
 boxes.push({//box for the ground
-    x: (width / 2) - gridSize*5,
-    y: (height / 1.5) + gridSize,
-    width: gridSize*10 + 3,
-    height: 3,
-    color: '#aaaaaa'
+  x: (width / 2) - gridSize*5,
+  y: (height / 1.5) + gridSize,
+  width: gridSize*10 + 3,
+  height: 3,
+  color: '#aaaaaa'
 });
 
 boxes.push({//box for the ground
-    x: (width / 2) - gridSize*5,
-    y: (height / 1.5),
-    width: gridSize*10 + 3,
-    height: 3,
-    color: '#aaaaaa'
+  x: (width / 2) - gridSize*5,
+  y: (height / 1.5),
+  width: gridSize*10 + 3,
+  height: 3,
+  color: '#aaaaaa'
 });
 
 boxes.push({//box for the ground
-    x: (width / 2) - gridSize*5,
-    y: (height / 1.5) - gridSize,
-    width: gridSize*10 + 3,
-    height: 3,
-    color: '#aaaaaa'
+  x: (width / 2) - gridSize*5,
+  y: (height / 1.5) - gridSize,
+  width: gridSize*10 + 3,
+  height: 3,
+  color: '#aaaaaa'
 });
 
 boxes.push({//box for the ground
-    x: (width / 2) - gridSize*5,
-    y: (height / 1.5) - gridSize*2,
-    width: gridSize*10 + 3,
-    height: 3,
-    color: '#aaaaaa'
+  x: (width / 2) - gridSize*5,
+  y: (height / 1.5) - gridSize*2,
+  width: gridSize*10 + 3,
+  height: 3,
+  color: '#aaaaaa'
 });
 
 boxes.push({//box for the ground
-    x: (width / 2) - gridSize*5,
-    y: (height / 1.5) - gridSize*3,
-    width: gridSize*10 + 3,
-    height: 3,
-    color: '#aaaaaa'
+  x: (width / 2) - gridSize*5,
+  y: (height / 1.5) - gridSize*3,
+  width: gridSize*10 + 3,
+  height: 3,
+  color: '#aaaaaa'
 });
 
 boxes.push({//box for the top
-    x: (width / 2) - gridSize*5,
-    y: (height / 1.5) - gridSize*4,
-    width: gridSize*10 + 3,
-    height: 3,
-    color: '#aaaaaa'
+  x: (width / 2) - gridSize*5,
+  y: (height / 1.5) - gridSize*4,
+  width: gridSize*10 + 3,
+  height: 3,
+  color: '#aaaaaa'
 });
 
 //--
 
 boxes.push({//box for the right
-    x: (width / 2) - gridSize*5,
-    y: (height / 1.5) - gridSize*4,
-    width: 3,
-    height: gridSize*7,
-    color: '#aaaaaa'
+  x: (width / 2) - gridSize*5,
+  y: (height / 1.5) - gridSize*4,
+  width: 3,
+  height: gridSize*7,
+  color: '#aaaaaa'
 });
 
 boxes.push({//box for the left
-    x: (width / 2) - gridSize*4,
-    y: (height / 1.5) - gridSize*4,
-    width: 3,
-    height: gridSize*7,
-    color: '#aaaaaa'
+  x: (width / 2) - gridSize*4,
+  y: (height / 1.5) - gridSize*4,
+  width: 3,
+  height: gridSize*7,
+  color: '#aaaaaa'
 });
 
 boxes.push({//box for the left
-    x: (width / 2) - gridSize*3,
-    y: (height / 1.5) - gridSize*4,
-    width: 3,
-    height: gridSize*7,
-    color: '#aaaaaa'
+  x: (width / 2) - gridSize*3,
+  y: (height / 1.5) - gridSize*4,
+  width: 3,
+  height: gridSize*7,
+  color: '#aaaaaa'
 });
 
 boxes.push({//box for the left
@@ -268,6 +273,7 @@ player.y = boxes[5].y + 6;
 canvas.width = width;
 canvas.height = height;
 
+var enemyAttacking = true;
 
 var throwingCoin = false;
 var throwingCards = false;
@@ -290,7 +296,9 @@ var tempx = [];
 var tempy = [];
 
 
-
+var swordStepX = 0;
+var swordStepY = 0;
+var swordSpeed = 0;
 
 var cardX = 0;
 var cardY = 0;
@@ -388,7 +396,7 @@ function update() {
       keys[38] = false;
     }
     if (keys[38] && attackGrid == 0 && player.gridX >= 3 && player.gridX <= 6 && player.gridY == 0) {
-      useAttack();
+      //useAttack();
       keys[38] = false;
     }
     
@@ -414,16 +422,21 @@ function update() {
         keys[40] = false;
     }
     
-    if (!throwingCoin) {
-    	score++;
+    if (enemyAttacking) {
+      if (!throwingCoin) {
+        score++;
         if (!attacking) {
           if (attackTurns < 10) {
-          attackTurns++;
+            attackTurns++;
           } else {
+            if (bossHp == 3) {
+              enemyAttacking = false;
+            }
             attack();
           }
         }
     	throwCoin();
+      }
     }
     
     if (!throwingCards) {
@@ -445,19 +458,44 @@ function update() {
     ctx.drawImage(document.getElementById("heart_ace"),cardX-200 ,cardY-200, gridSize * 2, gridSize * 2);
     
     var i = 0;
-    for (i=0;i<coinCount;i++) {
-            ctx.drawImage(document.getElementById("symbol_x"),coinDestinationX[i], coinDestinationY[i], gridSize, gridSize);
+    if (enemyAttacking) {
+      for (i=0;i<coinCount;i++) {
+        ctx.drawImage(document.getElementById("symbol_x"),coinDestinationX[i], coinDestinationY[i], gridSize, gridSize);
     	ctx.drawImage(document.getElementById("coin"),coinX[i], coinY[i], gridSize, gridSize);
-
+      }
     }
     
-    
-    
+    //image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
     
     
     if (attacking) {
-      ctx.fillStyle = "lime";
-      ctx.fillRect(boxes[tempAttackCoords[0]].x + 7,boxes[tempAttackCoords[1]].y + 7, gridSize *.65, gridSize * .65);
+      if (bossHp == 3) {
+        ctx.font = "18px Courier";
+        ctx.fillStyle = "black";
+        ctx.fillText("Now's your chance,", 48, 260);
+        ctx.fillText("grab the sword to attack!", 48, 284);
+      }
+      
+     ctx.drawImage(document.getElementById("sword"), (swordStepX) * 30, (swordStepY) * 30, 30, 30, boxes[tempAttackCoords[0]].x + 2,boxes[tempAttackCoords[1]].y + 2, gridSize, gridSize);
+      if (swordSpeed >= 4) {
+        if (swordStepX == 1 && swordStepY == 3) {
+          swordStepX = 0;
+          swordStepY = 0;
+        }
+        if (swordStepX <= 3) {
+          swordStepX++;
+        } else {
+          swordStepX = 0;
+          if (swordStepY <= 3) {
+            swordStepY++;
+          } else {
+            swordStepY = 0;
+          }
+        }
+        swordSpeed = 0;
+      }
+      swordSpeed++;
+
       if(player.gridX == attackCoords[0] && player.gridY == attackCoords[1]) {
         useAttack();
       }
@@ -490,7 +528,7 @@ function update() {
     
 
     if (attacking) {
-      attackGrid = 0;
+      //attackGrid = 0;
     } else {
       attackGrid = 1;
     }
@@ -583,7 +621,11 @@ function update() {
 
 function attack() {
   attacking = true;
-  tempAttackCoords[0] = Math.floor(Math.random() * (10) + 8);
+  if (player.gridX >= 5) {
+    tempAttackCoords[0] = 8;
+  } else {
+    tempAttackCoords[0] = 17;
+  }
   tempAttackCoords[1] = Math.floor(Math.random() * (7) + 1);
   
   attackCoords[0] = tempAttackCoords[0] - 8;
@@ -593,6 +635,7 @@ function attack() {
 
 function useAttack() {
   bossHp--;
+  enemyAttacking = true;
   attacking = false;
   attackTurns = 0;
   if (bossHp <= 0) {
