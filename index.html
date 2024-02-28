@@ -1,19 +1,15 @@
-
-
-
-
 <html style="background:#bbb; overflow: hidden">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <span id="content">
-<div id="touchScreen" style="position:fixed;bottom:48px;left:48px;">
-  <button id="z" onclick="move(4)" style="position:fixed;right:48px;font-size:30px; background: rgba(255,255,255,0.1);width:80px;height:80px;margin-top:48px;">Z</button>
-  <table>
-    <td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:60px;height:60px;" id="up" onClick="move(0)">⇧</button></td><td></td><tr>
-    <td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:60px;height:60px;" id="left" onClick="move(1)">⇦</button></td><td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:60px;height:60px;" id="right" onClick="move(2)">⇨</button></td><tr>
-    <td></td><td><button style="font-size:30px; background: rgba(255,255,255,0.1);width:60px;height:60px;" id="down" onClick="move(3)">⇩</button></td><td></td> 
-  </table>
+
+<div id="controls">
+  <button class="direction" id="up" onClick="move(0)">⇧</button>
+  <button class="direction" id="down" onClick="move(3)">⇩</button>
+  <button class="direction" id="left" onClick="move(1)">⇦</button>
+  <button class="direction" id="right" onClick="move(2)">⇨</button>
+  <button class="direction" id="z" onClick="move(4)">Z</button>
 </div>
-<!--<button id="sound" onclick="toggleSound()" style="position:fixed;background: rgba(255,255,255,0.1);float:right;top:20px;">Sound</button> -->
+
   <!-- Assets -->
   <img width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209548253079801907/iMarkup_20240220_171215.png?ex=65e75297&is=65d4dd97&hm=27ba4fdb037782f0de4dc0806e10dfc3544b96531f3757908cfa9410a4e8228a&;">
   <img id="relicanth" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1208102928376926319/IMG_20240216_1125421162.jpg?ex=65e21087&is=65cf9b87&hm=b5d29fb825047bf24e938f909a1666f3e14d864cd8d48d03eb696e465570e37b&;">
@@ -52,6 +48,43 @@
  <canvas id="canvas"></canvas>
 </span>
 
+<style>
+#controls {
+  position: fixed;
+  bottom: 12px;
+}
+.direction {
+  font-size:30px; 
+  background: rgba(255,255,255,0.1);
+  width:54px;
+  height:54px;
+  position: absolute;
+}
+#up {
+  top: -144px;
+  left: 72px;
+}
+#down {
+  bottom: 24px;
+  left: 72px;
+}
+#left {
+  bottom: 58px;
+  left: 12px;
+}
+#right {
+  bottom: 58px;
+  left: 132px;
+}
+#z {
+  position: fixed;
+  bottom: 64px;
+  height: 64px;
+  width: 64px;
+  right: 16px;
+}
+</style>
+
 <script>
 (function () {
     var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
@@ -71,7 +104,6 @@ function move(int) {
     keys[90] = true;
   }
 }
-const gridSize = 30;
 	
 var canvas = document.getElementById("canvas"),
   ctx = canvas.getContext("2d"),
@@ -102,12 +134,15 @@ var canvas = document.getElementById("canvas"),
   gravity = 0.4,
   boxes = [],
   powerup = [];  
+  
+const gridSize = 30;
+const gridPosY = height / 1.6;
 
 // dimensions
 
 boxes.push({//box for the ground
   x: (width / 2) - gridSize*5,
-  y: (height / 1.5) + gridSize*3,
+  y: gridPosY + gridSize*3,
   width: gridSize*10 + 3,
   height: 3,
   color: 'black'
@@ -115,7 +150,7 @@ boxes.push({//box for the ground
 
 boxes.push({//box for the ground
   x: (width / 2) - gridSize*5,
-  y: (height / 1.5) + gridSize*2,
+  y: gridPosY + gridSize*2,
   width: gridSize*10 + 3,
   height: 3,
   color: 'black'
@@ -123,7 +158,7 @@ boxes.push({//box for the ground
 
 boxes.push({//box for the ground
   x: (width / 2) - gridSize*5,
-  y: (height / 1.5) + gridSize,
+  y: gridPosY + gridSize,
   width: gridSize*10 + 3,
   height: 3,
   color: 'black'
@@ -131,7 +166,7 @@ boxes.push({//box for the ground
 
 boxes.push({//box for the ground
   x: (width / 2) - gridSize*5,
-  y: (height / 1.5),
+  y: gridPosY,
   width: gridSize*10 + 3,
   height: 3,
   color: 'black'
@@ -139,7 +174,7 @@ boxes.push({//box for the ground
 
 boxes.push({//box for the ground
   x: (width / 2) - gridSize*5,
-  y: (height / 1.5) - gridSize,
+  y: gridPosY - gridSize,
   width: gridSize*10 + 3,
   height: 3,
   color: 'black'
@@ -147,7 +182,7 @@ boxes.push({//box for the ground
 
 boxes.push({//box for the ground
   x: (width / 2) - gridSize*5,
-  y: (height / 1.5) - gridSize*2,
+  y: gridPosY - gridSize*2,
   width: gridSize*10 + 3,
   height: 3,
   color: 'black'
@@ -155,7 +190,7 @@ boxes.push({//box for the ground
 
 boxes.push({//box for the ground
   x: (width / 2) - gridSize*5,
-  y: (height / 1.5) - gridSize*3,
+  y: gridPosY - gridSize*3,
   width: gridSize*10 + 3,
   height: 3,
   color: 'black'
@@ -163,7 +198,7 @@ boxes.push({//box for the ground
 
 boxes.push({//box for the top
   x: (width / 2) - gridSize*5,
-  y: (height / 1.5) - gridSize*4,
+  y: gridPosY - gridSize*4,
   width: gridSize*10 + 3,
   height: 3,
   color: 'black'
@@ -173,7 +208,7 @@ boxes.push({//box for the top
 
 boxes.push({//box for the right
   x: (width / 2) - gridSize*5,
-  y: (height / 1.5) - gridSize*4,
+  y: gridPosY - gridSize*4,
   width: 3,
   height: gridSize*7,
   color: 'black'
@@ -181,7 +216,7 @@ boxes.push({//box for the right
 
 boxes.push({//box for the left
   x: (width / 2) - gridSize*4,
-  y: (height / 1.5) - gridSize*4,
+  y: gridPosY - gridSize*4,
   width: 3,
   height: gridSize*7,
   color: 'black'
@@ -189,7 +224,7 @@ boxes.push({//box for the left
 
 boxes.push({//box for the left
   x: (width / 2) - gridSize*3,
-  y: (height / 1.5) - gridSize*4,
+  y: gridPosY - gridSize*4,
   width: 3,
   height: gridSize*7,
   color: 'black'
@@ -197,7 +232,7 @@ boxes.push({//box for the left
 
 boxes.push({//box for the left
     x: (width / 2) - gridSize*2,
-    y: (height / 1.5) - gridSize*4,
+    y: gridPosY - gridSize*4,
     width: 3,
     height: gridSize*7,
     color: 'black'
@@ -205,7 +240,7 @@ boxes.push({//box for the left
 
 boxes.push({//box for the left
     x: (width / 2) - gridSize,
-    y: (height / 1.5) - gridSize*4,
+    y: gridPosY - gridSize*4,
     width: 3,
     height: gridSize*7,
     color: 'black'
@@ -213,7 +248,7 @@ boxes.push({//box for the left
 
 boxes.push({//box for the left
     x: width / 2,
-    y: (height / 1.5) - gridSize*4,
+    y: gridPosY - gridSize*4,
     width: 3,
     height: gridSize*7,
     color: 'black'
@@ -221,7 +256,7 @@ boxes.push({//box for the left
 
 boxes.push({//box for the left
     x: (width / 2) + gridSize,
-    y: (height / 1.5) - gridSize*4,
+    y: gridPosY - gridSize*4,
     width: 3,
     height: gridSize*7,
     color: 'black'
@@ -229,7 +264,7 @@ boxes.push({//box for the left
 
 boxes.push({//box for the left
     x: (width / 2) + gridSize*2,
-    y: (height / 1.5) - gridSize*4,
+    y: gridPosY - gridSize*4,
     width: 3,
     height: gridSize*7,
     color: 'black'
@@ -237,7 +272,7 @@ boxes.push({//box for the left
 
 boxes.push({//box for the left
     x: (width / 2) + gridSize*3,
-    y: (height / 1.5) - gridSize*4,
+    y: gridPosY - gridSize*4,
     width: 3,
     height: gridSize*7,
     color: 'black'
@@ -245,7 +280,7 @@ boxes.push({//box for the left
 
 boxes.push({//box for the left
     x: (width / 2) + gridSize*4,
-    y: (height / 1.5) - gridSize*4,
+    y: gridPosY - gridSize*4,
     width: 3,
     height: gridSize*7,
     color: 'black'
@@ -253,7 +288,7 @@ boxes.push({//box for the left
 
 boxes.push({//box for the left
     x: (width / 2) + gridSize*5,
-    y: (height / 1.5) - gridSize*4,
+    y: gridPosY - gridSize*4,
     width: 3,
     height: gridSize*7,
     color: 'black'
@@ -263,7 +298,7 @@ boxes.push({//box for the left
 
 boxes.push({//attack box
   x: (width / 2) - gridSize*2,
-  y: (height / 1.5) - gridSize*5 - 3,
+  y: gridPosY - gridSize*5 - 3,
   width: gridSize*4 + 3,
   height: 3,
   color: 'green'
@@ -271,7 +306,7 @@ boxes.push({//attack box
 
 boxes.push({//attack box
   x: (width / 2) - gridSize*2,
-  y: (height / 1.5) - gridSize*4 - 3,
+  y: gridPosY - gridSize*4 - 3,
   width: gridSize*4 + 3,
   height: 3,
   color: 'green'
@@ -279,7 +314,7 @@ boxes.push({//attack box
 
 boxes.push({//attack box
   x: (width / 2) - gridSize*2,
-  y: (height / 1.5) - gridSize*5 - 3,
+  y: gridPosY - gridSize*5 - 3,
   width: 3,
   height: gridSize,
   color: 'green'
@@ -287,7 +322,7 @@ boxes.push({//attack box
 
 boxes.push({//attack box
   x: (width / 2) - gridSize*1,
-  y: (height / 1.5) - gridSize*5 - 3,
+  y: gridPosY - gridSize*5 - 3,
   width: 3,
   height: gridSize,
   color: 'green'
@@ -295,7 +330,7 @@ boxes.push({//attack box
 
 boxes.push({//attack box
   x: (width / 2) - gridSize,
-  y: (height / 1.5) - gridSize*5 - 3,
+  y: gridPosY - gridSize*5 - 3,
   width: 3,
   height: gridSize,
   color: 'green'
@@ -303,7 +338,7 @@ boxes.push({//attack box
 
 boxes.push({//attack box
   x: (width / 2),
-  y: (height / 1.5) - gridSize*5 - 3,
+  y: gridPosY - gridSize*5 - 3,
   width: 3,
   height: gridSize,
   color: 'green'
@@ -311,7 +346,7 @@ boxes.push({//attack box
 
 boxes.push({//attack box
   x: (width / 2) + gridSize,
-  y: (height / 1.5) - gridSize*5 - 3,
+  y: gridPosY - gridSize*5 - 3,
   width: 3,
   height: gridSize,
   color: 'green'
@@ -319,7 +354,7 @@ boxes.push({//attack box
 
 boxes.push({//attack box
   x: (width / 2) + gridSize*2,
-  y: (height / 1.5) - gridSize*5 - 3,
+  y: gridPosY - gridSize*5 - 3,
   width: 3,
   height: gridSize,
   color: 'green'
@@ -433,24 +468,23 @@ function update() {
     		}        
     	}
         ctx.clearRect(0, 0, width, height);
-        ctx.font = "36px Courier";
+        ctx.font = "24px Courier";
         if (menu == 0) {
-			ctx.fillText("New Game", width/2 - 130, 200);
-        	ctx.fillText("Options", width/2 - 130, 250);
+			ctx.fillText("New Game", width/2 - 60, height/2);
+        	ctx.fillText("Options", width/2 - 60, height/2 + 50);
         } else if (menu == 1) {
             if (soundOn) {
-            	ctx.fillText("Sound:  On", width/2 - 130, 200);
+            	ctx.fillText("Sound:  On", width/2 - 60, height/2);
             } else {
-            	ctx.fillText("Sound:  Off", width/2 - 130, 200);
+            	ctx.fillText("Sound:  Off", width/2 - 60, height/2);
             }
-            ctx.fillText("Back", width/2 - 130, 250);
+            ctx.fillText("Back", width/2 - 60, height/2 + 50);
         }
         ctx.fill();//Draw charater stuff
-    	ctx.fillRect(width/2 - 180, 179 + (selectedOption * 50), 20, 20);
+    	ctx.fillRect(width/2 - 90, ((height/2) + (selectedOption * 50) -14), 16, 16);
         
     }  
     if (level == 1) {
-    	
     // check keys
     if (player.canMove) {
       if (keys[38] && player.gridY > 0) { // up
@@ -487,6 +521,11 @@ function update() {
         keys[40] = false;
       }
     }
+    keys[37] = false;
+    keys[38] = false;
+    keys[39] = false;
+    keys[40] = false;
+    keys[90] = false;
   
 
  if (enemyAttacking) {
@@ -541,8 +580,7 @@ function update() {
       if (bossHp == 3) {
         ctx.font = "18px Courier";
         ctx.fillStyle = "black";
-        ctx.fillText("Here's your chance,", 48, 220);
-        ctx.fillText("grab the sword!", 48, 244);
+        showText(["Here's your chance,","grab the sword!"]);
       }
       
       
@@ -575,8 +613,7 @@ function update() {
     
     if (attackGrid == 0 && bossHp == 3) {
       ctx.fillStyle = "black";
-      ctx.fillText("Now go to the green", 48, 220);
-      ctx.fillText("squares to attack!", 48, 244);
+      showText(["Now go to the green", "squares to attack!"]);
     }
        
     
@@ -611,9 +648,6 @@ function update() {
     }
 
 
-
-  
-  
     ctx.fill();//Draw charater stuff
     ctx.fillStyle = player.color;
     ctx.fillRect(player.x + 3, player.y + 3, gridSize *.5, gridSize * .5);
@@ -670,6 +704,13 @@ function update() {
     requestAnimationFrame(update);
 }
 
+function showText(arr) {
+  var i = 0;
+  var textPos = [48,220];
+  for (i=0;i<arr.length;i++) {
+    ctx.fillText(arr[i], textPos[0], textPos[1] + i*24);
+  }
+}
 
 function attack() {
   attacking = true;
