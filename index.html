@@ -37,6 +37,8 @@
   
   <img id="sword" style="image-rendering: pixelated;" src="https://cdn.discordapp.com/attachments/311333557757018112/1212073575201251328/ezgif-2-59d9dca709.png?ex=65f0827b&is=65de0d7b&hm=af5b47e9f8aa27b5c8f965a85e9a8113571a3cf27df065f7b3d7f40c0ff36f36&" width="0">
   
+  <img id="player" style="image-rendering: pixelated;" src="https://cdn.discordapp.com/attachments/311333557757018112/1212446640796073984/ezgif-6-7f7c91ad89.png?ex=65f1dded&is=65df68ed&hm=1b4b93d43a19cbf7c2a5af573d7f131ff52583b3e70f9c28fe7310e91fa18be0&" width="0">
+  
   <img id="hp_red" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209610818233311283/2024_02_20_0zl_Kleki_1.png?ex=65e78cdc&is=65d517dc&hm=4ae9c11c9c4483895131e3860e733ac98da5763d19a9df3b795c6aa1ffe7631a&;">
   <img id="hp_black" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209612689072984095/2024_02_20_0zs_Kleki.png?ex=65e78e9a&is=65d5199a&hm=323bcb25ed61f537b3918ca04d5b7dc66d97be221b09c5cb075ea339488755c7&;">
 <!--
@@ -393,6 +395,10 @@ var coinDestinationY = [];
 var tempx = [];
 var tempy = [];
 
+var playerStepX = 0;
+var playerStepY = 0;
+var playerSpeed = 0;
+
 
 var swordStepX = 0;
 var swordStepY = 0;
@@ -645,7 +651,42 @@ function update() {
 
     ctx.fill();//Draw charater stuff
     ctx.fillStyle = player.color;
-    ctx.fillRect(player.x + 3, player.y + 3, gridSize *.5, gridSize * .5);
+    
+    
+    
+    
+    
+     ctx.drawImage(document.getElementById("player"), (playerStepX) * 30, (playerStepY) * 30, 30, 30, player.x - 3,player.y - 3, gridSize, gridSize);
+      if (playerSpeed >= 12) {
+        if (playerStepX == 0 && playerStepY == 1) {
+          playerStepX = 0;
+          playerStepY = 0;
+        }
+        if (playerStepX <= 3) {
+          playerStepX++;
+        } else {
+          playerStepX = 0;
+          if (playerStepY <= 0) {
+            playerStepY++;
+          } else {
+            playerStepY = 0;
+          }
+        }
+        playerSpeed = 0;
+      }
+      playerSpeed++;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //ctx.fillRect(player.x + 3, player.y + 3, gridSize *.5, gridSize * .5);
     
     //draw powerup stuff 
     for(var j = 0; j < powerup.length; j++){
@@ -754,7 +795,6 @@ function useAttack() {
       player.x = (tempPX * (i-8)/8) + ((width/2) * (8-(i-8))/8);
     }
   }, 50);
-  
   
   setTimeout(function() {
     bossHp--;
