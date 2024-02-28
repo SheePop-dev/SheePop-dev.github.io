@@ -758,6 +758,7 @@ function useAttack() {
   
   setTimeout(function() {
     bossHp--;
+    coinSpeed += 5;
     player.canMove = true;
     enemyAttacking = true;
     attacking = false;
@@ -798,7 +799,7 @@ function throwCard() {
 
 function throwCoin() {
 
-if (!throwingCoin) {
+if (!throwingCoin && enemyAttacking) {
   throwingCoin = true;
   coinCount++;
   var i =0;
