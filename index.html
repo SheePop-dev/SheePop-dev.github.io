@@ -89,6 +89,7 @@ var canvas = document.getElementById("canvas"),
     velY: 0,
     hp: 5,
     maxHp: 5,
+    canMove: true,
     jumping: false,
     grounded: false,
     color:'blue',
@@ -451,41 +452,44 @@ function update() {
     if (level == 1) {
     	
     // check keys
-    if (keys[38] && player.gridY > 0) { // up
-      if (gridTiles[player.gridX][player.gridY-1] == 0) {
-        player.y -= gridSize;
-        player.gridY--;
+    if (player.canMove) {
+      if (keys[38] && player.gridY > 0) { // up
+        if (gridTiles[player.gridX][player.gridY-1] == 0) {
+          player.y -= gridSize;
+          player.gridY--;
+        }
+        keys[38] = false;
       }
-      keys[38] = false;
-    }
-    if (keys[38] && attackGrid == 0 && player.gridX >= 3 && player.gridX <= 6 && player.gridY == 0) {
-      useAttack();
-      keys[38] = false;
-    }
-    
-    if (keys[39] && player.gridX < 9) { // right
-      if (gridTiles[player.gridX+1][player.gridY] == 0) {
-        player.x += gridSize;
-        player.gridX++;
+      if (keys[38] && attackGrid == 0 && player.gridX >= 3 && player.gridX <= 6 && player.gridY == 0) {
+        useAttack();
+        keys[38] = false;
       }
-      keys[39] = false;
-    }
-    if (keys[37] && player.gridX > 0) { // left
-      if (gridTiles[player.gridX-1][player.gridY] == 0) {
-        player.x -= gridSize;
-        player.gridX--;
+      
+      if (keys[39] && player.gridX < 9) { // right
+        if (gridTiles[player.gridX+1][player.gridY] == 0) {
+          player.x += gridSize;
+          player.gridX++;
+        }
+        keys[39] = false;
       }
-      keys[37] = false;
-    }
-     if (keys[40] && player.gridY < 6) { // down
-       if (gridTiles[player.gridX][player.gridY+1] == 0) {
+      if (keys[37] && player.gridX > 0) { // left
+        if (gridTiles[player.gridX-1][player.gridY] == 0) {
+          player.x -= gridSize;
+          player.gridX--;
+        }
+        keys[37] = false;
+      }
+      if (keys[40] && player.gridY < 6) { // down
+        if (gridTiles[player.gridX][player.gridY+1] == 0) {
           player.y += gridSize;
           player.gridY++;
         }
         keys[40] = false;
+      }
     }
-    
-    if (enemyAttacking) {
+  
+
+ if (enemyAttacking) {
       if (!throwingCoin) {
         score++;
         if (!attacking) {
@@ -690,6 +694,7 @@ function grabSword() {
 
 function useAttack() {
   attackGrid = 1;
+  player.canMove = false;
   enemyAttacking = false;
   hasSword = false;
   var tempPY = player.y;
@@ -717,6 +722,7 @@ function useAttack() {
   
   setTimeout(function() {
     bossHp--;
+    player.canMove = true;
     enemyAttacking = true;
     attacking = false;
   
