@@ -81,7 +81,7 @@
   bottom: 64px;
   height: 64px;
   width: 64px;
-  right: 16px;
+  right: 24px;
 }
 </style>
 
@@ -527,34 +527,29 @@ function update() {
     keys[40] = false;
     keys[90] = false;
   
-
- if (enemyAttacking) {
-      if (!throwingCoin) {
-        score++;
-        if (!attacking) {
-          if (attackTurns < 10) {
-            attackTurns++;
-          } else {
-            if (bossHp == 3) {
-              enemyAttacking = false;
-            }
-            if (!hasSword) {
-              attack();
-            }
+  if (enemyAttacking) {
+    if (!throwingCoin) {
+      randomImage = Math.floor(Math.random() * 17);
+      score++;
+      if (!attacking) {
+        if (attackTurns < 10) {
+          attackTurns++;
+        } else {
+          if (bossHp == 3) {
+            enemyAttacking = false;
+          }
+          if (!hasSword) {
+            attack();
           }
         }
-    	throwCoin();
       }
+  	  throwCoin();
     }
+  }
     
-    if (!throwingCards) {
-    	throwCard();
-    }
-    
-    if (keys[90]) { // Z
-	  
-    }
-  	
+  if (!throwingCards) {
+    throwCard();
+  }
 
     ctx.clearRect(0, 0, width, height);
     ctx.beginPath();
