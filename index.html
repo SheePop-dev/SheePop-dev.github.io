@@ -1,7 +1,10 @@
 <html style="background:#bbb; overflow: hidden">
+<head>
+  <title>SheePop vs. Zarel</title>
+  <link rel="icon" type="image/png" href="https://cdn.discordapp.com/attachments/311333557757018112/1212491182370983967/android-chrome-256x256.png?ex=65f20768&is=65df9268&hm=b34ffedad9414886dc32b47ed13d7ee5059f9ee3de4b4a1ea3e88f87974e9447&" />
+</head>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <span id="content">
-
 <div id="controls">
   <button class="direction" id="up" onClick="move(0)">⇧</button>
   <button class="direction" id="down" onClick="move(3)">⇩</button>
@@ -36,6 +39,8 @@
 
   
   <img id="sword" style="image-rendering: pixelated;" src="https://cdn.discordapp.com/attachments/311333557757018112/1212073575201251328/ezgif-2-59d9dca709.png?ex=65f0827b&is=65de0d7b&hm=af5b47e9f8aa27b5c8f965a85e9a8113571a3cf27df065f7b3d7f40c0ff36f36&" width="0">
+  
+  <img id="swipe" style="image-rendering: pixelated;" src="https://cdn.discordapp.com/attachments/311333557757018112/1212482732786188379/ezgif-4-3996d92036.png?ex=65f1ff8a&is=65df8a8a&hm=e011226b78b2683804d3b4720d0413014aadc7ff7e85a17b3a471db7a9376013&" width="0">
   
   <img id="player" style="image-rendering: pixelated;" src="https://cdn.discordapp.com/attachments/311333557757018112/1212446640796073984/ezgif-6-7f7c91ad89.png?ex=65f1dded&is=65df68ed&hm=1b4b93d43a19cbf7c2a5af573d7f131ff52583b3e70f9c28fe7310e91fa18be0&" width="0">
   
@@ -125,6 +130,7 @@ var canvas = document.getElementById("canvas"),
     maxHp: 5,
     canMove: true,
     jumping: false,
+    invincible: false,
     grounded: false,
     color:'blue',
     draw: function () {
@@ -395,14 +401,22 @@ var coinDestinationY = [];
 var tempx = [];
 var tempy = [];
 
+
+// animations
 var playerStepX = 0;
 var playerStepY = 0;
 var playerSpeed = 0;
 
-
 var swordStepX = 0;
 var swordStepY = 0;
 var swordSpeed = 0;
+
+var swipeStepX = 0;
+var swipeStepY = 0;
+var swipeSpeed = 0;
+
+
+var swiping = false;
 var hasSword = false;
 
 var cardX = 0;
@@ -411,10 +425,12 @@ var cardY = 0;
 var bossHp = 3;
 
 function damagePlayer() {
-  player.hp--;
-  if (player.hp <= 0) {
-    document.getElementById("content").innerHTML = "<div style='text-align:center;margin-top:200px;'><h1>You got smushed Zarel<br>wwins</h1><br><br><center>Final Score: " + score + "</div>";
-    level = 10;
+  if (!player.invincible) {
+    player.hp--;
+    if (player.hp <= 0) {
+      document.getElementById("content").innerHTML = "<div style='text-align:center;margin-top:200px;'><h1>You got smushed Zarel<br>wwins</h1><br><br><center>Final Score: " + score + "</div>";
+      level = 10;
+    }
   }
 }
 
@@ -677,8 +693,28 @@ function update() {
       }
       playerSpeed++;
     
-    
-    
+     if (swiping) {
+       ctx.drawImage(document.getElementById("swipe"), (swipeStepX) * 60, (swipeStepY) * 30, 60, 30, width/2 - 30,160, gridSize*2, gridSize);
+        if (swipeSpeed >= 2) {
+          if (swipeStepX == 1 && swipeStepY == 2) {
+            swipeStepX = 0;
+            swipeStepY = 0;
+            swiping = false;
+          }
+          if (swipeStepX <= 3) {
+            swipeStepX++;
+          } else {
+            swipeStepX = 0;
+          if (swipeStepY <= 2) {
+              swipeStepY++;
+            } else {
+              swipeStepY = 0;
+            }
+          }
+          swipeSpeed = 0;
+        }
+        swipeSpeed++;
+      }
     
     
     
@@ -772,6 +808,7 @@ function grabSword() {
 
 function useAttack() {
   attackGrid = 1;
+  player.invincible = true;
   player.canMove = false;
   enemyAttacking = false;
   hasSword = false;
@@ -781,6 +818,9 @@ function useAttack() {
   var i = 0;
   var attacknterval = setInterval(function() {
     i++;
+    if (i == 7) {
+      swiping = true;
+    }
     if (i > 8) {
       playerApproaching = false;
     }
@@ -800,6 +840,7 @@ function useAttack() {
   setTimeout(function() {
     bossHp--;
     coinSpeed += 5;
+    player.invincible = false;
     player.canMove = true;
     enemyAttacking = true;
     attacking = false;
