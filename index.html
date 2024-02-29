@@ -487,7 +487,7 @@ function defaults() {
 
 
 var score = 0;
-var level = -1;
+var level = -2;
 var selectedOption = 0;
 var menu = 0;
 var soundOn = true;
@@ -498,6 +498,10 @@ var randomImage = Math.floor(Math.random() * 17);
 var gridTiles = [[0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0]];
 
 
+setTimeout(function() {
+  level = -1;
+}, 500);
+
 function begin() {
   level = 0;
   if (soundOn) {
@@ -505,13 +509,18 @@ function begin() {
   }
 }
 
-setTimeout(function() {
-  begin();
-}, 1000);
-
-
-
 function update() {
+  if (level == -1) {
+    ctx.clearRect(0, 0, width, height);
+    ctx.font = "18px Courier";
+    ctx.fillStyle = "white";    
+    ctx.fillText("Press [Z] to begin", (width/2) - (ctx.measureText("Press [Z] to begin").width/2), 80);
+    if (keys[90]) {
+      begin();
+      keys[90] = false;
+    }
+  }
+
   ctx.imageSmoothingEnabled = false;
   if (level == 0) {
     if (keys[90] && player.canMove) { // Z
