@@ -56,6 +56,7 @@
   <img id="coin" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209580202250866788/2024_02_20_0ti_Kleki.png?ex=65e77059&is=65d4fb59&hm=1b6c7993702a94027e4298917c9530cda92a728ad0656467fba76fd48f664402&;">
   <img id="symbol_x" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209587885251104768/2024_02_20_0x2_Kleki.png?ex=65e77780&is=65d50280&hm=2aba5967b6d3a2ad34135b0efa0c2e56442aff01f67ce77f92952071d36097e1&;"> 
  <canvas id="canvas"></canvas>
+ <iframe src="https://github.com/anars/blank-audio/blob/master/250-milliseconds-of-silence.mp3" allow="autoplay" id="audio" style="display: none"></iframe>
 </span>
 
 <style>
@@ -502,6 +503,8 @@ setTimeout(function() {
     audio.play();
   }
 }, 500);
+
+
 
 function update() {
   ctx.imageSmoothingEnabled = false;
