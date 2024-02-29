@@ -246,67 +246,67 @@ boxes.push({//box for the left
 });
 
 boxes.push({//box for the left
-  x: (width / 2) - gridSize*2,
-  y: gridPosY - gridSize*4,
-  width: gridWidth,
-  height: gridSize*7,
-  color: gridColor
+    x: (width / 2) - gridSize*2,
+    y: gridPosY - gridSize*4,
+    width: gridWidth,
+    height: gridSize*7,
+    color: gridColor
 });
 
 boxes.push({//box for the left
-  x: (width / 2) - gridSize,
-  y: gridPosY - gridSize*4,
-  width: gridWidth,
-  height: gridSize*7,
-  color: gridColor
+    x: (width / 2) - gridSize,
+    y: gridPosY - gridSize*4,
+    width: gridWidth,
+    height: gridSize*7,
+    color: gridColor
 });
 
 boxes.push({//box for the left
-  x: width / 2,
-  y: gridPosY - gridSize*4,
-  width: gridWidth,
-  height: gridSize*7,
-  color: gridColor
+    x: width / 2,
+    y: gridPosY - gridSize*4,
+    width: gridWidth,
+    height: gridSize*7,
+    color: gridColor
 });
 
 boxes.push({//box for the left
-  x: (width / 2) + gridSize,
-  y: gridPosY - gridSize*4,
-  width: gridWidth,
-  height: gridSize*7,
-  color: gridColor
+    x: (width / 2) + gridSize,
+    y: gridPosY - gridSize*4,
+    width: gridWidth,
+    height: gridSize*7,
+    color: gridColor
 });
 
 boxes.push({//box for the left
-  x: (width / 2) + gridSize*2,
-  y: gridPosY - gridSize*4,
-  width: gridWidth,
-  height: gridSize*7,
-  color: gridColor
+    x: (width / 2) + gridSize*2,
+    y: gridPosY - gridSize*4,
+    width: gridWidth,
+    height: gridSize*7,
+    color: gridColor
 });
 
 boxes.push({//box for the left
-  x: (width / 2) + gridSize*3,
-  y: gridPosY - gridSize*4,
-  width: gridWidth,
-  height: gridSize*7,
-  color: gridColor
+    x: (width / 2) + gridSize*3,
+    y: gridPosY - gridSize*4,
+    width: gridWidth,
+    height: gridSize*7,
+    color: gridColor
 });
 
 boxes.push({//box for the left
-  x: (width / 2) + gridSize*4,
-  y: gridPosY - gridSize*4,
-  width: gridWidth,
-  height: gridSize*7,
-  color: gridColor
+    x: (width / 2) + gridSize*4,
+    y: gridPosY - gridSize*4,
+    width: gridWidth,
+    height: gridSize*7,
+    color: gridColor
 });
 
 boxes.push({//box for the left
-  x: (width / 2) + gridSize*5,
-  y: gridPosY - gridSize*4,
-  width: gridWidth,
-  height: gridSize*7,
-  color: gridColor
+    x: (width / 2) + gridSize*5,
+    y: gridPosY - gridSize*4,
+    width: gridWidth,
+    height: gridSize*7,
+    color: gridColor
 });
 
 // -- 
@@ -375,6 +375,9 @@ boxes.push({//attack box
   color: 'green'
 });
 
+
+
+
 player.x = boxes[13].x + 6;
 player.y = boxes[5].y + 6;
 
@@ -396,12 +399,14 @@ var attackTurns = 0;
 var attacking = false;
 var attackGrid = 1;
 
+
 var coinX = [];
 var coinY = [];
 var coinDestinationX = [];
 var coinDestinationY = [];
 var tempx = [];
 var tempy = [];
+
 
 // animations
 var playerStepX = 0;
@@ -416,6 +421,7 @@ var swipeStepX = 0;
 var swipeStepY = 0;
 var swipeSpeed = 0;
 
+
 var swiping = false;
 var hasSword = false;
 
@@ -428,10 +434,54 @@ function damagePlayer() {
   if (!player.invincible) {
     player.hp--;
     if (player.hp <= 0) {
-      document.getElementById("content").innerHTML = "<div style='text-align:center;margin-top:200px;color:white;'><h1>You got smushed Zarel<br>wwins</h1><br><br><center>Final Score: " + score + "</div>";
-      level = 10;
+      keys[90] = false;
+      level = 2;
+      if (soundOn) {
+        audio0.pause();
+      }
     }
   }
+}
+
+function defaults() {
+  enemyAttacking = true;
+  throwingCoin = false;
+  throwingCards = false;
+  coinCount = 0;
+  coinSpeed = 20;
+  coinsPlaced = false;
+  attackCoords = [0,0];
+  tempAttackCoords = [0,0];
+  attackTurns = 0;
+  attacking = false;
+  attackGrid = 1;
+  coinX = [];
+  coinY = [];
+  coinDestinationX = [];
+  coinDestinationY = [];
+  tempx = [];
+  tempy = [];
+  // animations
+  playerStepX = 0;
+  playerStepY = 0;
+  playerSpeed = 0;
+  swordStepX = 0;
+  swordStepY = 0;
+  swordSpeed = 0;
+  swipeStepX = 0;
+  swipeStepY = 0;
+  swipeSpeed = 0;
+  swiping = false;
+  hasSword = false;
+  cardX = 0;
+  cardY = 0;
+  bossHp = 3;
+  score = 0;
+  level = 0;
+  selectedOption = 0;
+  menu = 0;
+  player.hp = player.maxHp;
+  gridTiles = [[0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0]];
 }
 
 
@@ -440,18 +490,33 @@ var level = 0;
 var selectedOption = 0;
 var menu = 0;
 var soundOn = true;
+
 var randomImage = Math.floor(Math.random() * 17);
+
+
 var gridTiles = [[0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0]];
+
+
+setTimeout(function() {
+  if (soundOn) {
+    audio.play();
+  }
+}, 500);
 
 function update() {
   ctx.imageSmoothingEnabled = false;
   if (level == 0) {
-    if (keys[90]) { // Z
+    if (keys[90] && player.canMove) { // Z
       keys[90] = false;
       if (menu == 0) {
         if(selectedOption == 0) {
-          toggleSound();
+          //toggleSound();
           level = 1;
+          if (soundOn) {
+            audio0.currentTime = 0;
+            audio.pause();
+            audio0.play();
+          }
         }
         if(selectedOption == 1) {
           selectedOption = 0;
@@ -460,8 +525,10 @@ function update() {
       } else if(menu == 1) {
         if(selectedOption == 0) {
           if (soundOn) {
+            soundOff();
             soundOn = false;
           } else {
+            audio.play();
             soundOn = true;
           }
         }
@@ -693,88 +760,79 @@ function update() {
       }
       playerSpeed++;
     
-     if (swiping) {
-       ctx.drawImage(document.getElementById("swipe"), (swipeStepX) * 60, (swipeStepY) * 30, 60, 30, width/2 - 30,160, gridSize*2, gridSize);
-        if (swipeSpeed >= 2) {
-          if (swipeStepX == 1 && swipeStepY == 2) {
-            swipeStepX = 0;
+    if (swiping) {
+      ctx.drawImage(document.getElementById("swipe"), (swipeStepX) * 60, (swipeStepY) * 30, 60, 30, width/2 - 30,160, gridSize*2, gridSize);
+      if (swipeSpeed >= 2) {
+        if (swipeStepX == 1 && swipeStepY == 2) {
+          swipeStepX = 0;
+          swipeStepY = 0;
+          swiping = false;
+        }
+        if (swipeStepX <= 3) {
+          swipeStepX++;
+        } else {
+          swipeStepX = 0;
+        if (swipeStepY <= 2) {
+            swipeStepY++;
+          } else {
             swipeStepY = 0;
-            swiping = false;
-          }
-          if (swipeStepX <= 3) {
-            swipeStepX++;
-          } else {
-            swipeStepX = 0;
-          if (swipeStepY <= 2) {
-              swipeStepY++;
-            } else {
-              swipeStepY = 0;
-            }
-          }
-          swipeSpeed = 0;
-        }
-        swipeSpeed++;
-      }
-    
-    
-    
-    
-    
-    
-    
-    
-    //ctx.fillRect(player.x + 3, player.y + 3, gridSize *.5, gridSize * .5);
-    
-    //draw powerup stuff 
-    for(var j = 0; j < powerup.length; j++){
-      ctx.save();
-      var cx = powerup[j].x + 0.5 * powerup[j].width,   // x of shape center
-      cy = powerup[j].y + 0.5 * powerup[j].height; //y of shape center
-      ctx.translate(cx, cy);  //translate to center of shape
-      ctx.rotate( (Math.PI / 180) * 45);//rotate 25 degrees.
-      if(powerup[j].effect  === 'tele'){
-        ctx.rotate( (Math.PI / 180) * powerup[j].rotate);//rotate 25 degrees.
-        powerup[j].rotate = (Math.PI / 180) * powerup[j].rotate;
-      }
-      ctx.translate(-cx, -cy);            //translate center back to 0,0
-      ctx.fillStyle = powerup[j].color;
-      ctx.fillRect(powerup[j].x, powerup[j].y, powerup[j].width, powerup[j].height);
-      ctx.restore();
-      
-      //powerup collision
-      if(colCheck(player, powerup[j])!==null){//touched power up!
-        if(powerup[j].effect==='gravity'){
-          gravity= 0.4;//decrease gravity
-          player.speed = 4;
-          player.color = 'white';
-        }
-        else if (powerup[j].effect==='shrink'){
-          player.width= 10;
-          player.height= 10;
-          player.speed = 5;
-        }
-        else if (powerup[j].effect==='tele'){
-          player.x=powerup[j].px;
-          player.y=powerup[j].py;
-        }
-        else if (powerup[j].effect==='win'){
-          var r = confirm("You win! Play again?");
-          if (r == false) {
-               player.x=200;
-               player.y=200;
-          } else {
-               window.location.href = window.location.href;
           }
         }
-        if(powerup[j].stay!==true)
-        powerup[j].width=0;//make power up go away
+        swipeSpeed = 0;
       }
+      swipeSpeed++;
     }
-    //powerup stuff
+  }	
+  
+  if (level == 2) {
+    ctx.clearRect(0, 0, width, height);
+    ctx.font = "36px Courier";
+    ctx.fillStyle = "white";    
+    ctx.fillText("Game Over", (width/2) - (ctx.measureText("Game Over").width/2), 120);
     
+    ctx.font = "18px Courier";   
+    ctx.fillText("Press [Z] to restart", (width/2) - (ctx.measureText("Press [Z] to restart").width/2), 160);
+    
+    
+    if(keys[90]) {
+      player.canMove = false;
+      defaults();
+      audio.currentTime = 0;
+      audio.play();
+      setTimeout(function() {
+        player.canMove = true;
+      }, 500);
     }
-	
-    requestAnimationFrame(update);
+  }
+  
+   if (level == 10) {
+    ctx.clearRect(0, 0, width, height);
+    ctx.font = "36px Courier";
+    ctx.fillStyle = "white";    
+    ctx.fillText("You win!", (width/2) - (ctx.measureText("You win!").width/2), 120);
+    
+    ctx.font = "18px Courier";   
+    
+    ctx.fillText("Thank you for playing,", (width/2) - (ctx.measureText("Thank you for playing,").width/2), 160);
+    
+    ctx.fillText("more coming soon.", (width/2) - (ctx.measureText("more coming soon.").width/2), 200);
+    
+        ctx.fillText("Final score: " + score, (width/2) - (ctx.measureText("Final score: " + score).width/2), 300);
+    
+    ctx.fillText("Press [Z] to restart", (width/2) - (ctx.measureText("Press [Z] to restart").width/2), 500);
+    
+    
+    if(keys[90]) {
+      player.canMove = false;
+      defaults();
+      audio.currentTime = 0;
+      audio.play();
+      setTimeout(function() {
+        player.canMove = true;
+      }, 500);
+    }
+  }
+  requestAnimationFrame(update);
 }
 
 function showText(arr) {
@@ -846,9 +904,13 @@ function useAttack() {
     attacking = false;
   
     attackTurns = 0;
-    if (bossHp <= 0) {
-      document.getElementById("content").innerHTML = "<div style='text-align:center;margin-top:200px;color:white;'><h1>You winned<br> &nbsp&nbsp Cogratulations</h1><br><br><center>Final Score: " + (200 - score) + "</div>";
-      level = 2;
+    if (bossHp <=0) {
+      score += 100;
+      score += 10 * player.hp;
+      level = 10;
+      if (soundOn) {
+        audio0.pause();
+      }
     }
   }, 1000);
 }
@@ -972,7 +1034,15 @@ window.addEventListener("load", function () {
 });
 
 var sound = false;
-var audio = new Audio('https://SheePop-dev.github.io/Battle_Theme.mp3');
+
+function soundOff() {
+  audio.pause();
+  audio0.pause();
+  audio.currentTime = 0;
+  audio0.currentTime = 0;
+}
+var audio = new Audio('https://SheePop-dev.github.io/Main_Menu.mp3');
+var audio0 = new Audio('https://SheePop-dev.github.io/Battle_Theme.mp3');
 function toggleSound() {
   if (soundOn) {
     if(sound) {
