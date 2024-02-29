@@ -487,7 +487,7 @@ function defaults() {
 
 
 var score = 0;
-var level = 0;
+var level = -1;
 var selectedOption = 0;
 var menu = 0;
 var soundOn = true;
@@ -498,11 +498,16 @@ var randomImage = Math.floor(Math.random() * 17);
 var gridTiles = [[0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0]];
 
 
-setTimeout(function() {
+function begin() {
+  level = 0;
   if (soundOn) {
-    audio.play();
+   audio.play();
   }
-}, 500);
+}
+
+setTimeout(function() {
+  begin();
+}, 1000);
 
 
 
