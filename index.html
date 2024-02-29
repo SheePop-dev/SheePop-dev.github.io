@@ -17,6 +17,7 @@
 </div>
 
   <!-- Assets -->
+  <img width="0" id="title" src="https://SheePop-dev.github.io/1-removebg.png">
   <img width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1209548253079801907/iMarkup_20240220_171215.png?ex=65e75297&is=65d4dd97&hm=27ba4fdb037782f0de4dc0806e10dfc3544b96531f3757908cfa9410a4e8228a&;">
   <img id="relicanth" width="0" src="https://cdn.discordapp.com/attachments/1096317517754011658/1208102928376926319/IMG_20240216_1125421162.jpg?ex=65e21087&is=65cf9b87&hm=b5d29fb825047bf24e938f909a1666f3e14d864cd8d48d03eb696e465570e37b&;">
   
@@ -511,6 +512,8 @@ function begin() {
 
 function update() {
   if (level == -1) {
+     
+  
     ctx.clearRect(0, 0, width, height);
     ctx.font = "18px Courier";
     ctx.fillStyle = "white";    
@@ -522,7 +525,7 @@ function update() {
   }
 
   ctx.imageSmoothingEnabled = false;
-  if (level == 0) {
+  if (level == 0) {  
     if (keys[90] && player.canMove) { // Z
       keys[90] = false;
       if (menu == 0) {
@@ -570,28 +573,23 @@ function update() {
     		}        
     	}
         ctx.clearRect(0, 0, width, height);
-        ctx.font = "74px Brush Script MT";
-        ctx.fillStyle = "white";
+      ctx.filter = 'invert(1)';  ctx.drawImage(document.getElementById("title"),width/2 - 250, -50, 500, 500);
+      ctx.filter = 'invert(0)';
         
-
-        
-        ctx.fillText("SheePop", (width/2) - (ctx.measureText("SheePop").width/2), 80);
-        ctx.fillText("- vs -", (width/2) - (ctx.measureText("- vs -").width/2), 140);
-        ctx.fillText("Zarel", (width/2) - (ctx.measureText("Zarel").width/2), 200);
         ctx.font = "24px Courier";
         if (menu == 0) {
-			ctx.fillText("New Game", width/2 - 60, height/2);
-        	ctx.fillText("Options", width/2 - 60, height/2 + 50);
+			ctx.fillText("New Game", width/2 - 60, height/2 + 50);
+        	ctx.fillText("Options", width/2 - 60, height/2 + 100);
         } else if (menu == 1) {
             if (soundOn) {
-            	ctx.fillText("Sound:  On", width/2 - 60, height/2);
+            	ctx.fillText("Sound:  On", width/2 - 60, height/2 + 50);
             } else {
-            	ctx.fillText("Sound:  Off", width/2 - 60, height/2);
+            	ctx.fillText("Sound:  Off", width/2 - 60, height/2 + 50);
             }
-            ctx.fillText("Back", width/2 - 60, height/2 + 50);
+            ctx.fillText("Back", width/2 - 60, height/2 + 100);
         }
         ctx.fill();//Draw charater stuff
-    	ctx.fillRect(width/2 - 90, ((height/2) + (selectedOption * 50) -14), 16, 16);
+    	ctx.fillRect(width/2 - 90, ((height/2) + (selectedOption * 50) +36), 16, 16);
         
     }  
     if (level == 1) {
@@ -664,6 +662,11 @@ function update() {
     ctx.clearRect(0, 0, width, height);
     ctx.beginPath();
     
+    if (score <= 3) {
+      ctx.font = "18px Courier";
+      ctx.fillStyle = "white";
+      showText(["Avoid the attacks!"]);
+    }
     player.grounded = false;
     
     ctx.drawImage(document.getElementById("meme" + randomImage), (width / 2) - 100, 20, 200, 160);
@@ -816,6 +819,7 @@ function update() {
       defaults();
       audio.currentTime = 0;
       audio.play();
+      keys[90] = false;
       setTimeout(function() {
         player.canMove = true;
       }, 500);
@@ -837,13 +841,13 @@ function update() {
         ctx.fillText("Final score: " + score, (width/2) - (ctx.measureText("Final score: " + score).width/2), 300);
     
     ctx.fillText("Press [Z] to restart", (width/2) - (ctx.measureText("Press [Z] to restart").width/2), 500);
-    
-    
+        
     if(keys[90]) {
       player.canMove = false;
       defaults();
       audio.currentTime = 0;
       audio.play();
+      keys[90] = true;
       setTimeout(function() {
         player.canMove = true;
       }, 500);
@@ -969,6 +973,10 @@ if (!throwingCoin && enemyAttacking) {
   for (i=0;i<coinCount;i++) {
     tempx[i] = Math.floor(Math.random() * (10) + 8);
     tempy[i] = Math.floor(Math.random() * (7) + 1);
+    if (coinCount == 1) {
+      tempx[i] = 10;
+      tempy[i] = 6;
+    }
     coinX[i] = width/2 - 60; 
     coinY[i] = 100;
     coinDestinationX[i] = boxes[tempx[i]].x;
@@ -1011,7 +1019,7 @@ if (!throwingCoin && enemyAttacking) {
               damagePlayer();
             }
           }
-          if (coinSpeed > 5) {
+          if (coinSpeed > 6) {
             coinSpeed--;
           }
         }
