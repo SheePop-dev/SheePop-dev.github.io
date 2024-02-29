@@ -1,7 +1,10 @@
-<html style="background:#bbb; overflow: hidden">
+<html style="background:#660000; overflow: hidden">
 <head>
   <title>SheePop vs. Zarel</title>
   <link rel="icon" type="image/png" href="https://cdn.discordapp.com/attachments/311333557757018112/1212491182370983967/android-chrome-256x256.png?ex=65f20768&is=65df9268&hm=b34ffedad9414886dc32b47ed13d7ee5059f9ee3de4b4a1ea3e88f87974e9447&" />
+  <meta name="twitter:title" content="SheePop vs. Zarel">
+  <meta name="twitter:description" content="The mad King Zarel has taken over the land! Can you help SheePop defeat him before it's too late?">
+  <meta name="twitter:image" content="https://cdn.discordapp.com/attachments/311333557757018112/1212491182370983967/android-chrome-256x256.png?ex=65f20768&is=65df9268&hm=b34ffedad9414886dc32b47ed13d7ee5059f9ee3de4b4a1ea3e88f87974e9447&">
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <span id="content">
@@ -59,6 +62,7 @@
 #controls {
   position: fixed;
   bottom: 12px;
+  color: white;
 }
 .direction {
   font-size:30px; 
@@ -66,6 +70,7 @@
   width:54px;
   height:54px;
   position: absolute;
+  color: white;
 }
 #up {
   top: -144px;
@@ -145,71 +150,73 @@ var canvas = document.getElementById("canvas"),
   
 const gridSize = 30;
 const gridPosY = height / 1.6;
+const gridWidth = 2;
+const gridColor = "#000";
 
 // dimensions
 
 boxes.push({//box for the ground
   x: (width / 2) - gridSize*5,
   y: gridPosY + gridSize*3,
-  width: gridSize*10 + 3,
-  height: 3,
-  color: 'black'
+  width: gridSize*10 + gridWidth,
+  height: gridWidth,
+  color: gridColor
 });
 
 boxes.push({//box for the ground
   x: (width / 2) - gridSize*5,
   y: gridPosY + gridSize*2,
-  width: gridSize*10 + 3,
-  height: 3,
-  color: 'black'
+  width: gridSize*10 + gridWidth,
+  height: gridWidth,
+  color: gridColor
 });
 
 boxes.push({//box for the ground
   x: (width / 2) - gridSize*5,
   y: gridPosY + gridSize,
-  width: gridSize*10 + 3,
-  height: 3,
-  color: 'black'
+  width: gridSize*10 + gridWidth,
+  height: gridWidth,
+  color: gridColor
 });
 
 boxes.push({//box for the ground
   x: (width / 2) - gridSize*5,
   y: gridPosY,
-  width: gridSize*10 + 3,
-  height: 3,
-  color: 'black'
+  width: gridSize*10 + gridWidth,
+  height: gridWidth,
+  color: gridColor
 });
 
 boxes.push({//box for the ground
   x: (width / 2) - gridSize*5,
   y: gridPosY - gridSize,
-  width: gridSize*10 + 3,
-  height: 3,
-  color: 'black'
+  width: gridSize*10 + gridWidth,
+  height: gridWidth,
+  color: gridColor
 });
 
 boxes.push({//box for the ground
   x: (width / 2) - gridSize*5,
   y: gridPosY - gridSize*2,
-  width: gridSize*10 + 3,
-  height: 3,
-  color: 'black'
+  width: gridSize*10 + gridWidth,
+  height: gridWidth,
+  color: gridColor
 });
 
 boxes.push({//box for the ground
   x: (width / 2) - gridSize*5,
   y: gridPosY - gridSize*3,
-  width: gridSize*10 + 3,
-  height: 3,
-  color: 'black'
+  width: gridSize*10 + gridWidth,
+  height: gridWidth,
+  color: gridColor
 });
 
 boxes.push({//box for the top
   x: (width / 2) - gridSize*5,
   y: gridPosY - gridSize*4,
-  width: gridSize*10 + 3,
-  height: 3,
-  color: 'black'
+  width: gridSize*10 + gridWidth,
+  height: gridWidth,
+  color: gridColor
 });
 
 //--
@@ -217,89 +224,89 @@ boxes.push({//box for the top
 boxes.push({//box for the right
   x: (width / 2) - gridSize*5,
   y: gridPosY - gridSize*4,
-  width: 3,
+  width: gridWidth,
   height: gridSize*7,
-  color: 'black'
+  color: gridColor
 });
 
 boxes.push({//box for the left
   x: (width / 2) - gridSize*4,
   y: gridPosY - gridSize*4,
-  width: 3,
+  width: gridWidth,
   height: gridSize*7,
-  color: 'black'
+  color: gridColor
 });
 
 boxes.push({//box for the left
   x: (width / 2) - gridSize*3,
   y: gridPosY - gridSize*4,
-  width: 3,
+  width: gridWidth,
   height: gridSize*7,
-  color: 'black'
+  color: gridColor
 });
 
 boxes.push({//box for the left
-    x: (width / 2) - gridSize*2,
-    y: gridPosY - gridSize*4,
-    width: 3,
-    height: gridSize*7,
-    color: 'black'
+  x: (width / 2) - gridSize*2,
+  y: gridPosY - gridSize*4,
+  width: gridWidth,
+  height: gridSize*7,
+  color: gridColor
 });
 
 boxes.push({//box for the left
-    x: (width / 2) - gridSize,
-    y: gridPosY - gridSize*4,
-    width: 3,
-    height: gridSize*7,
-    color: 'black'
+  x: (width / 2) - gridSize,
+  y: gridPosY - gridSize*4,
+  width: gridWidth,
+  height: gridSize*7,
+  color: gridColor
 });
 
 boxes.push({//box for the left
-    x: width / 2,
-    y: gridPosY - gridSize*4,
-    width: 3,
-    height: gridSize*7,
-    color: 'black'
+  x: width / 2,
+  y: gridPosY - gridSize*4,
+  width: gridWidth,
+  height: gridSize*7,
+  color: gridColor
 });
 
 boxes.push({//box for the left
-    x: (width / 2) + gridSize,
-    y: gridPosY - gridSize*4,
-    width: 3,
-    height: gridSize*7,
-    color: 'black'
+  x: (width / 2) + gridSize,
+  y: gridPosY - gridSize*4,
+  width: gridWidth,
+  height: gridSize*7,
+  color: gridColor
 });
 
 boxes.push({//box for the left
-    x: (width / 2) + gridSize*2,
-    y: gridPosY - gridSize*4,
-    width: 3,
-    height: gridSize*7,
-    color: 'black'
+  x: (width / 2) + gridSize*2,
+  y: gridPosY - gridSize*4,
+  width: gridWidth,
+  height: gridSize*7,
+  color: gridColor
 });
 
 boxes.push({//box for the left
-    x: (width / 2) + gridSize*3,
-    y: gridPosY - gridSize*4,
-    width: 3,
-    height: gridSize*7,
-    color: 'black'
+  x: (width / 2) + gridSize*3,
+  y: gridPosY - gridSize*4,
+  width: gridWidth,
+  height: gridSize*7,
+  color: gridColor
 });
 
 boxes.push({//box for the left
-    x: (width / 2) + gridSize*4,
-    y: gridPosY - gridSize*4,
-    width: 3,
-    height: gridSize*7,
-    color: 'black'
+  x: (width / 2) + gridSize*4,
+  y: gridPosY - gridSize*4,
+  width: gridWidth,
+  height: gridSize*7,
+  color: gridColor
 });
 
 boxes.push({//box for the left
-    x: (width / 2) + gridSize*5,
-    y: gridPosY - gridSize*4,
-    width: 3,
-    height: gridSize*7,
-    color: 'black'
+  x: (width / 2) + gridSize*5,
+  y: gridPosY - gridSize*4,
+  width: gridWidth,
+  height: gridSize*7,
+  color: gridColor
 });
 
 // -- 
@@ -308,7 +315,7 @@ boxes.push({//attack box
   x: (width / 2) - gridSize*2,
   y: gridPosY - gridSize*5 - 3,
   width: gridSize*4 + 3,
-  height: 3,
+  height: gridWidth,
   color: 'green'
 });
 
@@ -316,14 +323,14 @@ boxes.push({//attack box
   x: (width / 2) - gridSize*2,
   y: gridPosY - gridSize*4 - 3,
   width: gridSize*4 + 3,
-  height: 3,
+  height: gridWidth,
   color: 'green'
 });
 
 boxes.push({//attack box
   x: (width / 2) - gridSize*2,
   y: gridPosY - gridSize*5 - 3,
-  width: 3,
+  width: gridWidth,
   height: gridSize,
   color: 'green'
 });
@@ -331,7 +338,7 @@ boxes.push({//attack box
 boxes.push({//attack box
   x: (width / 2) - gridSize*1,
   y: gridPosY - gridSize*5 - 3,
-  width: 3,
+  width: gridWidth,
   height: gridSize,
   color: 'green'
 });
@@ -339,7 +346,7 @@ boxes.push({//attack box
 boxes.push({//attack box
   x: (width / 2) - gridSize,
   y: gridPosY - gridSize*5 - 3,
-  width: 3,
+  width: gridWidth,
   height: gridSize,
   color: 'green'
 });
@@ -347,7 +354,7 @@ boxes.push({//attack box
 boxes.push({//attack box
   x: (width / 2),
   y: gridPosY - gridSize*5 - 3,
-  width: 3,
+  width: gridWidth,
   height: gridSize,
   color: 'green'
 });
@@ -355,7 +362,7 @@ boxes.push({//attack box
 boxes.push({//attack box
   x: (width / 2) + gridSize,
   y: gridPosY - gridSize*5 - 3,
-  width: 3,
+  width: gridWidth,
   height: gridSize,
   color: 'green'
 });
@@ -363,13 +370,10 @@ boxes.push({//attack box
 boxes.push({//attack box
   x: (width / 2) + gridSize*2,
   y: gridPosY - gridSize*5 - 3,
-  width: 3,
+  width: gridWidth,
   height: gridSize,
   color: 'green'
 });
-
-
-
 
 player.x = boxes[13].x + 6;
 player.y = boxes[5].y + 6;
@@ -392,15 +396,12 @@ var attackTurns = 0;
 var attacking = false;
 var attackGrid = 1;
 
-
-
 var coinX = [];
 var coinY = [];
 var coinDestinationX = [];
 var coinDestinationY = [];
 var tempx = [];
 var tempy = [];
-
 
 // animations
 var playerStepX = 0;
@@ -415,7 +416,6 @@ var swipeStepX = 0;
 var swipeStepY = 0;
 var swipeSpeed = 0;
 
-
 var swiping = false;
 var hasSword = false;
 
@@ -428,7 +428,7 @@ function damagePlayer() {
   if (!player.invincible) {
     player.hp--;
     if (player.hp <= 0) {
-      document.getElementById("content").innerHTML = "<div style='text-align:center;margin-top:200px;'><h1>You got smushed Zarel<br>wwins</h1><br><br><center>Final Score: " + score + "</div>";
+      document.getElementById("content").innerHTML = "<div style='text-align:center;margin-top:200px;color:white;'><h1>You got smushed Zarel<br>wwins</h1><br><br><center>Final Score: " + score + "</div>";
       level = 10;
     }
   }
@@ -440,13 +440,8 @@ var level = 0;
 var selectedOption = 0;
 var menu = 0;
 var soundOn = true;
-
 var randomImage = Math.floor(Math.random() * 17);
-
-
 var gridTiles = [[0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0]];
-
-
 
 function update() {
   ctx.imageSmoothingEnabled = false;
@@ -491,6 +486,14 @@ function update() {
     		}        
     	}
         ctx.clearRect(0, 0, width, height);
+        ctx.font = "74px Brush Script MT";
+        ctx.fillStyle = "white";
+        
+
+        
+        ctx.fillText("SheePop", (width/2) - (ctx.measureText("SheePop").width/2), 80);
+        ctx.fillText("- vs -", (width/2) - (ctx.measureText("- vs -").width/2), 140);
+        ctx.fillText("Zarel", (width/2) - (ctx.measureText("Zarel").width/2), 200);
         ctx.font = "24px Courier";
         if (menu == 0) {
 			ctx.fillText("New Game", width/2 - 60, height/2);
@@ -586,18 +589,15 @@ function update() {
     var i = 0;
     if (enemyAttacking) {
       for (i=0;i<coinCount;i++) {
-        ctx.drawImage(document.getElementById("symbol_x"),coinDestinationX[i], coinDestinationY[i], gridSize, gridSize);
-    	ctx.drawImage(document.getElementById("coin"),coinX[i], coinY[i], gridSize, gridSize);
+        ctx.drawImage(document.getElementById("symbol_x"),coinDestinationX[i] + 1, coinDestinationY[i] + 1, gridSize, gridSize);
+    	ctx.drawImage(document.getElementById("coin"),coinX[i] + 1, coinY[i] + 1, gridSize, gridSize);
       }
     }
-    
-    //image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
-    
-    
+
     if (attacking) {
       if (bossHp == 3) {
         ctx.font = "18px Courier";
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "white";
         showText(["Here's your chance,","grab the sword!"]);
       }
       
@@ -630,7 +630,7 @@ function update() {
     
     
     if (attackGrid == 0 && bossHp == 3) {
-      ctx.fillStyle = "black";
+      ctx.fillStyle = "white";
       showText(["Now go to the green", "squares to attack!"]);
     }
        
@@ -847,7 +847,7 @@ function useAttack() {
   
     attackTurns = 0;
     if (bossHp <= 0) {
-      document.getElementById("content").innerHTML = "<div style='text-align:center;margin-top:200px;'><h1>You winned<br> &nbsp&nbsp Cogratulations</h1><br><br><center>Final Score: " + (200 - score) + "</div>";
+      document.getElementById("content").innerHTML = "<div style='text-align:center;margin-top:200px;color:white;'><h1>You winned<br> &nbsp&nbsp Cogratulations</h1><br><br><center>Final Score: " + (200 - score) + "</div>";
       level = 2;
     }
   }, 1000);
