@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
-
+  <head>
+  <title>Cards</title>
+ 
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <body>
-
 <div id="scene0">
   <button onclick="scene()">Open Pack</button>
 </div>
-<div id="scene1">
-
-    
-    </div>
+<div id="scene1"></div>
 </body>
-
 <style>
 :root {
     --dark: #312b2b;
@@ -22,8 +21,6 @@
     margin: 12px;
     padding: 0;
 }
-
-
 
 button {
   font-size: 36px;
@@ -41,8 +38,6 @@ body {
 .card {
     width: 180px;
     height: 240px;
-    
-  
 }
 
 .card__inner {
@@ -141,15 +136,24 @@ javascripthtml
 
 <script>
 
-var cards = [];
-
+var regcards = ["2024_08_19_0n6_Kleki.png","2024_08_19_0n8_Kleki.png"];
+var rares= ["2024_08_19_0nc_Kleki.png"];
+var rareChance = 32;
 
 function scene() {
   document.getElementById("scene0").style.display="none";
   
-  
+  var i;
+  for(i=0;i<5;i++) {
+  var rand = Math.floor(Math.random() * (rareChance - 0 + 1) + 0);
+  if (rand != rareChance) {
+    rand = Math.floor(Math.random() * (1 - 0 + 1) + 0);
+      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="180" height="240" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + regcards[rand] + '?raw=true"></div></div></div>');
+  } else {
+      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="180" height="240" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + rares[0] + '?raw=true"></div></div></div>');
+  }
 
-  document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="180" height="240" src="https://cdn.discordapp.com/attachments/1096317517754011658/1275077385644937328/2024_08_19_0n6_Kleki.png?ex=66c493da&is=66c3425a&hm=7fa96f4167308e2760e4746644bed53c027b0453a671cb23d143babaeaeb020f&"></div></div></div>');
+  }
   
   const cards = document.querySelectorAll(".card__inner");
 cards.forEach((card) =>card.addEventListener("click", flipCard));
