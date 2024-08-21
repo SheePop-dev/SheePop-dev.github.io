@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+<div id="scene0">
+  <button onclick="scene()">Open Pack</button>
+</div>
+<div id="scene1">
+
+    
+    </div>
+</body>
+
+<style>
+:root {
+    --dark: #312b2b;
+    --light: #F5EFEB;
+}
+
+* {
+    margin: 12px;
+    padding: 0;
+}
+
+
+
+button {
+  font-size: 36px;
+}
+
+body {
+    background-color: var(--light);
+    font-family: 'Poppins', sans-serif;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.card {
+    width: 180px;
+    height: 240px;
+    
+  
+}
+
+.card__inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    position: relative;
+}
+
+.card__inner.is-flipped {
+    transform: rotateY(180deg);
+}
+
+.card__face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    overflow: hidden;
+    
+}
+
+.card__face--front {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+}
+
+.about {
+    background-color: #028090;
+}
+
+.projects {
+    background-color: #028090;
+}
+
+.contact {
+    background-color: #028090;
+}
+
+.card__face--front h2 {
+    color: var(--light);
+    font-size: 64px;
+}
+
+.card__face--back {
+    background-color: var(--light);
+    transform: rotateY(180deg);
+    display: flex;
+    align-items: center;
+}
+
+.pic {
+    display: block;
+    width: 192px;
+    height: 192px;
+    margin: 32px auto;
+    object-fit: cover;
+}
+
+.card__header h2 {
+    color: var(--dark);
+    font-size: 24px;
+    text-align: center;
+}
+
+.card__body {
+    padding: 32px;
+}
+
+.card__body h3 {
+    color: var(--dark);
+    font-size: 32px;
+}
+
+.card__body p {
+    color: var(--dark);
+    font-size: 16px;
+    line-height: 2;
+}
+
+a {
+    text-decoration: none;
+    color: var(--dark)
+}
+
+a:hover {
+    text-decoration: underline;
+}
+javascripthtml
+</style>
+
+<script>
+
+var cards = [];
+
+
+function scene() {
+  document.getElementById("scene0").style.display="none";
+  
+  
+
+  document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="180" height="240" src="https://cdn.discordapp.com/attachments/1096317517754011658/1275077385644937328/2024_08_19_0n6_Kleki.png?ex=66c493da&is=66c3425a&hm=7fa96f4167308e2760e4746644bed53c027b0453a671cb23d143babaeaeb020f&"></div></div></div>');
+  
+  const cards = document.querySelectorAll(".card__inner");
+cards.forEach((card) =>card.addEventListener("click", flipCard));
+
+  
+}
+
+function flipCard() {
+    this.classList.toggle('is-flipped');
+};
+</script>
+</html>
+
+
+
