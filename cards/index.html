@@ -9,7 +9,9 @@
 <div id="scene0">
   <button onclick="scene()">Open Pack</button>
 </div>
+<center>
 <div id="scene1"></div>
+</center>
 </body>
 <style>
 :root {
@@ -18,7 +20,8 @@
 }
 
 * {
-    margin: 12px;
+    margin: 0px;
+    margin-top: 12px;
     padding: 0;
 }
 
@@ -31,8 +34,7 @@ body {
     font-family: 'Poppins', sans-serif;
     width: 100%;
     min-height: 100vh;
-    display: flex;
-    flex-direction: row;
+
 }
 
 .card {
@@ -46,7 +48,7 @@ body {
     transition: transform 1s;
     transform-style: preserve-3d;
     cursor: pointer;
-    position: relative;
+
 }
 
 .card__inner.is-flipped {
@@ -137,8 +139,16 @@ javascripthtml
 <script>
 
 var regcards = ["2024_08_19_0n6_Kleki.png","2024_08_19_0n8_Kleki.png"];
-var rares= ["2024_08_19_0nc_Kleki.png"];
+var uncommon = ["2024_08_22_01v_Kleki.png"]
+var rares= ["2024_08_19_0nc_Kleki.png", "2024_08_22_01p_Kleki.png"];
 var rareChance = 32;
+var uncommonChance = 10; 
+
+function newPack() {
+  document.getElementById("scene1").innerHTML = "";
+  scene();
+  scroll(0,0);
+}
 
 function scene() {
   document.getElementById("scene0").style.display="none";
@@ -146,17 +156,27 @@ function scene() {
   var i;
   for(i=0;i<5;i++) {
   var rand = Math.floor(Math.random() * (rareChance - 0 + 1) + 0);
-  if (rand != rareChance) {
-    rand = Math.floor(Math.random() * (1 - 0 + 1) + 0);
-      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="180" height="240" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + regcards[rand] + '?raw=true"></div></div></div>');
+  if (rand == rareChance) {
+      rand = Math.floor(Math.random() * (rares.length-1 - 0 + 1) + 0);
+      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="180" height="240" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + rares[rand] + '?raw=true"></div></div></div>');
+  } else if (rand == 0 || rand == 1 || rand == 2) {
+  rand = Math.floor(Math.random() * (uncommon.length-1 - 0 + 1) + 0);
+      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="180" height="240" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + uncommon[rand] + '?raw=true"></div></div></div>');
+  
+      
   } else {
-      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="180" height="240" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + rares[0] + '?raw=true"></div></div></div>');
+
+      
+      
+       rand = Math.floor(Math.random() * (regcards.length-1 - 0 + 1) + 0);
+      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="180" height="240" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + regcards[rand] + '?raw=true"></div></div></div>');
   }
 
   }
-  
+  document.getElementById("scene1").innerHTML += '<button onclick="newPack()">Open Another Pack</button>';
   const cards = document.querySelectorAll(".card__inner");
 cards.forEach((card) =>card.addEventListener("click", flipCard));
+
 
   
 }
@@ -166,6 +186,3 @@ function flipCard() {
 };
 </script>
 </html>
-
-
-
