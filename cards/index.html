@@ -142,6 +142,7 @@ var regcards = ["2024_08_19_0n6_Kleki.png","2024_08_19_0n8_Kleki.png","2024_08_2
 var uncommon = ["2024_08_22_01v_Kleki.png"]
 var rares= ["2024_08_19_0nc_Kleki.png", "2024_08_22_0f6_Kleki.png", "2024_08_22_0i7_Kleki.png", "2024_08_22_0mv_Kleki.png"];
 var ultrarares = ["2024_08_22_0my_Kleki.png"];
+var ultraChance = 100;
 var rareChance = 32;
 var uncommonChance = 10; 
 
@@ -156,11 +157,17 @@ function scene() {
   
   var i;
   for(i=0;i<6;i++) {
-  var rand = Math.floor(Math.random() * (rareChance - 0 + 1) + 0);
-  if (rand == rareChance) {
+  var rand = Math.floor(Math.random() * (ultraChance - 0 + 1) + 0);
+
+  if (rand == ultraChance) {
+      rand = Math.floor(Math.random() * (ultrarares.length-1 - 0 + 1) + 0);
+      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="180" height="240" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + ultrarares[rand] + '?raw=true"></div></div></div>');
+  }
+    
+  else if (rand == 0 || rand == 1 || rand == 2) {
       rand = Math.floor(Math.random() * (rares.length-1 - 0 + 1) + 0);
       document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="180" height="240" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + rares[rand] + '?raw=true"></div></div></div>');
-  } else if (rand == 0 || rand == 1 || rand == 2) {
+  } else if (rand > 2 && rand < 13) {
   rand = Math.floor(Math.random() * (uncommon.length-1 - 0 + 1) + 0);
       document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="180" height="240" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + uncommon[rand] + '?raw=true"></div></div></div>');
   
