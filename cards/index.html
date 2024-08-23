@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-  <title>Cards</title>
- 
-</head>
+    <title>Cards</title>
+  </head>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <body>
-<div id="scene0">
-  <button onclick="scene()">Open Pack</button>
-</div>
-<center>
-<div id="scene1"></div>
-</center>
+  <div id="scene0" style="text-align: center; margin-top: 30%;">
+    <button onclick="scene()">Open Pack</button>
+  </div>
+  <center>
+    <div id="scene1"></div>
+    <div id="scene2"></div>
+  </center>
 </body>
+
 <style>
 :root {
     --dark: #312b2b;
@@ -21,8 +22,6 @@
 
 * {
     margin: 0px;
-    margin-top: 12px;
-    padding: 0;
 }
 
 button {
@@ -34,12 +33,13 @@ body {
     font-family: 'Poppins', sans-serif;
     width: 100%;
     min-height: 100vh;
-
+    min-width: 260px;
 }
 
 .card {
     width: 180px;
     height: 240px;
+    margin: 12px;
 }
 
 .card__inner {
@@ -62,7 +62,6 @@ body {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     overflow: hidden;
-    
 }
 
 .card__face--front {
@@ -76,18 +75,6 @@ body {
     background-color: #028090;
 }
 
-.projects {
-    background-color: #028090;
-}
-
-.contact {
-    background-color: #028090;
-}
-
-.card__face--front h2 {
-    color: var(--light);
-    font-size: 64px;
-}
 
 .card__face--back {
     background-color: var(--light);
@@ -104,36 +91,13 @@ body {
     object-fit: cover;
 }
 
-.card__header h2 {
-    color: var(--dark);
-    font-size: 24px;
-    text-align: center;
+#scene1 {
+  margin: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around; /* ADJUSTMENT */
 }
 
-.card__body {
-    padding: 32px;
-}
-
-.card__body h3 {
-    color: var(--dark);
-    font-size: 32px;
-}
-
-.card__body p {
-    color: var(--dark);
-    font-size: 16px;
-    line-height: 2;
-}
-
-a {
-    text-decoration: none;
-    color: var(--dark)
-}
-
-a:hover {
-    text-decoration: underline;
-}
-javascripthtml
 </style>
 
 <script>
@@ -159,34 +123,23 @@ function scene() {
   for(i=0;i<6;i++) {
   var rand = Math.floor(Math.random() * (ultraChance - 0 + 1) + 0);
 
-  if (rand == ultraChance) {
+    if (rand == ultraChance) {
       rand = Math.floor(Math.random() * (ultrarares.length-1 - 0 + 1) + 0);
       document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="180" height="240" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + ultrarares[rand] + '?raw=true"></div></div></div>');
-  }
-    
-  else if (rand == 0 || rand == 1 || rand == 2) {
+    } else if (rand == 0 || rand == 1 || rand == 2) {
       rand = Math.floor(Math.random() * (rares.length-1 - 0 + 1) + 0);
       document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="180" height="240" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + rares[rand] + '?raw=true"></div></div></div>');
-  } else if (rand > 2 && rand < 13) {
-  rand = Math.floor(Math.random() * (uncommon.length-1 - 0 + 1) + 0);
+    } else if (rand > 2 && rand < 13) {
+      rand = Math.floor(Math.random() * (uncommon.length-1 - 0 + 1) + 0);
       document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="180" height="240" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + uncommon[rand] + '?raw=true"></div></div></div>');
-  
-      
-  } else {
-
-      
-      
-       rand = Math.floor(Math.random() * (regcards.length-1 - 0 + 1) + 0);
+    } else {
+      rand = Math.floor(Math.random() * (regcards.length-1 - 0 + 1) + 0);
       document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="180" height="240" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + regcards[rand] + '?raw=true"></div></div></div>');
+    }
   }
-
-  }
-  document.getElementById("scene1").innerHTML += '<button onclick="newPack()">Open Another Pack</button>';
+  document.getElementById("scene2").innerHTML = '<button style="margin-bottom: 24px;" onclick="newPack()">Open Another Pack</button>';
   const cards = document.querySelectorAll(".card__inner");
-cards.forEach((card) =>card.addEventListener("click", flipCard));
-
-
-  
+  cards.forEach((card) =>card.addEventListener("click", flipCard));
 }
 
 function flipCard() {
