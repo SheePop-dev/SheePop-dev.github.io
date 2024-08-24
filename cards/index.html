@@ -228,17 +228,17 @@ function scene() {
       rand = Math.floor(Math.random() * (ultrarares.length-1 - 0 + 1) + 0);
       document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + ultrarares[rand] + '?raw=true"></div></div></div>');
       
-      cardCounts[rand+12]++;
+      cardCounts[rand+regcards.length + uncommon.length+ultrarares.length]++;
     } else if (rand == 0 || rand == 1 || rand == 2) {
       rand = Math.floor(Math.random() * (rares.length-1 - 0 + 1) + 0);
       document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + rares[rand] + '?raw=true"></div></div></div>');
       
-      cardCounts[rand+7]++;
+      cardCounts[rand+regcards.length + uncommon.length]++;
     } else if (rand > 2 && rand < 13) {
       rand = Math.floor(Math.random() * (uncommon.length-1 - 0 + 1) + 0);
       document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + uncommon[rand] + '?raw=true"></div></div></div>');
       
-      cardCounts[rand+3]++;
+      cardCounts[rand+regcards.length]++;
     } else {
       rand = Math.floor(Math.random() * (regcards.length-1 - 0 + 1) + 0);
       document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + regcards[rand] + '?raw=true"></div></div></div>');
