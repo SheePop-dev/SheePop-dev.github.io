@@ -13,11 +13,17 @@
     <div id="scene1"></div>
     <div id="scene2"></div>
     <div id="scene3">
+        <input onClick="generateCollection()" type="checkbox" name="common" id="common" checked/>
+        <label for="common">Common</label>
+        <input onClick="generateCollection()" type="checkbox" name="uncommon" id="uncommon" checked/>
+        <label for="uncommon">Uncommon</label><br>
+        <input onClick="generateCollection()" type="checkbox" name="rare" id="rare" checked/>
+        <label for="rare">Rare</label>
+        <input onClick="generateCollection()" type="checkbox" name="ultrarare" id="ultrarare" checked/>
+        <label for="ultrarare">Ultra-Rare</label>
       <table id="collection">
-        
+
       </table>
-    
-    
     </div>
   </center>
 </body>
@@ -51,6 +57,10 @@ button {
 
 #collection img{
   width:60px;
+}
+
+input {
+  margin-left: 10px;
 }
 
 #collection td {
@@ -199,7 +209,19 @@ function checkCookie() {
 }
 
 
-
+function filterRarity() {
+  var rarities = document.getElementsByClassName("card-common");
+  if (document.getElementById("common").checked) {
+    
+    for (var i = 0; i < rarities; ++i) {
+       rarities[i].style.display = "block";
+    }
+  } else {
+    for (var i = 0; i < rarities; ++i) {
+       rarities[i].style.display = "none";
+    }
+  }
+}
 
 function newPack() {
   document.getElementById("scene1").innerHTML = "";
@@ -213,9 +235,23 @@ scene();
 generateCollection();
 
 function generateCollection() {
+  document.getElementById("collection").innerHTML = "";
   var j;
+  var rarity = "common";
   for (j=0;j<allCards.length;j++) {
-    document.getElementById("collection").innerHTML += '<td><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + allCards[j] + '?raw=true"></td><td id="collection' + j + '">0</td><tr>';
+    if (j > regcards.length) {
+      rarity = "uncommon";
+    }
+    if (j > regcards.length + uncommon.length) {
+      rarity = "rare";
+    }
+    if (j > regcards.length + uncommon.length + rares.length) {
+      rarity = "ultrarare";
+    }
+  
+    if (document.getElementById(rarity).checked) {
+      document.getElementById("collection").innerHTML += '<td class=card-' + rarity + '><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + allCards[j] + '?raw=true"></td><td class=card-' + rarity + ' id="collection' + j + '">' + cardCounts[j] + '</td><tr>';
+    }
   }
 }
 
