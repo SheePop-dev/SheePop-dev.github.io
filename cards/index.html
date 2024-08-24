@@ -5,12 +5,38 @@
   </head>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <body>
-  <div id="scene0" style="text-align: center; margin-top: 30%;">
-    <button onclick="scene()">Open Pack</button>
+  <div id ="nav">
+    <button onclick="packs()" id="active">Packs</button>
+    <button onclick="collection()" id="inactive">Collection</button>
   </div>
   <center>
     <div id="scene1"></div>
     <div id="scene2"></div>
+    <div id="scene3">
+      <table id="collection">
+        <td><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/2024_08_19_0n6_Kleki.png?raw=true"></td><td id="collection0">0</td><tr>
+        <td><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/2024_08_19_0n8_Kleki.png?raw=true"></td><td id="collection1">0</td><tr>
+        <td><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/2024_08_22_0i8_Kleki.png?raw=true"></td><td id="collection2">0</td><tr>
+        <td><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/2024_08_22_01v_Kleki.png?raw=true"></td><td id="collection3">0</td><tr>
+        <td><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/2024_08_22_0p6_Kleki.png?raw=true"></td><td id="collection4">0</td><tr>
+        <td><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/2024_08_22_0ph_Kleki.png?raw=true"></td><td id="collection5">0</td><tr>
+        <td><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/2024_08_23_0sc_Kleki.png?raw=true"></td><td id="collection6">0</td><tr>
+        
+        <td><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/2024_08_19_0nc_Kleki.png?raw=true"></td><td id="collection7">0</td><tr>
+        <td><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/2024_08_22_0f6_Kleki.png?raw=true"></td><td id="collection8">0</td><tr>
+        <td><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/2024_08_22_0i7_Kleki.png?raw=true"></td><td id="collection9">0</td><tr>
+        <td><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/2024_08_22_0mv_Kleki.png?raw=true"></td><td id="collection10">0</td><tr>
+        <td><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/2024_08_22_0p1_Kleki.png?raw=true"></td><td id="collection11">0</td><tr>
+        
+        <td><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/2024_08_22_0my_Kleki.png?raw=true"></td><td id="collection12">0</td><tr>
+        <td><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/2024_08_23_0s5_Kleki.png?raw=true"></td><td id="collection13">0</td><tr>
+        
+        
+        
+      </table>
+    
+    
+    </div>
   </center>
 </body>
 
@@ -27,6 +53,38 @@
 button {
   font-size: 36px;
 }
+
+#nav {
+  text-align: center;
+  width: 100vw;
+  margin: auto;
+}
+
+#nav button {
+  margin: 6px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 24px;
+}
+
+#collection img{
+  width:60px;
+}
+
+#collection td {
+  padding: 12px;
+}
+
+#inactive {
+  color: #7e8e8e;
+  border: none;
+}
+
+#active {
+  border: none;
+  border-bottom: solid 1px black;
+}
+
 
 body {
     background-color: var(--light);
@@ -98,26 +156,37 @@ body {
   justify-content: space-around; /* ADJUSTMENT */
 }
 
+#scene3 {
+  display: none;
+}
+
 </style>
 
 <script>
 
 var regcards = ["2024_08_19_0n6_Kleki.png","2024_08_19_0n8_Kleki.png","2024_08_22_0i8_Kleki.png"];
 var uncommon = ["2024_08_22_01v_Kleki.png", "2024_08_22_0p6_Kleki.png", "2024_08_22_0ph_Kleki.png", "2024_08_23_0sc_Kleki.png"]
-var rares= ["2024_08_19_0nc_Kleki.png", "2024_08_22_0f6_Kleki.png", "2024_08_22_0i7_Kleki.png", "2024_08_22_0mv_Kleki.png", "2024_08_22_0p1_Kleki.png"];
+var rares= ["2024_08_19_0nc_Kleki.png", "2024_08_22_0f6_Kleki.png", "2024_08_22_0i7_Kleki.png",  "2024_08_22_0mv_Kleki.png", "2024_08_22_0p1_Kleki.png"];
 var ultrarares = ["2024_08_22_0my_Kleki.png", "2024_08_23_0s5_Kleki.png"];
 var ultraChance = 100;
 var rareChance = 32;
 var uncommonChance = 10; 
 
+var cardCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+var flippedCards = 0;
+
 function newPack() {
   document.getElementById("scene1").innerHTML = "";
+  document.getElementById("scene2").innerHTML = "";
+  flippedCards = 0;
   scene();
   scroll(0,0);
 }
 
+scene();
+
 function scene() {
-  document.getElementById("scene0").style.display="none";
   
   var i;
   for(i=0;i<6;i++) {
@@ -126,24 +195,67 @@ function scene() {
     if (rand == ultraChance) {
       rand = Math.floor(Math.random() * (ultrarares.length-1 - 0 + 1) + 0);
       document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + ultrarares[rand] + '?raw=true"></div></div></div>');
+      
+      cardCounts[rand+12]++;
     } else if (rand == 0 || rand == 1 || rand == 2) {
       rand = Math.floor(Math.random() * (rares.length-1 - 0 + 1) + 0);
       document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + rares[rand] + '?raw=true"></div></div></div>');
+      
+      cardCounts[rand+7]++;
     } else if (rand > 2 && rand < 13) {
       rand = Math.floor(Math.random() * (uncommon.length-1 - 0 + 1) + 0);
       document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + uncommon[rand] + '?raw=true"></div></div></div>');
+      
+      cardCounts[rand+3]++;
     } else {
       rand = Math.floor(Math.random() * (regcards.length-1 - 0 + 1) + 0);
       document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + regcards[rand] + '?raw=true"></div></div></div>');
+      
+      cardCounts[rand]++;
     }
   }
-  document.getElementById("scene2").innerHTML = '<button style="margin-bottom: 24px;" onclick="newPack()">Open Another Pack</button>';
+
   const cards = document.querySelectorAll(".card__inner");
   cards.forEach((card) =>card.addEventListener("click", flipCard));
 }
 
 function flipCard() {
+  if (!this.classList.contains("is-flipped")) {
     this.classList.toggle('is-flipped');
+    flippedCards++;
+    if(flippedCards == 6) {
+      document.getElementById("scene2").innerHTML = '<button style="margin-bottom: 24px;" onclick="newPack()">Open Another Pack</button>';
+    }
+  }
 };
+
+function collection() {
+  document.getElementById("scene1").style.display = "none";
+  document.getElementById("scene2").style.display = "none";
+  document.getElementById("scene3").style.display = "block";
+  
+  document.getElementById("active").style.borderBottom = "none";
+  document.getElementById("active").style.color = "#7e8e8e";
+  
+  document.getElementById("inactive").style.borderBottom = "solid 1px black";
+  document.getElementById("inactive").style.color = "black";
+  
+  var ii;
+  for (ii=0;ii<cardCounts.length;ii++) {
+    document.getElementById("collection" + ii).innerHTML = cardCounts[ii];
+  }
+}
+
+function packs() {
+  document.getElementById("scene1").style.display = "flex";
+  document.getElementById("scene2").style.display = "block";
+  document.getElementById("scene3").style.display = "none";
+  
+  document.getElementById("inactive").style.borderBottom = "none";
+  document.getElementById("inactive").style.color = "#7e8e8e";
+  
+  document.getElementById("active").style.borderBottom = "solid 1px black";
+  document.getElementById("active").style.color = "black";
+}
 </script>
 </html>
