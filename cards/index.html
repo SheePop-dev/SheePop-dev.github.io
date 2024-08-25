@@ -239,13 +239,13 @@ function generateCollection() {
   var j;
   var rarity = "common";
   for (j=0;j<allCards.length;j++) {
-    if (j > regcards.length) {
+    if (j > regcards.length-1) {
       rarity = "uncommon";
     }
-    if (j > regcards.length + uncommon.length) {
+    if (j > regcards.length + uncommon.length-1) {
       rarity = "rare";
     }
-    if (j > regcards.length + uncommon.length + rares.length) {
+    if (j > regcards.length + uncommon.length + rares.length-1) {
       rarity = "ultrarare";
     }
   
