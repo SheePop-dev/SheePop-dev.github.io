@@ -19,8 +19,8 @@
         <label for="uncommon">Uncommon</label><br>
         <input onClick="generateCollection()" type="checkbox" name="rare" id="rare" checked/>
         <label for="rare">Rare</label>
-        <input onClick="generateCollection()" type="checkbox" name="ultrarare" id="ultrarare" checked/>
-        <label for="ultrarare">Ultra-Rare</label>
+        <input onClick="generateCollection()" type="checkbox" name="ultra-rare" id="ultra-rare" checked/>
+        <label for="ultra-rare">Ultra-Rare</label>
       <table id="collection">
 
       </table>
@@ -158,12 +158,12 @@ background-size: 120px 160px;
 
 <script>
 checkCookie();
-var regcards = ["2024_08_19_0n6_Kleki.png","2024_08_19_0n8_Kleki.png","2024_08_22_0i8_Kleki.png", "2024_08_24_0wu_Kleki.png", "2024_08_29_0xc_Kleki.png","2024_08_30_0np_Kleki.png","2024_08_30_0rp_Kleki.png"];
-var uncommon = ["2024_08_25_128_Kleki.png", "2024_08_22_0p6_Kleki.png", "2024_08_22_0ph_Kleki.png", "2024_08_23_0sc_Kleki.png", "2024_08_25_126_Kleki.png"]
-var rares= ["2024_08_19_0nc_Kleki.png", "2024_08_22_0f6_Kleki.png", "2024_08_22_0i7_Kleki.png",  "2024_08_22_0mv_Kleki.png", "2024_08_22_0p1_Kleki.png", "2024_08_24_0ww_Kleki.png", "2024_08_30_0nr_Kleki.png" ] ;
-var ultrarares = ["2024_08_22_0my_Kleki.png", "2024_08_23_0s5_Kleki.png", "2024_08_24_0sr_Kleki.png", "2024_08_24_0su_Kleki.png"];
+var regcards = 7;
+var uncommon = 5;
+var rares= 7;
+var ultrarares = 4;
 
-var allCards = regcards.concat(uncommon, rares, ultrarares);
+//var allCards = regcards.concat(uncommon, rares, ultrarares);
 var ultraChance = 100;
 var rareChance = 32;
 var uncommonChance = 10; 
@@ -200,11 +200,11 @@ function checkCookie() {
   if (cCardCounts != "") {
     cardCounts = cCardCounts;
     cardCounts = cardCounts.split(",");
-    if (cardCounts.length != 23) {
-      cardCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    if (cardCounts.length != 27) {
+      cardCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     }
   } else {
-    cardCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    cardCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   }
 }
 
@@ -238,19 +238,24 @@ function generateCollection() {
   document.getElementById("collection").innerHTML = "";
   var j;
   var rarity = "common";
-  for (j=0;j<allCards.length;j++) {
-    if (j > regcards.length-1) {
+  var cardNum = 0;
+  for (j=0;j<27;j++) {
+    cardNum = j;
+    if (j > regcards) {
       rarity = "uncommon";
+      cardNum = j - regcards;
     }
-    if (j > regcards.length + uncommon.length-1) {
+    if (j > regcards + uncommon) {
       rarity = "rare";
+      cardNum = j - (regcards + uncommon);
     }
-    if (j > regcards.length + uncommon.length + rares.length-1) {
-      rarity = "ultrarare";
+    if (j > regcards + uncommon+ rares) {
+      rarity = "ultra-rare";
+      cardNum = j - (regcards + uncommon + rares);
     }
   
     if (document.getElementById(rarity).checked) {
-      document.getElementById("collection").innerHTML += '<td class=card-' + rarity + '><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + allCards[j] + '?raw=true"></td><td class=card-' + rarity + ' id="collection' + j + '">' + cardCounts[j] + '</td><tr>';
+      document.getElementById("collection").innerHTML += '<td class=card-' + rarity + '><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + rarity + '/' + cardNum + '.png?raw=true"></td><td class=card-' + rarity + ' id="collection' + j + '">' + cardCounts[j] + '</td><tr>';
     }
   }
 }
@@ -262,22 +267,22 @@ function scene() {
 
     if (rand == ultraChance) {
       rand = Math.floor(Math.random() * (ultrarares.length-1 - 0 + 1) + 0);
-      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + ultrarares[rand] + '?raw=true"></div></div></div>');
+      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/ultra-rare/' + (Math.floor(Math.random() * (ultrarares - 0 + 1) + 0)) + '.png?raw=true"></div></div></div>');
       
       cardCounts[rand+regcards.length + uncommon.length+rares.length]++;
     } else if (rand == 0 || rand == 1 || rand == 2) {
       rand = Math.floor(Math.random() * (rares.length-1 - 0 + 1) + 0);
-      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + rares[rand] + '?raw=true"></div></div></div>');
+      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/rare/' + (Math.floor(Math.random() * (rares - 0 + 1) + 0)) + '.png?raw=true"></div></div></div>');
       
       cardCounts[rand+regcards.length + uncommon.length]++;
     } else if (rand > 2 && rand < 13) {
       rand = Math.floor(Math.random() * (uncommon.length-1 - 0 + 1) + 0);
-      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + uncommon[rand] + '?raw=true"></div></div></div>');
+      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/uncommon/' + (Math.floor(Math.random() * (uncommon - 0 + 1) + 0)) + '.png?raw=true"></div></div></div>');
       
       cardCounts[rand+regcards.length]++;
     } else {
       rand = Math.floor(Math.random() * (regcards.length-1 - 0 + 1) + 0);
-      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + regcards[rand] + '?raw=true"></div></div></div>');
+      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/common/' + (Math.floor(Math.random() * (regcards - 0 + 1) + 0)) + '.png?raw=true"></div></div></div>');
       
       cardCounts[rand]++;
     }
