@@ -21,6 +21,8 @@
         <label for="rare">Rare</label>
         <input onClick="generateCollection()" type="checkbox" name="ultra-rare" id="ultra-rare" checked/>
         <label for="ultra-rare">Ultra-Rare</label>
+        <input onClick="generateCollection()" type="checkbox" name="incredible" id="incredible" checked/>
+        <label for="incredible">Incredible</label>
       <table id="collection">
 
       </table>
@@ -159,11 +161,15 @@ background-size: 120px 160px;
 <script>
 checkCookie();
 var regcards = 7;
-var uncommon = 5;
+var uncommon = 4;
 var rares= 7;
 var ultrarares = 4;
+var incredible = 0;
+
+var currentCommons = 0;
 
 //var allCards = regcards.concat(uncommon, rares, ultrarares);
+var incredibleChance = 500;
 var ultraChance = 100;
 var rareChance = 32;
 var uncommonChance = 10; 
@@ -243,15 +249,19 @@ function generateCollection() {
     cardNum = j;
     if (j > regcards) {
       rarity = "uncommon";
-      cardNum = j - regcards;
+      cardNum = j - regcards-1;
     }
-    if (j > regcards + uncommon) {
+    if (j > regcards + uncommon +1) {
       rarity = "rare";
-      cardNum = j - (regcards + uncommon);
+      cardNum = j - (regcards + uncommon+2);
     }
-    if (j > regcards + uncommon+ rares) {
+    if (j > regcards + uncommon+ rares+2) {
       rarity = "ultra-rare";
-      cardNum = j - (regcards + uncommon + rares);
+      cardNum = j - (regcards + uncommon + rares+3);
+    }
+    if (j > regcards + uncommon+ rares + ultrarares + 3) {
+      rarity = "incredible";
+      cardNum = j - (regcards + uncommon + rares + ultrarares + 4);
     }
   
     if (document.getElementById(rarity).checked) {
@@ -261,29 +271,30 @@ function generateCollection() {
 }
 
 function scene() {
+  currentCommons = 0;
   var i;
   for(i=0;i<6;i++) {
   var rand = Math.floor(Math.random() * (ultraChance - 0 + 1) + 0);
 
     if (rand == ultraChance) {
-      rand = Math.floor(Math.random() * (ultrarares.length-1 - 0 + 1) + 0);
-      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/ultra-rare/' + (Math.floor(Math.random() * (ultrarares - 0 + 1) + 0)) + '.png?raw=true"></div></div></div>');
+      rand = Math.floor(Math.random() * (ultrarares - 0 + 1) + 0);
+      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/ultra-rare/' + rand + '.png?raw=true"></div></div></div>');
       
-      cardCounts[rand+regcards.length + uncommon.length+rares.length]++;
+      cardCounts[rand + regcards + uncommon + rares + 3]++;
     } else if (rand == 0 || rand == 1 || rand == 2) {
-      rand = Math.floor(Math.random() * (rares.length-1 - 0 + 1) + 0);
-      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/rare/' + (Math.floor(Math.random() * (rares - 0 + 1) + 0)) + '.png?raw=true"></div></div></div>');
+      rand = Math.floor(Math.random() * (rares - 0 + 1) + 0);
+      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/rare/' + rand + '.png?raw=true"></div></div></div>');
       
-      cardCounts[rand+regcards.length + uncommon.length]++;
-    } else if (rand > 2 && rand < 13) {
-      rand = Math.floor(Math.random() * (uncommon.length-1 - 0 + 1) + 0);
-      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/uncommon/' + (Math.floor(Math.random() * (uncommon - 0 + 1) + 0)) + '.png?raw=true"></div></div></div>');
+      cardCounts[rand + regcards + uncommon + 2]++;
+    } else if ((rand > 2 && rand < 13) || currentCommons == 5) {
+      rand = Math.floor(Math.random() * (uncommon - 0 + 1) + 0);
+      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/uncommon/' + rand + '.png?raw=true"></div></div></div>');
       
-      cardCounts[rand+regcards.length]++;
+      cardCounts[rand + regcards + 1]++;
     } else {
-      rand = Math.floor(Math.random() * (regcards.length-1 - 0 + 1) + 0);
-      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/common/' + (Math.floor(Math.random() * (regcards - 0 + 1) + 0)) + '.png?raw=true"></div></div></div>');
-      
+      rand = Math.floor(Math.random() * (regcards - 0 + 1) + 0);
+      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/common/' + rand + '.png?raw=true"></div></div></div>');
+      currentCommons++;
       cardCounts[rand]++;
     }
   }
