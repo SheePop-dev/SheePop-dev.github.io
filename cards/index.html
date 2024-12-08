@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Cards</title>
+    <title>Tart Wars</title>
   </head>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <body>
@@ -26,6 +26,7 @@
       <table id="collection">
 
       </table>
+      <div id="collectionPacks"></div>
     </div>
   </center>
 </body>
@@ -169,7 +170,7 @@ var incredible = 0;
 var currentCommons = 0;
 
 //var allCards = regcards.concat(uncommon, rares, ultrarares);
-var incredibleChance = 500;
+var incredibleChance = 250;
 var ultraChance = 100;
 var rareChance = 32;
 var uncommonChance = 10; 
@@ -201,6 +202,7 @@ function getCookie(cname) {
   return "";
 }
 
+var packsOpened = 0;
 function checkCookie() {
   let cCardCounts = getCookie("cCardCounts");
   if (cCardCounts != "") {
@@ -268,25 +270,31 @@ function generateCollection() {
       document.getElementById("collection").innerHTML += '<td class=card-' + rarity + '><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + rarity + '/' + cardNum + '.png?raw=true"></td><td class=card-' + rarity + ' id="collection' + j + '">' + cardCounts[j] + '</td><tr>';
     }
   }
+
 }
 
 function scene() {
   currentCommons = 0;
   var i;
   for(i=0;i<6;i++) {
-  var rand = Math.floor(Math.random() * (ultraChance - 0 + 1) + 0);
-
-    if (rand == ultraChance) {
+  var rand = Math.floor(Math.random() * (500) + 0);
+  
+  if (rand == 0 || rand == 1) {
+      rand = Math.floor(Math.random() * (incredible - 0 + 1) + 0);
+      document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/incredible/' + rand + '.png?raw=true"></div></div></div>');
+      
+      cardCounts[rand + regcards + uncommon + rares + ultrarares + 4]++;
+    } else if (rand > 1 && rand < 7) {
       rand = Math.floor(Math.random() * (ultrarares - 0 + 1) + 0);
       document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/ultra-rare/' + rand + '.png?raw=true"></div></div></div>');
       
       cardCounts[rand + regcards + uncommon + rares + 3]++;
-    } else if (rand == 0 || rand == 1 || rand == 2) {
+    } else if (rand >= 7 && rand < 22) {
       rand = Math.floor(Math.random() * (rares - 0 + 1) + 0);
       document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/rare/' + rand + '.png?raw=true"></div></div></div>');
       
       cardCounts[rand + regcards + uncommon + 2]++;
-    } else if ((rand > 2 && rand < 13) || currentCommons == 5) {
+    } else if ((rand >= 22 && rand < 72) || currentCommons == 5) {
       rand = Math.floor(Math.random() * (uncommon - 0 + 1) + 0);
       document.getElementById("scene1").innerHTML += ('<div class="card"><div class="card__inner"><div class="card__face card__face--front about"></div><div class="card__face card__face--back"><img width="120" height="160" src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/uncommon/' + rand + '.png?raw=true"></div></div></div>');
       
@@ -316,6 +324,13 @@ function flipCard() {
 };
 
 function collection() {
+  var h = 0;
+  packsOpened = 0;
+  for (h=0;h<cardCounts.length;h++) {
+    packsOpened += parseInt(cardCounts[h]);
+  }
+  
+  document.getElementById("collectionPacks").innerHTML = "<br>Packs opened: " + packsOpened/6;
   document.getElementById("scene1").style.display = "none";
   document.getElementById("scene2").style.display = "none";
   document.getElementById("scene3").style.display = "block";
@@ -330,6 +345,9 @@ function collection() {
   for (ii=0;ii<cardCounts.length;ii++) {
     document.getElementById("collection" + ii).innerHTML = cardCounts[ii];
   }
+  
+
+  
 }
 
 function packs() {
