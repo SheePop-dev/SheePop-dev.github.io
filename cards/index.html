@@ -24,7 +24,11 @@
         <input onClick="generateCollection()" type="checkbox" name="incredible" id="incredible" checked/>
         <label for="incredible">Incredible</label>
       <table id="collection">
-
+        <td id ="collection-common"></td><tr>
+        <td id ="collection-uncommon"></td><tr>
+        <td id ="collection-rare"></td><tr>
+        <td id ="collection-ultra-rare"></td><tr>
+        <td id ="collection-incredible"></td><tr>
       </table>
       <div id="collectionPacks"></div>
     </div>
@@ -34,7 +38,7 @@
 <style>
 :root {
     --dark: #312b2b;
-    --light: #F5EFEB;
+    --light: #D5DFDB;
 }
 
 * {
@@ -59,7 +63,13 @@ button {
 }
 
 #collection img{
-  width:60px;
+  width: 90px;
+  height: 120px;
+  margin: 12px;
+}
+
+#card-count {
+  margin-left: -24px;
 }
 
 input {
@@ -68,6 +78,7 @@ input {
 
 #collection td {
   padding: 12px;
+  margin: 12px;
 }
 
 #inactive {
@@ -243,7 +254,7 @@ scene();
 generateCollection();
 
 function generateCollection() {
-  document.getElementById("collection").innerHTML = "";
+  document.getElementById("collection").innerHTML = '<td id ="collection-common"><span"collection-title">Common</span><br></td><tr><td id ="collection-uncommon"><span"collection-title">Uncommon</span><br></td><tr><td id ="collection-rare"><span"collection-title">Rare</span><br></td><tr><td id ="collection-ultra-rare"><span"collection-title">Ultra-Rare</span><br></td><tr><td id ="collection-incredible"><span"collection-title">Incredible</span><br></td><tr>';
   var j;
   var rarity = "common";
   var cardNum = 0;
@@ -267,7 +278,9 @@ function generateCollection() {
     }
   
     if (document.getElementById(rarity).checked) {
-      document.getElementById("collection").innerHTML += '<td class=card-' + rarity + '><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + rarity + '/' + cardNum + '.png?raw=true"></td><td class=card-' + rarity + ' id="collection' + j + '">' + cardCounts[j] + '</td><tr>';
+      document.getElementById("collection-" + rarity).innerHTML += '<td class=card-' + rarity + '><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + rarity + '/' + cardNum + '.png?raw=true"><span id="card-count">' + cardCounts[j] + '</span></td><tr>';
+    } else {
+      document.getElementById("collection-" + rarity).style.display = "none";
     }
   }
 
