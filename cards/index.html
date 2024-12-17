@@ -173,7 +173,7 @@ background-size: 120px 160px;
 <script>
 checkCookie();
 var regcards = 7;
-var uncommon = 4;
+var uncommon = 5;
 var rares= 7;
 var ultrarares = 4;
 var incredible = 0;
@@ -219,11 +219,11 @@ function checkCookie() {
   if (cCardCounts != "") {
     cardCounts = cCardCounts;
     cardCounts = cardCounts.split(",");
-    if (cardCounts.length != 27) {
-      cardCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    if (cardCounts.length != 28) {
+      cardCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     }
   } else {
-    cardCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    cardCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   }
 }
 
@@ -258,7 +258,7 @@ function generateCollection() {
   var j;
   var rarity = "common";
   var cardNum = 0;
-  for (j=0;j<27;j++) {
+  for (j=0;j<28;j++) {
     cardNum = j;
     if (j > regcards) {
       rarity = "uncommon";
