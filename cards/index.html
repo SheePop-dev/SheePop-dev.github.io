@@ -172,8 +172,8 @@ background-size: 120px 160px;
 
 <script>
 checkCookie();
-var regcards = 7;
-var uncommon = 6;
+var regcards = 8;
+var uncommon = 7;
 var rares= 7;
 var ultrarares = 4;
 var incredible = 0;
@@ -219,11 +219,11 @@ function checkCookie() {
   if (cCardCounts != "") {
     cardCounts = cCardCounts;
     cardCounts = cardCounts.split(",");
-    if (cardCounts.length != 28) {
-      cardCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    if (cardCounts.length != 31) {
+      cardCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     }
   } else {
-    cardCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    cardCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   }
 }
 
