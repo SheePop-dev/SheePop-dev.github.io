@@ -287,11 +287,15 @@ function generateCollection() {
       cardNum = j - (regcards + uncommon + rares + ultrarares + 4);
     } if (j > regcards + uncommon+ rares + ultrarares + incredible + 4) {
       rarity = "epic";
-      cardNum = j - (regcards + uncommon + rares + ultrarares + incredibles + 5);
+      cardNum = j - (regcards + uncommon + rares + ultrarares + incredible + 5);
     }
   
     if (document.getElementById(rarity).checked) {
-      document.getElementById("collection-" + rarity).innerHTML += '<td class=card-' + rarity + '><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + rarity + '/' + cardNum + '.png?raw=true"><span id="card-count">' + cardCounts[j] + '</span></td><tr>';
+      if (cardCounts[j] == 0) {
+        document.getElementById("collection-" + rarity).innerHTML += '<td class=card-' + rarity + '><img style="opacity:0.3;"  src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + rarity + '/' + cardNum + '.png?raw=true"><span id="card-count">' + cardCounts[j] + '</span></td><tr>';
+      } else {
+        document.getElementById("collection-" + rarity).innerHTML += '<td class=card-' + rarity + '><img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/' + rarity + '/' + cardNum + '.png?raw=true"><span id="card-count">' + cardCounts[j] + '</span></td><tr>';
+      }
     } else {
       document.getElementById("collection-" + rarity).style.display = "none";
     }
