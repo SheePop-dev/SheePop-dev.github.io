@@ -185,6 +185,8 @@ var ultrarares = 5;
 var incredible = 1;
 var epic = 1;
 
+var totalCardCount = regcards + uncommon + rares + ultrarares + incredible + epic;
+
 // number of common cards in current pack. If 5 commons, 6th is guaranteed to be higher rarity
 var currentCommons = 0;
 
@@ -230,11 +232,20 @@ function checkCookie() {
   if (cCardCounts != "") {
     cardCounts = cCardCounts;
     cardCounts = cardCounts.split(",");
-    if (cardCounts.length != 33) {
-      cardCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    if (cardCounts.length != totalCardCount) {
+      cardCounts = [0];
+      var ij = 0;
+      for (ij=0;ij<totalCardCount;ij++) {
+        cardCounts.push(0);
+      }
+     // cardCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     }
   } else {
-    cardCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    var ji = 0;
+    for (ij=0;ij<totalCardCount;ij++) {
+      cardCounts.push(0);
+    }
+   // cardCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   }
 }
 
