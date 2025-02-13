@@ -177,7 +177,6 @@ body {
 </style>
 
 <script>
-checkCookie();
 var regcards = 10;
 var uncommon = 8;
 var rares= 8;
@@ -186,6 +185,7 @@ var incredible = 1;
 var epic = 1;
 
 var totalCardCount = regcards + uncommon + rares + ultrarares + incredible + epic;
+checkCookie();
 
 // number of common cards in current pack. If 5 commons, 6th is guaranteed to be higher rarity
 var currentCommons = 0;
@@ -233,9 +233,9 @@ function checkCookie() {
     cardCounts = cCardCounts;
     cardCounts = cardCounts.split(",");
     if (cardCounts.length != totalCardCount) {
-      cardCounts = [0];
+      cardCounts = [];
       var ij = 0;
-      for (ij=0;ij<totalCardCount;ij++) {
+      for (ij=0;ij<totalCardCount ;ij++) {
         cardCounts.push(0);
       }
      // cardCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
