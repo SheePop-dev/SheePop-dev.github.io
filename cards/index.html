@@ -15,7 +15,7 @@
     <button onclick="collection()" id="inactive">Collection</button>
   </div>
   <center>
-    <div id="scene1"></div>
+    <div id="scene1">Loading Cards: 0%</div>
     <div id="scene2"></div>
     <div id="scene3">
       <input onClick="generateCollection()" type="checkbox" name="common" id="common" checked/>
@@ -223,7 +223,9 @@ function findLastExistingImage(baseUrl, int) {
           } 
           
             loaded++;
+            document.getElementById("scene1").innerHTML = "Loading cards: " + Math.round((loaded / 6) * 100) + "%";
             if (loaded == 6) {
+              document.getElementById("scene1").innerHTML = "";
               totalCardCount = regcards + uncommon + rares + ultrarares + incredible + epic;
 			  checkCookie();
               scene();
