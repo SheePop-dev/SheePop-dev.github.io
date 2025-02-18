@@ -99,7 +99,6 @@ input {
   border-bottom: solid 1px black;
 }
 
-
 body {
   background-color: var(--light);
   font-family: 'Poppins', sans-serif;
@@ -183,11 +182,10 @@ var rares;
 var ultrarares;
 var incredible;
 var epic;
-var cardCounts; // = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
+var cardCounts;
 var totalCardCount = regcards + uncommon + rares + ultrarares + incredible + epic;
-//checkCookie();
 
+// Load each set of images
 findLastExistingImage("https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/common/", 0);
 findLastExistingImage("https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/uncommon/", 1);
 findLastExistingImage("https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/rare/", 2);
@@ -195,51 +193,47 @@ findLastExistingImage("https://github.com/SheePop-dev/SheePop-dev.github.io/blob
 findLastExistingImage("https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/incredible/", 4);
 findLastExistingImage("https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/epic/", 5);
 
+// Initiate the scene once every card is loaded
 var loaded = 0;
-
 function findLastExistingImage(baseUrl, int) {
-    let index = 0;
+  let index = 0;
 
-    function checkNext() {
-        const img = new Image();
-        img.onload = () => {
-            index++;
-            checkNext(); // Check the next image
-        };
-        img.onerror = () => {
-          
-          if (int == 0) {
-            regcards = index;
-          } else if (int == 1) {
-            uncommon = index;
-          } else if (int == 2) {
-            rares = index;
-          } else if (int == 3) {
-            ultrarares = index;
-          } else if (int == 4) {
-            incredible = index;
-          } else if (int == 5) {
-            epic = index;
-          } 
-          
-            loaded++;
-            document.getElementById("scene1").innerHTML = "Loading cards: " + Math.round((loaded / 6) * 100) + "%";
-            if (loaded == 6) {
-              document.getElementById("scene1").innerHTML = "";
-              totalCardCount = regcards + uncommon + rares + ultrarares + incredible + epic;
-			  checkCookie();
-              scene();
-	          generateCollection();
-            }
-            
-        };
-        img.src = `${baseUrl}/${index}.png?raw=true`;
-    }
-
-    checkNext();
+  function checkNext() {
+      const img = new Image();
+      img.onload = () => {
+          index++;
+          checkNext();
+      };
+      img.onerror = () => {
+        
+        if (int == 0) {
+          regcards = index;
+        } else if (int == 1) {
+          uncommon = index;
+        } else if (int == 2) {
+          rares = index;
+        } else if (int == 3) {
+          ultrarares = index;
+        } else if (int == 4) {
+          incredible = index;
+        } else if (int == 5) {
+          epic = index;
+        } 
+        
+      loaded++;
+      document.getElementById("scene1").innerHTML = "Loading cards: " + Math.round((loaded / 6) * 100) + "%";
+      if (loaded == 6) {
+        document.getElementById("scene1").innerHTML = "";
+        totalCardCount = regcards + uncommon + rares + ultrarares + incredible + epic;
+	    checkCookie();
+        scene();
+	    generateCollection();
+      }    
+    };
+    img.src = `${baseUrl}/${index}.png?raw=true`;
+  }
+  checkNext();
 }
-
-
 
 // number of common cards in current pack. If 5 commons, 6th is guaranteed to be higher rarity
 var currentCommons = 0;
@@ -251,7 +245,6 @@ var ultraChance = 10;
 var rareChance = 32;
 var uncommonChance = 100; 
 var totalRolls = 1000;
-
 
 var flippedCards = 0;
 
@@ -278,8 +271,6 @@ function getCookie(cname) {
   return "";
 }
 
-
-
 var packsOpened = 0;
 function checkCookie() {
   let cCardCounts = getCookie("cCardCounts");
@@ -292,14 +283,12 @@ function checkCookie() {
       for (ij=0;ij<totalCardCount ;ij++) {
         cardCounts.push(0);
       }
-     // cardCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     }
   } else {
     var ji = 0;
     for (ji=0;ji<totalCardCount;ji++) {
       cardCounts.push(0);
     }
-   // cardCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   }
 }
 
@@ -307,7 +296,6 @@ function checkCookie() {
 function filterRarity() {
   var rarities = document.getElementsByClassName("card-common");
   if (document.getElementById("common").checked) {
-    
     for (var i = 0; i < rarities; ++i) {
        rarities[i].style.display = "block";
     }
@@ -326,11 +314,6 @@ function newPack() {
   scene();
   scroll(0,0);
 }
-
-
-
-
-
 
 // Creates the Collection tab
 function generateCollection() {
@@ -373,6 +356,7 @@ function generateCollection() {
   }
 }
 
+// Creates the six random cards
 function scene() {
   currentCommons = 0;
   var i;
@@ -430,6 +414,7 @@ function flipCard() {
   }
 };
 
+// displays the collection tab
 function collection() {
   var h = 0;
   packsOpened = 0;
@@ -454,6 +439,7 @@ function collection() {
   } 
 }
 
+// displays the packs tab
 function packs() {
   document.getElementById("scene1").style.display = "flex";
   document.getElementById("scene2").style.display = "block";
