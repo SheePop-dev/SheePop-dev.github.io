@@ -16,7 +16,8 @@
     <button onclick="toggleAudio()" id="audio-button"><s>♬</s></button>
   </div>
   <center>
-    <div id="scene1">Loading Cards: 0%</div>
+    <div id="scene0"><img height="256"src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/favicon256.png?raw=true"><br><p id="loading-text">Loading cards: 0%</p></div>
+    <div id="scene1"></div>
     <div id="scene2"></div>
     <div id="scene3">
       <input onClick="generateCollection()" type="checkbox" name="common" id="common" checked/>
@@ -169,6 +170,22 @@ body {
   object-fit: cover;
 }
 
+#scene0 {
+  width:100vw;
+  height:100vh;
+  background-color: #426B4C;
+  position: absolute;
+  top: 0;
+  color: white;
+  text-shadow: 2px 2px black;
+  z-index: 2;
+}
+
+#scene0 img {
+  width: 256px;
+  margin-top:20vh;
+}
+
 #scene1 {
   margin: 12px;
   display: flex;
@@ -227,11 +244,13 @@ function findLastExistingImage(baseUrl, int) {
         } 
         
       loaded++;
-      document.getElementById("scene1").innerHTML = "Loading cards: " + Math.round((loaded / 6) * 100) + "%";
+      document.getElementById("loading-text").innerHTML = "Loading cards: " + Math.round((loaded / 6) * 100) + "%";
       if (loaded == 6) {
         document.getElementById("scene1").innerHTML = "";
         totalCardCount = regcards + uncommon + rares + ultrarares + incredible + epic;
 	    checkCookie();
+        document.getElementById("scene0").style.transitionDuration = "1s";
+        changeScene();
         scene();
 	    generateCollection();
       }    
@@ -241,6 +260,13 @@ function findLastExistingImage(baseUrl, int) {
   checkNext();
 }
 
+function changeScene() {
+  
+  document.getElementById("scene0").style.opacity = 0;
+  setTimeout(function() {
+    document.getElementById("scene0").style.display = "none";
+  }, 1000);
+}
 // number of common cards in current pack. If 5 commons, 6th is guaranteed to be higher rarity
 var currentCommons = 0;
 
