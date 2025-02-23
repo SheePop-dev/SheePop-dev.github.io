@@ -287,9 +287,13 @@ function findLastExistingImage(baseUrl, int) {
 }
 
 function start() {
-  toggleAudio();
-  music = new Audio('https://SheePop-dev.github.io/cards/audio/Mystery_Thing.mp3');
-  toggleAudio();
+  if(audio) {
+    toggleAudio();
+    music = new Audio('https://SheePop-dev.github.io/cards/audio/Mystery_Thing.mp3');
+    toggleAudio();
+  } else {
+    music = new Audio('https://SheePop-dev.github.io/cards/audio/Mystery_Thing.mp3');
+  }
   changeScene();
   scene();
   generateCollection();
