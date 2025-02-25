@@ -237,7 +237,7 @@ var epic;
 var cardCounts;
 
 const allCardCounts = {
-  common: [0,0,0,0,0,0,0,0,0,0,0,0,0],
+  common: [0,0,0,0,0,0,0,0,0,0,0,0],
   uncommon: [0,0,0,0,0,0,0,0,0],
   rare: [0,0,0,0,0,0,0,0,0,0,0],
   ultrarare: [0,0,0,0,0,0],
@@ -313,12 +313,12 @@ function start() {
 }
 
 function changeScene() {
-  
   document.getElementById("scene0").style.opacity = 0;
   setTimeout(function() {
     document.getElementById("scene0").style.display = "none";
   }, 1000);
 }
+
 // number of common cards in current pack. If 5 commons, 6th is guaranteed to be higher rarity
 var currentCommons = 0;
 
@@ -355,8 +355,8 @@ function getCookie(cname) {
   return "";
 }
 
+// Set title music
 var audio = false;
-//var music = new Audio('https://SheePop-dev.github.io/cards/audio/Mystery_Thing.mp3');
 music = new Audio('https://SheePop-dev.github.io/cards/audio/Title_Loop.mp3');
 function toggleAudio() {
   if (audio) {
@@ -379,11 +379,33 @@ function checkCookie() {
   if (cCardCounts != "") {
     cardCounts = cCardCounts;
     cardCounts = cardCounts.split(",");
-    /*
+   /*
+    allCardCounts = cCardCounts;
+    allCardCounts = allCardCounts.split(",");
+    
+    
     while (allCardCounts.common.length < regcards) {
       allCardCounts.common.push(0);
     }
+    while (allCardCounts.uncommon.length < uncommon) {
+      allCardCounts.uncommon.push(0);
+    }
+    while (allCardCounts.rare.length < rares) {
+      allCardCounts.rare.push(0);
+    }
+    while (allCardCounts.ultrarare.length < ultrarares) {
+      allCardCounts.ultrarare.push(0);
+    }
+    while (allCardCounts.incredible.length < incredible) {
+      allCardCounts.incredible.push(0);
+    }
+    while (allCardCounts.epic.length < epic) {
+      allCardCounts.epic.push(0);
+    }
+    
+    cardCounts = allCardCounts.common.concat(allCardCounts.uncommon, allCardCounts.rare, allCardCounts.ultrarare, allCardCounts.epic, allCardCounts.incredible);
     */
+    
     if (cardCounts.length != totalCardCount) {
       cardCounts = [];
       var ij = 0;
@@ -515,6 +537,7 @@ function scene() {
   cards.forEach((card) =>card.addEventListener("click", flipCard));
   
   setCookie("cCardCounts", cardCounts, 30);
+  //setCookie("cCardCounts2", allCardCounts, 30);
 }
 
 // reveals card after being clicked
