@@ -10,7 +10,21 @@
   </head>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <body>
-  <button onclick="toggleAudio()" id="audio-button"><s>♬</s></button>
+  <button onclick="settings()" id="settings-button">⚙</button>
+  <div id="settings-modal">
+    <p>Sound</p>
+    <label class="switch">
+      <input id="audio-input" onclick="toggleAudio()" type="checkbox">
+      <span class="slider"></span>
+    </label>
+    
+    <p>Dark Theme</p>
+    <label class="switch">
+      <input id="audio-input" onclick="darkTheme()" type="checkbox">
+      <span class="slider"></span>
+    </label>
+  </div>
+  <div id="settings-overlay" onclick="settings()"></div>
   <div id ="nav">
     <button onclick="packs()" id="active">Packs</button>
     <button onclick="collection()" id="inactive">Collection</button>
@@ -55,6 +69,10 @@
   margin: 0px;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 button {
   font-size: 36px;
 }
@@ -76,7 +94,7 @@ button {
 
 #loading-bar {
   position: relative;
-  top: -14px;
+  top: -13px;
   left: -100px;
   width: 1px;
   height: 12px;
@@ -94,15 +112,91 @@ button {
   height: 34px;
 }
 
-#audio-button {
+#settings-button {
   position: fixed;
   right: 12px;
-  z-index: 3;
+  z-index: 6;
   margin: 6px;
   margin-left: 10px;
   margin-right: 10px;
   font-size: 20px;
   height: 34px;
+}
+
+#settings-modal {
+  position: fixed;
+  width: 300px;
+  height: 100vh;
+  z-index: 5;
+  background-color: white;
+  right: -348px;
+  transition-duration: .5s;
+  padding: 24px;
+}
+
+#settings-modal label {
+  margin-bottom: 24px;
+}
+
+#settings-overlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 4;
+  background: black;
+  opacity: 0.5;
+  display: none;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #faa909;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #faa909;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
 }
 
 #collection img{
@@ -312,6 +406,37 @@ function start() {
   generateCollection();
 }
 
+var settingsOn = false;
+function settings() {
+  if (settingsOn) {
+    document.getElementById("settings-modal").style.right = "-348px";
+    document.getElementById("settings-overlay").style.display = "none";
+    settingsOn = false;
+  } else {
+    document.getElementById("settings-modal").style.right = "0px";
+    document.getElementById("settings-overlay").style.display = "inline";
+    settingsOn = true;
+  }
+}
+
+var dark = false;
+function darkTheme() {
+  if (!dark) {
+    document.getElementById("settings-modal").style.backgroundColor = "#222";
+    document.getElementById("settings-modal").style.color = "white";
+    document.getElementById("scene3").style.color = "white";
+    document.documentElement.style.setProperty('--light', '#333');
+    
+    dark = true;
+  } else {
+    document.getElementById("settings-modal").style.backgroundColor = "white";
+    document.getElementById("settings-modal").style.color = "black";
+    document.getElementById("scene3").style.color = "black";
+    document.documentElement.style.setProperty('--light', '#D5DFDB');
+    dark = false;
+  }
+}
+
 function changeScene() {
   document.getElementById("scene0").style.opacity = 0;
   setTimeout(function() {
@@ -363,12 +488,10 @@ function toggleAudio() {
     audio = false;
     music.pause();
     music.currentTime = 0;
-    document.getElementById("audio-button").innerHTML = "<s>♬</s>";
   } else {
     audio = true;
     music.play();
     music.loop = true;
-    document.getElementById("audio-button").innerHTML = "♬";
   }
 }
 
@@ -576,7 +699,6 @@ function collection() {
     document.getElementById("collection" + ii).innerHTML = cardCounts[ii];
   } 
 }
-
 // displays the packs tab
 function packs() {
   document.getElementById("scene1").style.display = "flex";
