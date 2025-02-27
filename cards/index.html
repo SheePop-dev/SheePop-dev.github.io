@@ -23,6 +23,9 @@
       <input id="audio-input" onclick="darkTheme()" type="checkbox">
       <span class="slider"></span>
     </label>
+    <br><br>
+    <button onClick="resetCollection()">Reset Collection</button>
+    <p id="reset-warning"></p>
   </div>
   <div id="settings-overlay" onclick="settings()"></div>
   <div id ="nav">
@@ -125,13 +128,17 @@ button {
 
 #settings-modal {
   position: fixed;
-  width: 300px;
+  width: 180px;
   height: 100vh;
   z-index: 5;
   background-color: white;
   right: -348px;
   transition-duration: .5s;
   padding: 24px;
+}
+
+#settings-modal button {
+  font-size: 16px;
 }
 
 #settings-modal label {
@@ -419,6 +426,22 @@ function settings() {
   }
 }
 
+var reset = 0;
+function resetCollection() {
+  if (reset == 0) {
+    document.getElementById("reset-warning").innerHTML = "Are you sure? Press again to confirm.";
+    reset = 1;
+  } else {
+    cardCounts = [];
+    var ji = 0;
+    for (ji=0;ji<totalCardCount;ji++) {
+      cardCounts.push(0);
+    }
+    setCookie("cCardCounts", cardCounts, 30);
+    location.reload();
+  }
+}
+
 var dark = false;
 function darkTheme() {
   if (!dark) {
@@ -542,8 +565,6 @@ function checkCookie() {
       cardCounts.push(0);
     }
   }
-  
-  
 }
 
 // function to show/hide rarities in collection tab
