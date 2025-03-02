@@ -10,7 +10,7 @@
   </head>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <body>
-  <button onclick="settings()" id="settings-button">⚙</button>
+  <img src="https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/settings-dark.png?raw=true" onclick="settings()" id="settings-button">
   <div id="settings-modal">
     <p>Sound</p>
     <label class="switch">
@@ -449,13 +449,14 @@ function darkTheme() {
     document.getElementById("settings-modal").style.color = "white";
     document.getElementById("scene3").style.color = "white";
     document.documentElement.style.setProperty('--light', '#333');
-    
+    document.getElementById("settings-button").src = "https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/settings-light.png?raw=true";
     dark = true;
   } else {
     document.getElementById("settings-modal").style.backgroundColor = "white";
     document.getElementById("settings-modal").style.color = "black";
     document.getElementById("scene3").style.color = "black";
     document.documentElement.style.setProperty('--light', '#D5DFDB');
+    document.getElementById("settings-button").src = "https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/settings-dark.png?raw=true";
     dark = false;
   }
 }
