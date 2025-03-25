@@ -350,12 +350,12 @@ const allCardCounts = {
 var totalCardCount = regcards + uncommon + rares + ultrarares + incredible + epic;
 
 // Load each set of images - https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/common/
-findLastExistingImage("https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/common/", 0);
-findLastExistingImage("https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/uncommon/", 1);
-findLastExistingImage("https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/rare/", 2);
-findLastExistingImage("https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/ultra-rare/", 3);
-findLastExistingImage("https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/incredible/", 4);
-findLastExistingImage("https://github.com/SheePop-dev/SheePop-dev.github.io/blob/main/cards/epic/", 5);
+findLastExistingImage("cards/common/", 0);
+findLastExistingImage("cards/uncommon/", 1);
+findLastExistingImage("cards/rare/", 2);
+findLastExistingImage("cards/ultra-rare/", 3);
+findLastExistingImage("cards/incredible/", 4);
+findLastExistingImage("cards/epic/", 5);
 
 // Initiate the scene once every card is loaded
 var loaded = 0;
@@ -527,32 +527,6 @@ function checkCookie() {
   if (cCardCounts != "") {
     cardCounts = cCardCounts;
     cardCounts = cardCounts.split(",");
-   /*
-    allCardCounts = cCardCounts;
-    allCardCounts = allCardCounts.split(",");
-    
-    
-    while (allCardCounts.common.length < regcards) {
-      allCardCounts.common.push(0);
-    }
-    while (allCardCounts.uncommon.length < uncommon) {
-      allCardCounts.uncommon.push(0);
-    }
-    while (allCardCounts.rare.length < rares) {
-      allCardCounts.rare.push(0);
-    }
-    while (allCardCounts.ultrarare.length < ultrarares) {
-      allCardCounts.ultrarare.push(0);
-    }
-    while (allCardCounts.incredible.length < incredible) {
-      allCardCounts.incredible.push(0);
-    }
-    while (allCardCounts.epic.length < epic) {
-      allCardCounts.epic.push(0);
-    }
-    
-    cardCounts = allCardCounts.common.concat(allCardCounts.uncommon, allCardCounts.rare, allCardCounts.ultrarare, allCardCounts.epic, allCardCounts.incredible);
-    */
     
     if (cardCounts.length != totalCardCount) {
       cardCounts = [];
@@ -563,6 +537,7 @@ function checkCookie() {
     }
   } else {
     var ji = 0;
+    cardCounts = [];
     for (ji=0;ji<totalCardCount;ji++) {
       cardCounts.push(0);
     }
