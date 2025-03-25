@@ -1,6 +1,6 @@
 # SheePop-dev.github.io
 
-Welcome to the `SheePop-dev.github.io` repository! This repository contains the source code for the personal website of SheePop-dev. The website is built using HTML and is hosted on GitHub Pages.
+Welcome to the `SheePop-dev.github.io` repository! This repository contains the source code for a game developed by SheePop-dev. The game is built using HTML and is hosted on GitHub Pages.
 
 ## Table of Contents
 
@@ -13,14 +13,13 @@ Welcome to the `SheePop-dev.github.io` repository! This repository contains the 
 
 ## About
 
-This project serves as the personal website for SheePop-dev. It includes information about the developer, portfolio projects, blog posts, and other relevant content.
+This project is a game developed by SheePop-dev. It includes various levels, challenges, and interactive elements designed to provide an engaging gaming experience.
 
 ## Features
 
+- Interactive gameplay
+- Multiple levels and challenges
 - Responsive design
-- Portfolio showcase
-- Blog section
-- Contact form
 - Hosted on GitHub Pages
 
 ## Getting Started
@@ -47,7 +46,7 @@ Ensure you have the following installed on your local machine:
     cd SheePop-dev.github.io
     ```
 
-3. Open the `index.html` file in your preferred web browser to view the website locally.
+3. Open the `index.html` file in your preferred web browser to play the game locally.
 
 ## Contributing
 
