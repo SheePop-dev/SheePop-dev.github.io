@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<img id="img0" src="https://play.pokemonshowdown.com/sprites/ani/aipom.gif">
+<img id="img1" src="https://play.pokemonshowdown.com/sprites/ani/aipom.gif">
+<br>
+<img id="img2" src="https://play.pokemonshowdown.com/sprites/ani/aipom.gif">
+<img id="img3" src="https://play.pokemonshowdown.com/sprites/ani/aipom.gif">
+<br>
+<img id="img4" src="https://play.pokemonshowdown.com/sprites/ani/aipom.gif">
+<img id="img5" src="https://play.pokemonshowdown.com/sprites/ani/aipom.gif">
+<br><br><br><br>
+<button id="playButton">Generate Team</button>
+  
+<style>
+#playButton {
+  position: fixed;
+  bottom: 24px;
+}
+
+body {
+  background: black;
+}
+
+#img0, #img1, #img2, #img3, #img4, #img5 {
+  opacity: 0;
+  transition-duration: 1s;
+  border: solid white 1px;
+}
+</style>
+<script>
+const playButton = document.getElementById('playButton');
+const audioSrc = 'voice.mp3';
+
+playButton.addEventListener('click', () => {
+    const audio = new Audio(audioSrc);
+    audio.play();
+	setTimeout(function() {
+	  synth.speak(first);
+    }, 5000);
+});
+
+var pokemon = ["Bulbasaur", "Ivysaur", "Venusaur", "Charmander", "Charmeleon", "Charizard", "Squirtle", "Wartortle", "Blastoise", "Caterpie", "Metapod", "Butterfree", "Weedle", "Kakuna", "Beedrill", "Pidgey", "Pidgeotto", "Pidgeot", "Rattata", "Raticate", "Spearow", "Fearow", "Ekans", "Arbok", "Pikachu", "Raichu", "Sandshrew", "Sandslash", "Nidorina", "Nidoqueen", "Nidorino", "Nidoking", "Clefairy", "Clefable", "Vulpix", "Ninetales", "Jigglypuff", "Wigglytuff", "Zubat", "Golbat", "Oddish", "Gloom", "Vileplume", "Paras", "Parasect", "Venonat", "Venomoth", "Diglett", "Dugtrio", "Meowth", "Persian", "Psyduck", "Golduck", "Mankey", "Primeape", "Growlithe", "Arcanine", "Poliwag", "Poliwhirl", "Poliwrath", "Abra", "Kadabra", "Alakazam", "Machop", "Machoke", "Machamp", "Bellsprout", "Weepinbell", "Victreebel", "Tentacool", "Tentacruel", "Geodude", "Graveler", "Golem", "Ponyta", "Rapidash", "Slowpoke", "Slowbro", "Magnemite", "Magneton", "Farfetchd", "Doduo", "Dodrio", "Seel", "Dewgong", "Grimer", "Muk", "Shellder", "Cloyster", "Gastly", "Haunter", "Gengar", "Onix", "Drowzee", "Hypno", "Krabby", "Kingler", "Voltorb", "Electrode", "Exeggcute", "Exeggutor", "Cubone", "Marowak", "Hitmonlee", "Hitmonchan", "Lickitung", "Koffing", "Weezing", "Rhyhorn", "Rhydon", "Chansey", "Tangela", "Kangaskhan", "Horsea", "Seadra", "Goldeen", "Seaking", "Staryu", "Starmie", "MrMime", "Scyther", "Jynx", "Electabuzz", "Magmar", "Pinsir", "Tauros", "Magikarp", "Gyarados", "Lapras", "Ditto", "Eevee", "Vaporeon", "Jolteon", "Flareon", "Porygon", "Omanyte", "Omastar", "Kabuto", "Kabutops", "Aerodactyl", "Snorlax", "Articuno", "Zapdos", "Moltres", "Dratini", "Dragonair", "Dragonite", "Chikorita", "Bayleef", "Meganium", "Cyndaquil", "Quilava", "Typhlosion", "Totodile", "Croconaw", "Feraligatr", "Sentret", "Furret", "Hoothoot", "Noctowl", "Ledyba", "Ledian", "Spinarak", "Ariados", "Crobat", "Chinchou", "Lanturn", "Pichu", "Cleffa", "Igglybuff", "Togepi", "Togetic", "Natu", "Xatu", "Mareep", "Flaaffy", "Ampharos", "Bellossom", "Marill", "Azumarill", "Sudowoodo", "Politoed", "Hoppip", "Skiploom", "Jumpluff", "Aipom", "Sunkern", "Sunflora", "Yanma", "Wooper", "Quagsire", "Espeon", "Umbreon", "Murkrow", "Slowking", "Misdreavus", "Unown", "Wobbuffet", "Girafarig", "Pineco", "Forretress", "Dunsparce", "Gligar", "Steelix", "Snubbull", "Granbull", "Qwilfish", "Scizor", "Shuckle", "Heracross", "Sneasel", "Teddiursa", "Ursaring", "Slugma", "Magcargo", "Swinub", "Piloswine", "Corsola", "Remoraid", "Octillery", "Delibird", "Mantine", "Skarmory", "Houndour", "Houndoom", "Kingdra", "Phanpy", "Donphan", "Porygon2", "Stantler", "Smeargle", "Tyrogue", "Hitmontop", "Smoochum", "Elekid", "Magby", "Miltank", "Blissey","Raikou", "Entei", "Suicune", "Larvitar", "Pupitar", "Tyranitar"];
+  
+var randomItem = "aipom";
+var randomMonArr = [];
+
+var i;
+for (i=0; i<6; i++) {
+  randomItem = Math.floor(Math.random() * pokemon.length);
+  document.getElementById("img" + i).src = "https://play.pokemonshowdown.com/sprites/gen2/" + pokemon[randomItem].toLowerCase() + ".png"
+  randomMonArr.push(pokemon[randomItem]);
+  pokemon.splice([randomItem], 1);
+}
+
+let voices, utterance;
+const synth = window.speechSynthesis;
+
+function speakVoice() {
+voices = this.getVoices();
+second.voice = voices[139];
+third.voice = voices[81];
+fourth.voice = voices[148];
+fifth.voice = voices[111];
+sixth.voice = voices[140];
+seventh.voice = voices[82];
+speechSynthesis.speak(utterance);
+};
+
+speechSynthesis.addEventListener('voiceschanged', speakVoice);
+  
+const first = new SpeechSynthesisUtterance(" ");
+const second = new SpeechSynthesisUtterance(randomMonArr[0]);
+const third = new SpeechSynthesisUtterance(randomMonArr[1]);
+const fourth = new SpeechSynthesisUtterance(randomMonArr[2]);
+const fifth = new SpeechSynthesisUtterance(randomMonArr[3]);
+const sixth = new SpeechSynthesisUtterance(randomMonArr[4]);
+const seventh = new SpeechSynthesisUtterance("and " + randomMonArr[5]);
+
+first.onend = () => {
+  synth.speak(second);
+  document.getElementById("img0").style.opacity = 1;
+};
+
+second.onend = () => {
+  synth.speak(third);
+  document.getElementById("img1").style.opacity = 1;
+};
+
+third.onend = () => {
+  synth.speak(fourth);
+  document.getElementById("img2").style.opacity = 1;
+};
+
+fourth.onend = () => {
+  synth.speak(fifth);
+  document.getElementById("img3").style.opacity = 1;
+};
+
+fifth.onend = () => {
+  synth.speak(sixth);
+  document.getElementById("img4").style.opacity = 1;
+};
+
+sixth.onend = () => {
+  synth.speak(seventh);
+  document.getElementById("img5").style.opacity = 1;
+};
+</script>
+</html>
