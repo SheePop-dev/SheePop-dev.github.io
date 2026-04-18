@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Random RetroAchievement</title>
+  <title>RetroAchievement Bingo</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -10,6 +10,13 @@
       padding: 40px;
 	  background: black;
 	  color: white;
+    }
+    #achievement {
+      margin-top: 20px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      display: inline-block;
+      max-width: 400px;
     }
 	.green {
 	  background-color: green;
@@ -42,11 +49,13 @@
   API Key: <input id="api"></input><br><br>
   <span id="gamesNum"></span><br>
   <button onclick="getWantToPlay()">Create Bingo Board</button><br><br>
+  <button onclick="info()">Info</button>
   <button class="green" onclick="changeColor('green')">Green</button>
   <button class="yellow" onclick="changeColor('yellow')">Yellow</button>
   <button class="red" onclick="changeColor('red')">Red</button>
   <button onclick="changeColor('reroll')">reroll</button><br><br>
  
+  
   <div id="bingo">
     <table style="margin: 0px auto;">
     <td id="0-0" onClick="clicked(0,0)"></td><td id="0-1" onClick="clicked(0,1)"></td><td id="0-2" onClick="clicked(0,2)"></td><td id="0-3" onClick="clicked(0,3)"></td><td id="0-4" onClick="clicked(0,4)"></td> <tr>
@@ -75,10 +84,16 @@
 	var k = 0;
 
     var highlight = "yellow";
+	
+	function info() {
+	  highlight = "info";
+	}
 
 	function clicked(row, column) {
 		if (highlight == "reroll") {
 			getRandomAchievement(row, column);
+		} else if (highlight == "info") {
+			alert(document.getElementById(row + "-" + column).title);
 		} else { 
 			document.getElementById(row + "-" + column).style.backgroundColor = highlight;
 		}
