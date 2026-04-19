@@ -18,11 +18,14 @@
       display: inline-block;
       max-width: 400px;
     }
+	#info, #reroll {
+	  background-color: #888888;
+	}
 	.green {
 	  background-color: green;
 	}
 	.yellow {
-	  background-color: yellow;	
+	  background-color: #8b8000;	
 	}
 	.red {
 	  background-color: red;
@@ -35,25 +38,29 @@
       font-size: 16px;
       cursor: pointer;
     }
-    
     td {
       width: 112px;
       height: 112px;
-      border: solid white 2px;
+      border: solid grey 2px;
     }
+	.selected {
+	  border: solid white 2px;
+	  color: white;
+	}
   </style>
 </head>
 <body>
-
-  RetroAchievements Username: <input id="username"></input><br>
-  API Key: <input id="api"></input><br><br>
+  <table style="margin: 0px auto;">
+	<td style="padding: 8px;">RetroAchievements Username:</td> <td style="padding: 8px;"><input onChange="checkButton()" id="username"></input></td><tr>
+	<td style="padding: 8px;">API Key:</td> <td style="padding: 8px;"><input onChange="checkButton()" id="api"></input></td>
+  </table><br><br>
   <span id="gamesNum"></span><br>
-  <button onclick="getWantToPlay()">Create Bingo Board</button><br><br>
-  <button onclick="info()">Info</button>
-  <button class="green" onclick="changeColor('green')">Green</button>
-  <button class="yellow" onclick="changeColor('yellow')">Yellow</button>
-  <button class="red" onclick="changeColor('red')">Red</button>
-  <button onclick="changeColor('reroll')">reroll</button><br><br>
+  <button id="generate" onclick="getWantToPlay()">Create Bingo Board</button><br><br>
+  <button id="info" class="selected" onclick="changeColor('info')">Info</button>
+  <button id="green" class="green" onclick="changeColor('green')">Green</button>
+  <button id="yellow" class="yellow" onclick="changeColor('yellow')">Yellow</button>
+  <button id="red" class="red" onclick="changeColor('red')">Red</button>
+  <button id="reroll" onclick="changeColor('reroll')">reroll</button><br><br>
  
   
   <div id="bingo">
@@ -83,11 +90,7 @@
 	var j = 0;
 	var k = 0;
 
-    var highlight = "yellow";
-	
-	function info() {
-	  highlight = "info";
-	}
+    var highlight = "info";
 
 	function clicked(row, column) {
 		if (highlight == "reroll") {
@@ -100,7 +103,9 @@
 	}
 
     function changeColor(color) {
+	  document.getElementById(highlight).classList.remove("selected");
 	  highlight = color;
+	  document.getElementById(color).classList.add("selected");
 	}
 	
 	async function getWantToPlay() {
@@ -131,6 +136,7 @@
 		  if (!randomized) {
 			for (i = 0; i < bingoSize; i++) {
 				for (j = 0; j < bingoSize; j++) {
+					await delay(250); 
 					if (tempGameIDs.length < 1) {
 						tempGameIDs = [...gameIDs];
 					}
