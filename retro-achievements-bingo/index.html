@@ -52,9 +52,12 @@
 <body>
   <table style="margin: 0px auto;">
 	<td style="padding: 8px;">RetroAchievements Username:</td> <td style="padding: 8px;"><input onChange="checkButton()" id="username"></input></td><tr>
-	<td style="padding: 8px;">API Key:</td> <td style="padding: 8px;"><input onChange="checkButton()" id="api"></input></td>
+	<td style="padding: 8px;">API Key:</td> <td style="padding: 8px;"><input type=password onChange="checkButton()" id="api"></input></td>
   </table><br><br>
   <span id="gamesNum"></span><br>
+  <button id="size3" onclick="changeBingoSize(3)">3x3</button>
+  <button id="size4" onclick="changeBingoSize(4)">4x4</button>
+  <button id="size5" onclick="changeBingoSize(5)">5x5</button>
   <button id="generate" onclick="getWantToPlay()">Create Bingo Board</button><br><br>
   <button id="info" class="selected" onclick="changeColor('info')">Info</button>
   <button id="green" class="green" onclick="changeColor('green')">Green</button>
@@ -80,6 +83,8 @@
 	var tempGameIDs = [...gameIDs];
 	var USERNAME = "";
     var API_KEY = "";
+	
+	var bingoSize = 5;
 	
 	document.getElementById("gamesNum").innerHTML = gameIDs.length + " games loaded";
     
@@ -108,6 +113,18 @@
 	  document.getElementById(color).classList.add("selected");
 	}
 	
+	function changeBingoSize(val) {
+		bingoSize = val;
+		if (val == 3) {
+			document.getElementById("bingo").innerHTML =  '<table style="margin: 0px auto;"><td id="0-0" onClick="clicked(0,0)"></td><td id="0-1" onClick="clicked(0,1)"></td><td id="0-2" onClick="clicked(0,2)"></td> <tr><td id="1-0" onClick="clicked(1,0)"></td><td id="1-1" onClick="clicked(1,1)"></td><td id="1-2" onClick="clicked(1,2)"></td> <tr><td id="2-0" onClick="clicked(2,0)"></td><td id="2-1" onClick="clicked(2,1)"></td><td id="2-2" onClick="clicked(2,2)"></td> <tr></table>'
+		} else if (val == 4) {
+			document.getElementById("bingo").innerHTML =  '<table style="margin: 0px auto;"><td id="0-0" onClick="clicked(0,0)"></td><td id="0-1" onClick="clicked(0,1)"></td><td id="0-2" onClick="clicked(0,2)"></td><td id="0-3" onClick="clicked(0,3)"></td> <tr><td id="1-0" onClick="clicked(1,0)"></td><td id="1-1" onClick="clicked(1,1)"></td><td id="1-2" onClick="clicked(1,2)"></td><td id="1-3" onClick="clicked(1,3)"></td> <tr><td id="2-0" onClick="clicked(2,0)"></td><td id="2-1" onClick="clicked(2,1)"></td><td id="2-2" onClick="clicked(2,2)"></td><td id="2-3" onClick="clicked(2,3)"></td> <tr><td id="3-0" onClick="clicked(3,0)"></td><td id="3-1" onClick="clicked(3,1)"></td><td id="3-2" onClick="clicked(3,2)"></td><td id="3-3" onClick="clicked(3,3)"></td> <tr></table>'
+		} else {
+			document.getElementById("bingo").innerHTML =  '<table style="margin: 0px auto;"><td id="0-0" onClick="clicked(0,0)"></td><td id="0-1" onClick="clicked(0,1)"></td><td id="0-2" onClick="clicked(0,2)"></td><td id="0-3" onClick="clicked(0,3)"></td><td id="0-4" onClick="clicked(0,4)"></td> <tr><td id="1-0" onClick="clicked(1,0)"></td><td id="1-1" onClick="clicked(1,1)"></td><td id="1-2" onClick="clicked(1,2)"></td><td id="1-3" onClick="clicked(1,3)"></td><td id="1-4" onClick="clicked(1,4)"></td> <tr><td id="2-0" onClick="clicked(2,0)"></td><td id="2-1" onClick="clicked(2,1)"></td><td id="2-2" onClick="clicked(2,2)"></td><td id="2-3" onClick="clicked(2,3)"></td><td id="2-4" onClick="clicked(2,4)"></td> <tr><td id="3-0" onClick="clicked(3,0)"></td><td id="3-1" onClick="clicked(3,1)"></td><td id="3-2" onClick="clicked(3,2)"></td><td id="3-3" onClick="clicked(3,3)"></td><td id="3-4" onClick="clicked(3,4)"></td> <tr><td id="4-0" onClick="clicked(4,0)"></td><td id="4-1" onClick="clicked(4,1)"></td><td id="4-2" onClick="clicked(4,2)"></td><td id="4-3" onClick="clicked(4,3)"></td><td id="4-4" onClick="clicked(4,4)"></td></table>'
+		}
+		
+	}
+	
 	async function getWantToPlay() {
 		USERNAME = document.getElementById("username").value;
 		var username1 = document.getElementById("username").value;
@@ -129,9 +146,10 @@
 	}
 
 	var randomized = false;
-
-	var bingoSize = 5;
     async function getRandomAchievement(a, b) {
+		document.getElementById("size3").disabled = true;
+		document.getElementById("size4").disabled = true;
+		document.getElementById("size5").disabled = true;
 		if (a === undefined) {
 		  if (!randomized) {
 			for (i = 0; i < bingoSize; i++) {
