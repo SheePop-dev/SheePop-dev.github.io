@@ -43,6 +43,18 @@
       height: 112px;
       border: solid grey 2px;
     }
+	#td0, #td1 {
+	  display: none;
+	}
+	#optionButton0, #optionButton1 {
+	  border: none;
+	  background: none;
+	  color: white;
+	}
+	#optionButton0 {
+	  border-bottom: solid white 2px;
+	  font-weight: bold;
+	}
 	.selected {
 	  border: solid white 2px;
 	  color: white;
@@ -50,9 +62,13 @@
   </style>
 </head>
 <body>
+  <h1>RetroAchievements Bingo</h1>
+  <button id="optionButton0" onclick="bingoOption(0)">Want to play games</button>
+  <button id="optionButton1" onclick="bingoOption(1)">Games by ID</button><br><br>
   <table style="margin: 0px auto;">
-	<td style="padding: 8px;">RetroAchievements Username:</td> <td style="padding: 8px;"><input onChange="checkButton()" id="username"></input></td><tr>
-	<td style="padding: 8px;">API Key:</td> <td style="padding: 8px;"><input type=password onChange="checkButton()" id="api"></input></td>
+	<td style="padding: 8px;">RetroAchievements Username:</td> <td id="td0a" style="padding: 8px;"><input onChange="checkButton()" id="username"></input></td><tr>
+	<td style="padding: 8px;">API Key:</td> <td style="padding: 8px;"><input type=password onChange="checkButton()" id="api"></input></td><tr>
+	<td id="td0" style="padding: 8px;">Game IDs (comma separated):</td> <td id="td1" style="padding: 8px;"><input onChange="checkButton()" id="manualIDs"></input></td>
   </table><br><br>
   <span id="gamesNum"></span><br>
   <button id="size3" onclick="changeBingoSize(3)">3x3</button>
@@ -65,7 +81,6 @@
   <button id="red" class="red" onclick="changeColor('red')">Red</button>
   <button id="reroll" onclick="changeColor('reroll')">reroll</button><br><br>
  
-  
   <div id="bingo">
     <table style="margin: 0px auto;">
     <td id="0-0" onClick="clicked(0,0)"></td><td id="0-1" onClick="clicked(0,1)"></td><td id="0-2" onClick="clicked(0,2)"></td><td id="0-3" onClick="clicked(0,3)"></td><td id="0-4" onClick="clicked(0,4)"></td> <tr>
@@ -79,6 +94,7 @@
   <div id="results"></div>
 
   <script>
+  
 	const gameIDs = [];
 	var tempGameIDs = [...gameIDs];
 	var USERNAME = "";
@@ -96,6 +112,28 @@
 	var k = 0;
 
     var highlight = "info";
+	var manualIDs = false;
+	
+	function bingoOption(val) {
+		if (val == 1) {
+			manualIDs = true;
+			document.getElementById("td0").style.display = "table-cell";
+			document.getElementById("td1").style.display = "table-cell";
+			document.getElementById("optionButton0").style.border = "none";
+			document.getElementById("optionButton0").style.fontWeight = "normal";
+			document.getElementById("optionButton1").style.borderBottom = "solid white 2px";
+			document.getElementById("optionButton1").style.fontWeight = "bold";
+		
+		} else {
+			manualIDs = false;
+			document.getElementById("td0").style.display = "none";
+			document.getElementById("td1").style.display = "none";
+			document.getElementById("optionButton1").style.border = "none";
+			document.getElementById("optionButton1").style.fontWeight = "normal";
+			document.getElementById("optionButton0").style.borderBottom = "solid white 2px";
+			document.getElementById("optionButton0").style.fontWeight = "bold";
+		}
+	}
 
 	function clicked(row, column) {
 		if (highlight == "reroll") {
@@ -126,22 +164,39 @@
 	}
 	
 	async function getWantToPlay() {
-		USERNAME = document.getElementById("username").value;
-		var username1 = document.getElementById("username").value;
-		API_KEY = document.getElementById("api").value;
-		var webApiKey = document.getElementById("api").value;
-		try {	
-			const apiUrl1 = "https://retroachievements.org/API/API_GetUserWantToPlayList.php?y=" + webApiKey + "&u=" + username1 + "&c=100&o=0";
-			const url1 = apiUrl1;
-			const res1 = await fetch(url1);
-			const data1 = await res1.json();
-			for (i = 0; i < data1.Results.length; i++) {
-				gameIDs.push(data1.Results[i].ID);
+		if (manualIDs) {
+			USERNAME = document.getElementById("username").value;
+			var username1 = document.getElementById("username").value;
+			API_KEY = document.getElementById("api").value;
+			var webApiKey = document.getElementById("api").value;
+			
+			const str0 = document.getElementById("manualIDs").value;
+			arr0 = str0.split(',').map(Number);
+			
+			for (i = 0; i < arr0.length; i++) {
+				gameIDs.push(arr0[i]);
 			}
+			alert(gameIDs);
 			document.getElementById("gamesNum").innerHTML = gameIDs.length + " games loaded";
 			getRandomAchievement();
-		} catch (err) {
-			await delay(250); 
+		} else {
+			USERNAME = document.getElementById("username").value;
+			var username1 = document.getElementById("username").value;
+			API_KEY = document.getElementById("api").value;
+			var webApiKey = document.getElementById("api").value;
+			try {		
+				const apiUrl1 = "https://retroachievements.org/API/API_GetUserWantToPlayList.php?y=" + webApiKey + "&u=" + username1 + "&c=100&o=0";
+				const url1 = apiUrl1;
+				const res1 = await fetch(url1);
+				const data1 = await res1.json();
+				for (i = 0; i < data1.Results.length; i++) {
+					gameIDs.push(data1.Results[i].ID);
+				}
+				document.getElementById("gamesNum").innerHTML = gameIDs.length + " games loaded";
+				getRandomAchievement();
+			} catch (err) {
+				await delay(250); 
+			}
 		}
 	}
 
@@ -150,6 +205,7 @@
 		document.getElementById("size3").disabled = true;
 		document.getElementById("size4").disabled = true;
 		document.getElementById("size5").disabled = true;
+		document.getElementById("generate").disabled = true;
 		if (a === undefined) {
 		  if (!randomized) {
 			for (i = 0; i < bingoSize; i++) {
