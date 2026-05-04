@@ -145,8 +145,15 @@ const monList = [
 var shuffledArr = [...monList].sort(() => Math.random() - 0.5);
 var currentMon = 0;
 var totalBST = 0;
+var a;
 
 function newGame() {
+  document.getElementById("xhp").style.opacity = "0";
+  document.getElementById("xatk").style.opacity = "0";
+  document.getElementById("xdef").style.opacity = "0";
+  document.getElementById("xspa").style.opacity = "0";
+  document.getElementById("xspd").style.opacity = "0";
+  document.getElementById("xspe").style.opacity = "0";
   document.getElementById("newGame").style.display = "none";
   shuffledArr = [...monList].sort(() => Math.random() - 0.5);
   currentMon = 0;
@@ -195,6 +202,28 @@ function submit(val) {
   document.getElementById("btn" + val).disabled = true;
   document.getElementById("result").innerHTML = "Total BST: " + totalBST;
   
+  document.getElementById("xhp").style.opacity = "1";
+  document.getElementById("xatk").style.opacity = "1";
+  document.getElementById("xdef").style.opacity = "1";
+  document.getElementById("xspa").style.opacity = "1";
+  document.getElementById("xspd").style.opacity = "1";
+  document.getElementById("xspe").style.opacity = "1";
+  clearTimeout(a);
+  a = setTimeout(function() {
+    document.getElementById("xhp").style.opacity = "0";
+    document.getElementById("xatk").style.opacity = "0";
+    document.getElementById("xdef").style.opacity = "0";
+    document.getElementById("xspa").style.opacity = "0";
+    document.getElementById("xspd").style.opacity = "0";
+    document.getElementById("xspe").style.opacity = "0";
+  }, 3000);
+ 
+  document.getElementById("xhp").innerHTML = shuffledArr[currentMon].stats.hp;
+  document.getElementById("xatk").innerHTML = shuffledArr[currentMon].stats.attack;
+  document.getElementById("xdef").innerHTML = shuffledArr[currentMon].stats.defense;
+  document.getElementById("xspa").innerHTML = shuffledArr[currentMon].stats.specialAttack;
+  document.getElementById("xspd").innerHTML = shuffledArr[currentMon].stats.specialDefense;
+  document.getElementById("xspe").innerHTML = shuffledArr[currentMon].stats.speed;
   
   if (currentMon == 5) {
     document.getElementById("newGame").style.display = "inline";
