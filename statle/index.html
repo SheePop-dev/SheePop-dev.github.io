@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Greg Region Statle</title>
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+  body { 
+    font-family: Arial; 
+    text-align: center; 
+    width: 360px;
+    margin: auto;
+  }
+  
+  button { 
+    margin: 5px; 
+    padding: 10px; 
+    width: 100%;
+  }
+  
+  img { 
+    height: 150px; 
+  }
+  
+  #newGame {
+    display: none;
+  }
+</style>
+<body>
+
+<h1>Greg Region Statle</h1>
+<p id="pokemonName">Loading...</p>
+<img id="pokemonSprite" src="" alt="Pokemon" />
+
+<div id="buttons">
+  <button onclick="submit(0)" id="btn0">HP</button><br>
+  <button onclick="submit(1)" id="btn1">Attack</button><br>
+  <button onclick="submit(2)" id="btn2">Defense</button><br>
+  <button onclick="submit(3)" id="btn3">Special Attack</button><br>
+  <button onclick="submit(4)" id="btn4">Special Defense</button><br>
+  <button onclick="submit(5)" id="btn5">Speed</button>
+</div>
+
+<br><hr>
+<p id="result">Total BST: 0</p>
+<button id="newGame" onclick="newGame()">New Game</button>
+
+<script>
+class mon {
+  constructor(name, stats) {
+    this.name = name;
+    this.stats = stats;
+  }
+}
+
+const monList = [
+  new mon("Banvil", {
+    hp: 65, 
+    attack: 40, 
+    defense: 65,
+    specialAttack: 25, 
+    specialDefense: 25, 
+    speed: 65
+  }),
+  new mon("Farraith", {
+    hp: 121, 
+    attack: 154, 
+    defense: 151,
+    specialAttack: 49, 
+    specialDefense: 62, 
+    speed: 33
+  }),
+  new mon("Centiego", {
+    hp: 30, 
+    attack: 20, 
+    defense: 30,
+    specialAttack: 50, 
+    specialDefense: 20, 
+    speed: 50
+  }),
+  new mon("Scoligon", {
+    hp: 65, 
+    attack: 60, 
+    defense: 60,
+    specialAttack: 120, 
+    specialDefense: 90, 
+    speed: 95
+  }),
+  new mon("Staticrab", {
+    hp: 50, 
+    attack: 35, 
+    defense: 45,
+    specialAttack: 65, 
+    specialDefense: 70, 
+    speed: 65
+  }),
+  new mon("Voltacean", {
+    hp: 105, 
+    attack: 55, 
+    defense: 75,
+    specialAttack: 90, 
+    specialDefense: 110, 
+    speed: 115
+  })
+];
+
+var shuffledArr = [...monList].sort(() => Math.random() - 0.5);
+var currentMon = 0;
+var totalBST = 0;
+
+function newGame() {
+  document.getElementById("newGame").style.display = "none";
+  shuffledArr = [...monList].sort(() => Math.random() - 0.5);
+  currentMon = 0;
+  totalBST = 0;
+  document.getElementById("btn0").disabled = false;
+  document.getElementById("btn0").innerHTML = "HP";
+  document.getElementById("btn1").disabled = false;
+  document.getElementById("btn1").innerHTML = "Attack";
+  document.getElementById("btn2").disabled = false;
+  document.getElementById("btn2").innerHTML = "Defense";
+  document.getElementById("btn3").disabled = false;
+  document.getElementById("btn3").innerHTML = "Special Attack";
+  document.getElementById("btn4").disabled = false;
+  document.getElementById("btn4").innerHTML = "Special Defense";
+  document.getElementById("btn5").disabled = false;
+  document.getElementById("btn5").innerHTML = "Speed";
+  document.getElementById("result").innerHTML = "Total BST: " + totalBST;
+  loadMon();
+}
+
+function loadMon() {
+  document.getElementById("pokemonName").textContent = shuffledArr[currentMon].name;
+  document.getElementById("pokemonSprite").src = "images/" + shuffledArr[currentMon].name + ".png";
+}
+
+function submit(val) {
+  if(val == 0) {
+    totalBST += shuffledArr[currentMon].stats.hp;
+    document.getElementById("btn0").innerHTML = "HP: " + shuffledArr[currentMon].stats.hp;
+  } else if (val == 1) {
+    totalBST += shuffledArr[currentMon].stats.attack;
+    document.getElementById("btn1").innerHTML = "Attack : " + shuffledArr[currentMon].stats.attack;
+  } else if (val == 2) {
+    totalBST += shuffledArr[currentMon].stats.defense;
+    document.getElementById("btn2").innerHTML = "Defense: " + shuffledArr[currentMon].stats.defense;
+  } else if (val == 3) {
+    totalBST += shuffledArr[currentMon].stats.specialAttack;
+    document.getElementById("btn3").innerHTML = "Special Attack: " + shuffledArr[currentMon].stats.specialAttack;
+  } else if (val == 4) {
+    totalBST += shuffledArr[currentMon].stats.specialDefense;
+    document.getElementById("btn4").innerHTML = "Special Defense: " + shuffledArr[currentMon].stats.specialDefense;
+  } else if (val == 5) {
+    totalBST += shuffledArr[currentMon].stats.speed;
+    document.getElementById("btn5").innerHTML = "Speed: " + shuffledArr[currentMon].stats.speed;
+  }
+  document.getElementById("btn" + val).disabled = true;
+  document.getElementById("result").innerHTML = "Total BST: " + totalBST;
+  
+  
+  if (currentMon == 5) {
+    document.getElementById("newGame").style.display = "inline";
+  } else {
+    currentMon++;
+    loadMon();
+  }
+}
+
+loadMon();
+</script>
+
+</body>
+</html>
