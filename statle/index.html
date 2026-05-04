@@ -20,8 +20,10 @@
   
   button { 
     margin: 5px; 
+    margin-left: 24px;
     padding: 10px; 
-    width: 100%;
+    width: 80%;
+    position: relative;
   }
   
   img { 
@@ -31,6 +33,13 @@
   #newGame {
     display: none;
   }
+  .xStat {
+    width: 24px;
+    margin-top: 12px;
+    float: right;
+    opacity: 0;
+    transition-duration: 0.5s;
+  }
 </style>
 <body>
 
@@ -39,12 +48,12 @@
 <img id="pokemonSprite" src="" alt="Pokemon" />
 
 <div id="buttons">
-  <button onclick="submit(0)" id="btn0">HP</button><br>
-  <button onclick="submit(1)" id="btn1">Attack</button><br>
-  <button onclick="submit(2)" id="btn2">Defense</button><br>
-  <button onclick="submit(3)" id="btn3">Special Attack</button><br>
-  <button onclick="submit(4)" id="btn4">Special Defense</button><br>
-  <button onclick="submit(5)" id="btn5">Speed</button>
+  <button onclick="submit(0)" id="btn0">HP</button><span class="xStat" id="xhp"></span><br>
+  <button onclick="submit(1)" id="btn1">Attack</button><span class="xStat" id="xatk"></span><br>
+  <button onclick="submit(2)" id="btn2">Defense</button><span class="xStat" id="xdef"></span><br>
+  <button onclick="submit(3)" id="btn3">Special Attack</button><span class="xStat" id="xspa"></span><br>
+  <button onclick="submit(4)" id="btn4">Special Defense</button><span class="xStat" id="xspd"></span><br>
+  <button onclick="submit(5)" id="btn5">Speed</button><span class="xStat" id="xspe"></span>
 </div>
 
 <br><hr>
