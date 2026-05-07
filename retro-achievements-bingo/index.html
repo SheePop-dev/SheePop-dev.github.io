@@ -69,7 +69,10 @@
 	<td style="padding: 8px;">RetroAchievements Username:</td> <td id="td0a" style="padding: 8px;"><input onChange="checkButton()" id="username"></input></td><tr>
 	<td style="padding: 8px;">API Key:</td> <td style="padding: 8px;"><input type=password onChange="checkButton()" id="api"></input></td><tr>
 	<td id="td0" style="padding: 8px;">Game IDs (comma separated):</td> <td id="td1" style="padding: 8px;"><input onChange="checkButton()" id="manualIDs"></input></td>
-  </table><br><br>
+  </table>
+  <input type="checkbox" id="badgeIcons" name="badgeIcons" value="badgeIcons">
+  <label for="badgeIcons">Display Badge icons</label>
+  <br><br>
   <span id="gamesNum"></span><br>
   <button id="size3" onclick="changeBingoSize(3)">3x3</button>
   <button id="size4" onclick="changeBingoSize(4)">4x4</button>
@@ -205,6 +208,7 @@
 		document.getElementById("size3").disabled = true;
 		document.getElementById("size4").disabled = true;
 		document.getElementById("size5").disabled = true;
+        document.getElementById("badgeIcons").disabled = true;
 		document.getElementById("generate").disabled = true;
 		if (a === undefined) {
 		  if (!randomized) {
@@ -230,7 +234,11 @@
 							const keys = Object.keys(achievementsObj);
 							const firstKey = keys[rand];
 							const firstAchievement = achievementsObj[firstKey];
-							document.getElementById(i + "-" + j).innerHTML = "<img src='https://media.retroachievements.org" + data.ImageIcon + "'>"
+                            if (!document.getElementById("badgeIcons").checked) {
+							  document.getElementById(i + "-" + j).innerHTML = "<img src='https://media.retroachievements.org" + data.ImageIcon + "'>";
+                            } else {
+                              document.getElementById(i + "-" + j).innerHTML = "<img src='https://media.retroachievements.org/Badge/" + firstAchievement.BadgeName + ".png'>";
+                            }
 							document.getElementById(i + "-" + j).title = data.Title + " \u000A " + firstAchievement.Title + " \n " + firstAchievement.Description;
 							document.getElementById("results").innerHTML += GAME_ID + " | " + data.Title + " | " + firstAchievement.Title + " | " + firstAchievement.Description + "<br>";
 							if (j == 4) {	
@@ -263,8 +271,12 @@
 					const keys = Object.keys(achievementsObj);
 					const firstKey = keys[rand];
 					const firstAchievement = achievementsObj[firstKey];
-					document.getElementById(a + "-" + b).innerHTML = "<img src='https://media.retroachievements.org" + data.ImageIcon + "'>"
-					document.getElementById(a + "-" + b).title = data.Title + " | " + firstAchievement.Title + " | " + firstAchievement.Description;
+                    if (!document.getElementById("badgeIcons").checked) {
+			        	document.getElementById(a + "-" + b).innerHTML = "<img src='https://media.retroachievements.org" + data.ImageIcon + "'>";
+                    } else {
+                        document.getElementById(a + "-" + b).innerHTML = "<img src='https://media.retroachievements.org/Badge/" + firstAchievement.BadgeName + ".png'>";
+                    }
+					document.getElementById(i + "-" + b).title = data.Title + " | " + firstAchievement.Title + " | " + firstAchievement.Description;
 					document.getElementById("results").innerHTML += GAME_ID + " | " + data.Title + " | " + firstAchievement.Title + " | " + firstAchievement.Description + "<br>";
 					if (j == 4) {	
 						document.getElementById("results").innerHTML += "<br>";
