@@ -19,7 +19,7 @@
     }
 
     .switch {
-      position: fixed;
+      position: absolute;
       display: inline-block;
       right: 12px;
       width: 60px;
@@ -85,7 +85,7 @@
     }
 
     #pokemonName {
-      font-size: 24px;
+      font-size: 20px;
     }
 
     #newGame {
@@ -135,7 +135,7 @@
       <input onclick="darkTheme()" type="checkbox">
       <span class="slider round"></span>
     </label>
-    <h1>Greg Region Statle</h1>
+    <h3>Greg Region Statle</h1>
     <span id="scene0">
       <p id="pokemonName">Loading...</p>
       <img id="pokemonSprite" src="" alt="Pokemon" />
@@ -497,6 +497,7 @@ function submit(val) {
         loadMon();
     }
 }
+
 newGame();
 </script>
 </body>
