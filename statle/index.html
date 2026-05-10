@@ -193,9 +193,10 @@
     </span>
 <script>
 class mon {
-    constructor(name, stats) {
+    constructor(name, stats, shiny) {
         this.name = name;
         this.stats = stats;
+        this.shiny = shiny;
     }
 }
 
@@ -207,7 +208,7 @@ const monList = [
         specialAttack: 25,
         specialDefense: 25,
         speed: 65
-    }),
+    }, true),
     new mon("Farraith", {
         hp: 121,
         attack: 154,
@@ -215,7 +216,7 @@ const monList = [
         specialAttack: 49,
         specialDefense: 62,
         speed: 33
-    }),
+    }, true),
     new mon("Centiego", {
         hp: 30,
         attack: 20,
@@ -223,7 +224,7 @@ const monList = [
         specialAttack: 50,
         specialDefense: 20,
         speed: 50
-    }),
+    }, true),
     new mon("Scoligon", {
         hp: 65,
         attack: 60,
@@ -231,7 +232,7 @@ const monList = [
         specialAttack: 120,
         specialDefense: 90,
         speed: 95
-    }),
+    }, true),
     new mon("Staticrab", {
         hp: 50,
         attack: 35,
@@ -239,7 +240,7 @@ const monList = [
         specialAttack: 65,
         specialDefense: 70,
         speed: 65
-    }),
+    }, true),
     new mon("Voltacean", {
         hp: 105,
         attack: 55,
@@ -247,7 +248,7 @@ const monList = [
         specialAttack: 90,
         specialDefense: 110,
         speed: 115
-    }),
+    }, true),
     new mon("Quaggledink", {
         hp: 75,
         attack: 65,
@@ -255,7 +256,7 @@ const monList = [
         specialAttack: 90,
         specialDefense: 50,
         speed: 85
-    }),
+    }, true),
     new mon("Mega Quaggledink", {
         hp: 75,
         attack: 30,
@@ -263,7 +264,7 @@ const monList = [
         specialAttack: 160,
         specialDefense: 80,
         speed: 95
-    }),
+    }, true),
     new mon("Mega Ludicolo", {
         hp: 80,
         attack: 55,
@@ -271,7 +272,7 @@ const monList = [
         specialAttack: 150,
         specialDefense: 100,
         speed: 125
-    }),
+    }, false),
     new mon("Mega Dusknoir", {
         hp: 45,
         attack: 180,
@@ -279,7 +280,7 @@ const monList = [
         specialAttack: 65,
         specialDefense: 130,
         speed: 45
-    }),
+    }, false),
     new mon("Litwick", {
         hp: 50,
         attack: 30,
@@ -287,21 +288,23 @@ const monList = [
         specialAttack: 65,
         specialDefense: 55,
         speed: 20
-    }), new mon("Lampent", {
+    }, false), 
+    new mon("Lampent", {
         hp: 60,
         attack: 40,
         defense: 60,
         specialAttack: 95,
         specialDefense: 60,
         speed: 55
-    }), new mon("Chandelure", {
+    }, false), 
+    new mon("Chandelure", {
         hp: 60,
         attack: 55,
         defense: 90,
         specialAttack: 145,
         specialDefense: 90,
         speed: 85
-    }),
+    }, false),
     new mon("Satyram", {
         hp: 120,
         attack: 80,
@@ -309,10 +312,10 @@ const monList = [
         specialAttack: 80,
         specialDefense: 67,
         speed: 67
-    })
+    }, true)
 ];
 
-const shinyOdds = 128;
+const shinyOdds = 6;
 var shuffledArr = [...monList].sort(() => Math.random() - 0.5);
 var currentMon = 0;
 var totalBST = 0;
@@ -435,8 +438,8 @@ function newGame() {
 function loadMon() {
 	var shinyRoll = Math.floor(Math.random() * shinyOdds);
     document.getElementById("pokemonName").textContent = shuffledArr[currentMon].name;
-    if (shinyRoll == 1) {      
-      const img = document.getElementById("pokemonSprite"); img.onerror = () => { img.onerror = null; img.src = "images/" + shuffledArr[currentMon].name + ".png"; }; img.src = "images/shiny_" + shuffledArr[currentMon].name + ".png";
+    if (shinyRoll == 0 && shuffledArr[currentMon].shiny == true) {      
+      document.getElementById("pokemonSprite").src = "images/shiny_" + shuffledArr[currentMon].name + ".png";
     } else {
       document.getElementById("pokemonSprite").src = "images/" + shuffledArr[currentMon].name + ".png";
     }
