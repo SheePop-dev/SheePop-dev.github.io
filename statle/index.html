@@ -316,6 +316,7 @@ const monList = [
 ];
 
 const shinyOdds = 6;
+var isShiny = false;
 var shuffledArr = [...monList].sort(() => Math.random() - 0.5);
 var currentMon = 0;
 var totalBST = 0;
@@ -436,9 +437,11 @@ function newGame() {
 }
 
 function loadMon() {
+	isShiny = false;
 	var shinyRoll = Math.floor(Math.random() * shinyOdds);
     document.getElementById("pokemonName").textContent = shuffledArr[currentMon].name;
     if (shinyRoll == 0 && shuffledArr[currentMon].shiny == true) {      
+      isShiny = true;
       document.getElementById("pokemonSprite").src = "images/shiny_" + shuffledArr[currentMon].name + ".png";
     } else {
       document.getElementById("pokemonSprite").src = "images/" + shuffledArr[currentMon].name + ".png";
@@ -446,30 +449,36 @@ function loadMon() {
 }
 
 function submit(val) {
+	var imageSrc = "<img src='images/";
+	if (isShiny) {
+    	imageSrc = "<img src='images/shiny_";
+    } else {
+    	imageSrc = "<img src='images/";
+    }
     if (val == 0) {
         totalBST += shuffledArr[currentMon].stats.hp;
         document.getElementById("btn0").innerHTML = "HP: " + shuffledArr[currentMon].stats.hp;
-        document.getElementById("your0").innerHTML = "<img src='images/" + shuffledArr[currentMon].name + ".png'> <br>HP: " + shuffledArr[currentMon].stats.hp;
+        document.getElementById("your0").innerHTML = imageSrc + shuffledArr[currentMon].name + ".png'> <br>HP: " + shuffledArr[currentMon].stats.hp;
     } else if (val == 1) {
         totalBST += shuffledArr[currentMon].stats.attack;
         document.getElementById("btn1").innerHTML = "Attack : " + shuffledArr[currentMon].stats.attack;
-        document.getElementById("your1").innerHTML = "<img src='images/" + shuffledArr[currentMon].name + ".png'> <br>Attack: " + shuffledArr[currentMon].stats.attack;
+        document.getElementById("your1").innerHTML = imageSrc + shuffledArr[currentMon].name + ".png'> <br>Attack: " + shuffledArr[currentMon].stats.attack;
     } else if (val == 2) {
         totalBST += shuffledArr[currentMon].stats.defense;
         document.getElementById("btn2").innerHTML = "Defense: " + shuffledArr[currentMon].stats.defense;
-        document.getElementById("your2").innerHTML = "<img src='images/" + shuffledArr[currentMon].name + ".png'> <br>Defense: " + shuffledArr[currentMon].stats.defense;
+        document.getElementById("your2").innerHTML = imageSrc + shuffledArr[currentMon].name + ".png'> <br>Defense: " + shuffledArr[currentMon].stats.defense;
     } else if (val == 3) {
         totalBST += shuffledArr[currentMon].stats.specialAttack;
         document.getElementById("btn3").innerHTML = "Special Attack: " + shuffledArr[currentMon].stats.specialAttack;
-        document.getElementById("your3").innerHTML = "<img src='images/" + shuffledArr[currentMon].name + ".png'> <br>Special Attack: " + shuffledArr[currentMon].stats.specialAttack;
+        document.getElementById("your3").innerHTML = imageSrc + shuffledArr[currentMon].name + ".png'> <br>Special Attack: " + shuffledArr[currentMon].stats.specialAttack;
     } else if (val == 4) {
         totalBST += shuffledArr[currentMon].stats.specialDefense;
         document.getElementById("btn4").innerHTML = "Special Defense: " + shuffledArr[currentMon].stats.specialDefense;
-        document.getElementById("your4").innerHTML = "<img src='images/" + shuffledArr[currentMon].name + ".png'> <br>Special Defense: " + shuffledArr[currentMon].stats.specialDefense;
+        document.getElementById("your4").innerHTML = imageSrc + shuffledArr[currentMon].name + ".png'> <br>Special Defense: " + shuffledArr[currentMon].stats.specialDefense;
     } else if (val == 5) {
         totalBST += shuffledArr[currentMon].stats.speed;
         document.getElementById("btn5").innerHTML = "Speed: " + shuffledArr[currentMon].stats.speed;
-        document.getElementById("your5").innerHTML = "<img src='images/" + shuffledArr[currentMon].name + ".png'> <br>Speed: " + shuffledArr[currentMon].stats.speed;
+        document.getElementById("your5").innerHTML = imageSrc + shuffledArr[currentMon].name + ".png'> <br>Speed: " + shuffledArr[currentMon].stats.speed;
     }
     document.getElementById("btn" + val).disabled = true;
     document.getElementById("result").innerHTML = "Total BST: " + totalBST;
