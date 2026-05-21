@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Smash Brawl Random Team Generator</title>
+
+<style>
+    body {
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+        background: #111;
+    }
+
+    h1 {
+        margin-bottom: 20px;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+    }
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .slot {
+        width: 180px;
+        height: 100px;
+        background: #222;
+        border: 3px solid #555;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        font-weight: bold;
+        transition: 0.2s;
+        margin-bottom: 10px;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .level {
+        margin-bottom: 10px;
+        font-size: 16px;
+        color: #ffd54a;
+        font-weight: bold;
+        text-shadow: 0 0 8px rgba(255, 213, 74, 0.5);
+        min-height: 20px;
+    }
+
+    .element {
+        width: 160px;
+        height: 50px;
+        background: #1b1b1b;
+        border: 2px solid #444;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #00d9ff;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        padding: 5px;
+    }
+
+    .active {
+        border-color: #00d9ff;
+        box-shadow: 0 0 20px #00d9ff;
+    }
+
+    .jigglypuff {
+        color: #ff4040 !important;
+        text-shadow: 0 0 10px #ff4040;
+    }
+
+    .jiggly-element {
+        color: #ff4040 !important;
+        border-color: #ff4040 !important;
+        box-shadow: 0 0 12px rgba(255, 64, 64, 0.6);
+        text-shadow: 0 0 10px #ff4040;
+    }
+
+    button {
+        padding: 15px 35px;
+        font-size: 20px;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        background: #ff4040;
+        color: white;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        background: #ff2020;
+        transform: scale(1.05);
+    }
+
+    #jigglyOverlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.65);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 9999;
+    }
+
+    #jigglyOverlay img {
+        width: 70vw;
+        max-width: 900px;
+        opacity: 0;
+        animation: none;
+    }
+
+    @keyframes jigglyFade {
+
+        0% {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        20% {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        50% {
+            opacity: 0.7;
+        }
+
+        80% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+            transform: scale(1.05);
+        }
+    }
+</style>
+</head>
+<body>
+
+<audio id="rollSound" src="slot-roll.mp3"></audio>
+<audio id="ding0" src="ding0.mp3"></audio>
+<audio id="ding1" src="ding1.mp3"></audio>
+<audio id="ding2" src="ding2.mp3"></audio>
+<audio id="ding3" src="ding3.mp3"></audio>
+<audio id="jigglyAudio" src="jigglypuff.mp3"></audio>
+
+<div class="container">
+
+    <div class="card">
+        <div class="slot" id="slot0">?</div>
+        <div class="level" id="level0">?</div>
+        <div class="element" id="element0">?</div>
+    </div>
+
+    <div class="card">
+        <div class="slot" id="slot1">?</div>
+        <div class="level" id="level1">?</div>
+        <div class="element" id="element1">?</div>
+    </div>
+
+    <div class="card">
+        <div class="slot" id="slot2">?</div>
+        <div class="level" id="level2">?</div>
+        <div class="element" id="element2">?</div>
+    </div>
+
+    <div class="card">
+        <div class="slot" id="slot3">?</div>
+        <div class="level" id="level3">?</div>
+        <div class="element" id="element3">?</div>
+    </div>
+
+</div>
+
+<button id="rollBtn">Generate Team</button>
+
+<div id="jigglyOverlay">
+    <img src="jigglypuff.gif" alt="Jigglypuff">
+</div>
+
+<script>
+
+const characters = [
+  "Mario",
+  "Donkey Kong",
+  "Link",
+  "Samus",
+  "Dark Samus",
+  "Yoshi",
+  "Kirby",
+  "Fox",
+  "Pikachu",
+  "Luigi",
+  "Ness",
+  "Captain Falcon",
+  "Peach",
+  "Daisy",
+  "Bowser",
+  "Ice Climbers",
+  "Sheik",
+  "Zelda",
+  "Dr. Mario",
+  "Pichu",
+  "Falco",
+  "Marth",
+  "Lucina",
+  "Young Link",
+  "Ganondorf",
+  "Mewtwo",
+  "Roy",
+  "Chrom",
+  "Mr. Game & Watch",
+  "Meta Knight",
+  "Pit",
+  "Dark Pit",
+  "Zero Suit Samus",
+  "Wario",
+  "Snake",
+  "Ike",
+  "Pokemon Trainer",
+  "Diddy Kong",
+  "Lucas",
+  "Sonic",
+  "King Dedede",
+  "Olimar",
+  "Lucario",
+  "R.O.B.",
+  "Toon Link",
+  "Wolf",
+  "Villager",
+  "Mega Man",
+  "Wii Fit Trainer",
+  "Rosalina & Luma",
+  "Little Mac",
+  "Greninja",
+  "Mii Brawler",
+  "Mii Swordfighter",
+  "Mii Gunner",
+  "Palutena",
+  "Pac-Man",
+  "Robin",
+  "Shulk",
+  "Bowser Jr.",
+  "Duck Hunt",
+  "Ryu",
+  "Ken",
+  "Cloud",
+  "Corrin",
+  "Bayonetta",
+  "Inkling",
+  "Ridley",
+  "Simon",
+  "Richter",
+  "King K. Rool",
+  "Isabelle",
+  "Incineroar",
+  "Piranha Plant",
+  "Joker",
+  "Hero",
+  "Banjo & Kazooie",
+  "Terry",
+  "Byleth",
+  "Min Min",
+  "Steve",
+  "Sephiroth",
+  "Pyra",
+  "Mythra",
+  "Kazuya",
+  "Sora"
+];
+
+const elements = [ 
+	"No watering crops", 
+	"No talking to anyone", 
+	"Can't leave the farm", 
+	"Ice physics", 
+	"No running", 
+	
+	"Beat 1 area in Journey of the Prairie King", 
+	"Waste half your energy", 
+	"No eating food", 
+	"Can't enter Pierre's", 
+	"Can't spend money", 
+	
+	"Can't sell anything", 
+	"Sleep by 6PM", 
+	"Can't do anything on the farm", 
+	"Can't harvest or forage", 
+	"Can't use axe or pickaxe", 
+	
+	"Fish all day", 
+	"Spend all day in the Mines", 
+	"Give trash to 5 villagers", 
+	"Trash your most valuable item", 
+	"Pass out intentionally", 
+	
+	"Can't use chests", 
+	"Spend all your money", 
+	"Only carry 1 tool", 
+	"Gift a sub", 
+	"Do the Wordle", 
+	"Do the Globle", 
+	"Spend all your money at Joja", 
+	"Score over 600 on Statle", 
+	"Draw a pokemon from memory", 
+	"Play Fortnite", 
+	
+	"Play YouTube on repeat", 
+	
+	"Buy everyone a beer", 
+	"Install Pam Horse mod", 
+	"Only do journal quests", 
+	"Greg Trivia", 
+	"Play FNF", 
+	
+	"Play Mario vs Luigi", 
+	"Do the Mario Heardle" 
+];
+
+const jigglypuffArray = [
+    "END EVERY DAY BY 8:00PM",
+    "DESTROY ALL YOUR CROPS",
+    "DELETE A YOUTUBE VIDEO",
+	"SAY A SWEAR WORD",
+	"SKIP THE NEXT 3 DAYS",
+	"OBEY ALL IRL LAWS"
+];
+
+const slots = [
+    document.getElementById("slot0"),
+    document.getElementById("slot1"),
+    document.getElementById("slot2"),
+    document.getElementById("slot3")
+];
+
+const levelBoxes = [
+    document.getElementById("level0"),
+    document.getElementById("level1"),
+    document.getElementById("level2"),
+    document.getElementById("level3")
+];
+
+const elementBoxes = [
+    document.getElementById("element0"),
+    document.getElementById("element1"),
+    document.getElementById("element2"),
+    document.getElementById("element3")
+];
+
+const rollSound = document.getElementById("rollSound");
+
+const dingSounds = [
+    document.getElementById("ding0"),
+    document.getElementById("ding1"),
+    document.getElementById("ding2"),
+    document.getElementById("ding3")
+];
+
+const button = document.getElementById("rollBtn");
+const jigglyAudio = document.getElementById("jigglyAudio");
+const jigglyOverlay = document.getElementById("jigglyOverlay");
+const jigglyImage = jigglyOverlay.querySelector("img");
+
+function randomFromArray(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function randomLevel(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function animateCard(
+    slot,
+    levelBox,
+    elementBox,
+    duration,
+    finalCharacter,
+    finalLevel,
+    finalElement,
+    dingIndex,
+    isJiggly = false
+) {
+
+    return new Promise(resolve => {
+
+        slot.classList.add("active");
+
+        rollSound.currentTime = 0;
+        rollSound.loop = true;
+        rollSound.play().catch(() => {});
+
+        const interval = setInterval(() => {
+
+            slot.textContent = randomFromArray(characters);
+
+            levelBox.textContent =
+                "Level " + randomLevel(1, 9);
+
+            elementBox.textContent =
+                randomFromArray(elements);
+
+        }, 70);
+
+        setTimeout(() => {
+
+            clearInterval(interval);
+
+            rollSound.pause();
+            rollSound.currentTime = 0;
+
+            const ding = dingSounds[dingIndex];
+
+            ding.currentTime = 0;
+            ding.play().catch(() => {});
+
+            slot.textContent = finalCharacter;
+            levelBox.textContent = "Level " + finalLevel;
+            elementBox.textContent = finalElement;
+
+            slot.classList.remove("active");
+
+            if (isJiggly) {
+
+                slot.classList.add("jigglypuff");
+                levelBox.classList.add("jigglypuff");
+                elementBox.classList.add("jiggly-element");
+
+                jigglyAudio.currentTime = 0;
+                jigglyAudio.play().catch(() => {});
+
+                jigglyOverlay.style.opacity = "1";
+
+                jigglyImage.style.animation = "none";
+                void jigglyImage.offsetWidth;
+
+                jigglyImage.style.animation =
+                    "jigglyFade 2s ease-in-out";
+
+                setTimeout(() => {
+                    jigglyOverlay.style.opacity = "0";
+                }, 2000);
+
+            } else {
+
+                slot.classList.remove("jigglypuff");
+                levelBox.classList.remove("jigglypuff");
+                elementBox.classList.remove("jiggly-element");
+            }
+
+            resolve();
+
+        }, duration);
+    });
+}
+
+async function generateTeam() {
+
+    button.disabled = true;
+
+    const jigglyTriggered =
+        Math.floor(Math.random() * 7) === 0;
+
+    slots.forEach(slot => {
+        slot.textContent = "?";
+        slot.classList.remove("jigglypuff");
+    });
+
+    levelBoxes.forEach(box => {
+        box.textContent = "?";
+        box.classList.remove("jigglypuff");
+    });
+
+    elementBoxes.forEach(box => {
+        box.textContent = "?";
+        box.classList.remove("jiggly-element");
+    });
+
+    const availableCharacters = [...characters];
+    const selectedCharacters = [];
+
+    for (let i = 0; i < 4; i++) {
+
+        if (jigglyTriggered && i === 3) {
+
+            selectedCharacters.push("Jigglypuff");
+            continue;
+        }
+
+        let index =
+            Math.floor(Math.random() * availableCharacters.length);
+
+        let chosen = availableCharacters[index];
+
+        selectedCharacters.push(chosen);
+
+        availableCharacters.splice(index, 1);
+    }
+
+    const selectedLevels = [];
+
+    for (let i = 0; i < 4; i++) {
+
+        if (jigglyTriggered && i === 3) {
+
+            selectedLevels.push(9);
+
+        } else if (jigglyTriggered) {
+
+            selectedLevels.push(randomLevel(1, 7));
+
+        } else {
+
+            selectedLevels.push(randomLevel(1, 9));
+        }
+    }
+
+    const selectedElements = [];
+
+	for (let i = 0; i < 4; i++) {
+
+		if (jigglyTriggered && i === 3) {
+
+			selectedElements.push(
+				randomFromArray(jigglypuffArray)
+			);
+
+		} else {
+
+			selectedElements.push(
+				randomFromArray(elements)
+			);
+		}
+	}
+
+    for (let i = 0; i < 4; i++) {
+
+        const isFinalJiggly =
+            jigglyTriggered && i === 3;
+
+        await animateCard(
+
+            slots[i],
+            levelBoxes[i],
+            elementBoxes[i],
+
+            1500 + (i * 300),
+
+            selectedCharacters[i],
+            selectedLevels[i],
+            selectedElements[i],
+
+            i,
+
+            isFinalJiggly
+        );
+    }
+
+    button.disabled = false;
+}
+
+button.addEventListener("click", generateTeam);
+
+</script>
+
+</body>
+</html>
