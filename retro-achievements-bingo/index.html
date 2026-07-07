@@ -59,6 +59,9 @@
 	  border: solid white 2px;
 	  color: white;
 	}
+    #info-title {
+      font-size: 24px;
+    }
   </style>
 </head>
 <body>
@@ -83,6 +86,8 @@
   <button id="yellow" class="yellow" onclick="changeColor('yellow')">Yellow</button>
   <button id="red" class="red" onclick="changeColor('red')">Red</button>
   <button id="reroll" onclick="changeColor('reroll')">reroll</button><br><br>
+  
+  <div id="info-title"></div><br><br>
  
   <div id="bingo">
     <table style="margin: 0px auto;">
@@ -142,7 +147,8 @@
 		if (highlight == "reroll") {
 			getRandomAchievement(row, column);
 		} else if (highlight == "info") {
-			alert(document.getElementById(row + "-" + column).title);
+			//alert(document.getElementById(row + "-" + column).title);
+            document.getElementById("info-title").innerHTML = document.getElementById(row + "-" + column).title;
 		} else { 
 			document.getElementById(row + "-" + column).style.backgroundColor = highlight;
 		}
@@ -239,7 +245,7 @@
                             } else {
                               document.getElementById(i + "-" + j).innerHTML = "<img src='https://media.retroachievements.org/Badge/" + firstAchievement.BadgeName + ".png'>";
                             }
-							document.getElementById(i + "-" + j).title = data.Title + " \u000A " + firstAchievement.Title + " \n " + firstAchievement.Description;
+							document.getElementById(i + "-" + j).title = "<b>" + data.Title + " | " + firstAchievement.Title + "</b> <br> " + firstAchievement.Description;
 							document.getElementById("results").innerHTML += GAME_ID + " | " + data.Title + " | " + firstAchievement.Title + " | " + firstAchievement.Description + "<br>";
 							if (j == 4) {	
 								document.getElementById("results").innerHTML += "<br>";
