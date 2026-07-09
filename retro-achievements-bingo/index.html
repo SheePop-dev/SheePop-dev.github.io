@@ -282,7 +282,7 @@
                     } else {
                         document.getElementById(a + "-" + b).innerHTML = "<img src='https://media.retroachievements.org/Badge/" + firstAchievement.BadgeName + ".png'>";
                     }
-					document.getElementById(i + "-" + b).title = data.Title + " | " + firstAchievement.Title + " | " + firstAchievement.Description;
+					document.getElementById(a + "-" + b).title = "<b>" + data.Title + " | " + firstAchievement.Title + "</b> <br> " + firstAchievement.Description;
 					document.getElementById("results").innerHTML += GAME_ID + " | " + data.Title + " | " + firstAchievement.Title + " | " + firstAchievement.Description + "<br>";
 					if (j == 4) {	
 						document.getElementById("results").innerHTML += "<br>";
