@@ -43,6 +43,9 @@
       height: 112px;
       border: solid grey 2px;
     }
+    td img {
+      width: 96px;
+    }
 	#td0, #td1 {
 	  display: none;
 	}
@@ -91,11 +94,12 @@
  
   <div id="bingo">
     <table style="margin: 0px auto;">
-    <td id="0-0" onClick="clicked(0,0)"></td><td id="0-1" onClick="clicked(0,1)"></td><td id="0-2" onClick="clicked(0,2)"></td><td id="0-3" onClick="clicked(0,3)"></td><td id="0-4" onClick="clicked(0,4)"></td> <tr>
-    <td id="1-0" onClick="clicked(1,0)"></td><td id="1-1" onClick="clicked(1,1)"></td><td id="1-2" onClick="clicked(1,2)"></td><td id="1-3" onClick="clicked(1,3)"></td><td id="1-4" onClick="clicked(1,4)"></td> <tr>
-	<td id="2-0" onClick="clicked(2,0)"></td><td id="2-1" onClick="clicked(2,1)"></td><td id="2-2" onClick="clicked(2,2)"></td><td id="2-3" onClick="clicked(2,3)"></td><td id="2-4" onClick="clicked(2,4)"></td> <tr>
-	<td id="3-0" onClick="clicked(3,0)"></td><td id="3-1" onClick="clicked(3,1)"></td><td id="3-2" onClick="clicked(3,2)"></td><td id="3-3" onClick="clicked(3,3)"></td><td id="3-4" onClick="clicked(3,4)"></td> <tr>
-	<td id="4-0" onClick="clicked(4,0)"></td><td id="4-1" onClick="clicked(4,1)"></td><td id="4-2" onClick="clicked(4,2)"></td><td id="4-3" onClick="clicked(4,3)"></td><td id="4-4" onClick="clicked(4,4)"></td>
+    <th></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><tr>
+    <th>A</th><td id="0-0" onClick="clicked(0,0)"></td><td id="0-1" onClick="clicked(0,1)"></td><td id="0-2" onClick="clicked(0,2)"></td><td id="0-3" onClick="clicked(0,3)"></td><td id="0-4" onClick="clicked(0,4)"></td> <tr>
+    <th>B</th><td id="1-0" onClick="clicked(1,0)"></td><td id="1-1" onClick="clicked(1,1)"></td><td id="1-2" onClick="clicked(1,2)"></td><td id="1-3" onClick="clicked(1,3)"></td><td id="1-4" onClick="clicked(1,4)"></td> <tr>
+	<th>C</th><td id="2-0" onClick="clicked(2,0)"></td><td id="2-1" onClick="clicked(2,1)"></td><td id="2-2" onClick="clicked(2,2)"></td><td id="2-3" onClick="clicked(2,3)"></td><td id="2-4" onClick="clicked(2,4)"></td> <tr>
+	<th>D</th><td id="3-0" onClick="clicked(3,0)"></td><td id="3-1" onClick="clicked(3,1)"></td><td id="3-2" onClick="clicked(3,2)"></td><td id="3-3" onClick="clicked(3,3)"></td><td id="3-4" onClick="clicked(3,4)"></td> <tr>
+	<th>E</th><td id="4-0" onClick="clicked(4,0)"></td><td id="4-1" onClick="clicked(4,1)"></td><td id="4-2" onClick="clicked(4,2)"></td><td id="4-3" onClick="clicked(4,3)"></td><td id="4-4" onClick="clicked(4,4)"></td>
     </table>
   </div><br><br><br><br>
   
@@ -105,6 +109,8 @@
   
 	const gameIDs = [];
 	var tempGameIDs = [...gameIDs];
+    const usedAchievements = new Set();
+    
 	var USERNAME = "";
     var API_KEY = "";
 	
@@ -163,11 +169,11 @@
 	function changeBingoSize(val) {
 		bingoSize = val;
 		if (val == 3) {
-			document.getElementById("bingo").innerHTML =  '<table style="margin: 0px auto;"><td id="0-0" onClick="clicked(0,0)"></td><td id="0-1" onClick="clicked(0,1)"></td><td id="0-2" onClick="clicked(0,2)"></td> <tr><td id="1-0" onClick="clicked(1,0)"></td><td id="1-1" onClick="clicked(1,1)"></td><td id="1-2" onClick="clicked(1,2)"></td> <tr><td id="2-0" onClick="clicked(2,0)"></td><td id="2-1" onClick="clicked(2,1)"></td><td id="2-2" onClick="clicked(2,2)"></td> <tr></table>'
+			document.getElementById("bingo").innerHTML =  '<table style="margin: 0px auto;"><th></th><th>1</th><th>2</th><th>3</th><tr><th>A</th><td id="0-0" onClick="clicked(0,0)"></td><td id="0-1" onClick="clicked(0,1)"></td><td id="0-2" onClick="clicked(0,2)"></td><tr><th>B</th><td id="1-0" onClick="clicked(1,0)"></td><td id="1-1" onClick="clicked(1,1)"></td><td id="1-2" onClick="clicked(1,2)"></td><tr><th>C</th><td id="2-0" onClick="clicked(2,0)"></td><td id="2-1" onClick="clicked(2,1)"></td><td id="2-2" onClick="clicked(2,2)"></td><tr></table>'
 		} else if (val == 4) {
-			document.getElementById("bingo").innerHTML =  '<table style="margin: 0px auto;"><td id="0-0" onClick="clicked(0,0)"></td><td id="0-1" onClick="clicked(0,1)"></td><td id="0-2" onClick="clicked(0,2)"></td><td id="0-3" onClick="clicked(0,3)"></td> <tr><td id="1-0" onClick="clicked(1,0)"></td><td id="1-1" onClick="clicked(1,1)"></td><td id="1-2" onClick="clicked(1,2)"></td><td id="1-3" onClick="clicked(1,3)"></td> <tr><td id="2-0" onClick="clicked(2,0)"></td><td id="2-1" onClick="clicked(2,1)"></td><td id="2-2" onClick="clicked(2,2)"></td><td id="2-3" onClick="clicked(2,3)"></td> <tr><td id="3-0" onClick="clicked(3,0)"></td><td id="3-1" onClick="clicked(3,1)"></td><td id="3-2" onClick="clicked(3,2)"></td><td id="3-3" onClick="clicked(3,3)"></td> <tr></table>'
+			document.getElementById("bingo").innerHTML =  '<table style="margin: 0px auto;"><th></th><th>1</th><th>2</th><th>3</th><th>4</th><tr><th>A</th><td id="0-0" onClick="clicked(0,0)"></td><td id="0-1" onClick="clicked(0,1)"></td><td id="0-2" onClick="clicked(0,2)"></td><td id="0-3" onClick="clicked(0,3)"></td><tr><th>B</th><td id="1-0" onClick="clicked(1,0)"></td><td id="1-1" onClick="clicked(1,1)"></td><td id="1-2" onClick="clicked(1,2)"></td><td id="1-3" onClick="clicked(1,3)"></td><tr><th>C</th><td id="2-0" onClick="clicked(2,0)"></td><td id="2-1" onClick="clicked(2,1)"></td><td id="2-2" onClick="clicked(2,2)"></td><td id="2-3" onClick="clicked(2,3)"></td><tr><th>D</th><td id="3-0" onClick="clicked(3,0)"></td><td id="3-1" onClick="clicked(3,1)"></td><td id="3-2" onClick="clicked(3,2)"></td><td id="3-3" onClick="clicked(3,3)"></td><tr></table>'
 		} else {
-			document.getElementById("bingo").innerHTML =  '<table style="margin: 0px auto;"><td id="0-0" onClick="clicked(0,0)"></td><td id="0-1" onClick="clicked(0,1)"></td><td id="0-2" onClick="clicked(0,2)"></td><td id="0-3" onClick="clicked(0,3)"></td><td id="0-4" onClick="clicked(0,4)"></td> <tr><td id="1-0" onClick="clicked(1,0)"></td><td id="1-1" onClick="clicked(1,1)"></td><td id="1-2" onClick="clicked(1,2)"></td><td id="1-3" onClick="clicked(1,3)"></td><td id="1-4" onClick="clicked(1,4)"></td> <tr><td id="2-0" onClick="clicked(2,0)"></td><td id="2-1" onClick="clicked(2,1)"></td><td id="2-2" onClick="clicked(2,2)"></td><td id="2-3" onClick="clicked(2,3)"></td><td id="2-4" onClick="clicked(2,4)"></td> <tr><td id="3-0" onClick="clicked(3,0)"></td><td id="3-1" onClick="clicked(3,1)"></td><td id="3-2" onClick="clicked(3,2)"></td><td id="3-3" onClick="clicked(3,3)"></td><td id="3-4" onClick="clicked(3,4)"></td> <tr><td id="4-0" onClick="clicked(4,0)"></td><td id="4-1" onClick="clicked(4,1)"></td><td id="4-2" onClick="clicked(4,2)"></td><td id="4-3" onClick="clicked(4,3)"></td><td id="4-4" onClick="clicked(4,4)"></td></table>'
+			document.getElementById("bingo").innerHTML =  '<table style="margin: 0px auto;"><th></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><tr><th>A</th><td id="0-0" onClick="clicked(0,0)"></td><td id="0-1" onClick="clicked(0,1)"></td><td id="0-2" onClick="clicked(0,2)"></td><td id="0-3" onClick="clicked(0,3)"></td><td id="0-4" onClick="clicked(0,4)"></td> <tr><th>B</th><td id="1-0" onClick="clicked(1,0)"></td><td id="1-1" onClick="clicked(1,1)"></td><td id="1-2" onClick="clicked(1,2)"></td><td id="1-3" onClick="clicked(1,3)"></td><td id="1-4" onClick="clicked(1,4)"></td> <tr><th>C</th><td id="2-0" onClick="clicked(2,0)"></td><td id="2-1" onClick="clicked(2,1)"></td><td id="2-2" onClick="clicked(2,2)"></td><td id="2-3" onClick="clicked(2,3)"></td><td id="2-4" onClick="clicked(2,4)"></td> <tr><th>D</th><td id="3-0" onClick="clicked(3,0)"></td><td id="3-1" onClick="clicked(3,1)"></td><td id="3-2" onClick="clicked(3,2)"></td><td id="3-3" onClick="clicked(3,3)"></td><td id="3-4" onClick="clicked(3,4)"></td> <tr><th>E</th><td id="4-0" onClick="clicked(4,0)"></td><td id="4-1" onClick="clicked(4,1)"></td><td id="4-2" onClick="clicked(4,2)"></td><td id="4-3" onClick="clicked(4,3)"></td><td id="4-4" onClick="clicked(4,4)"></td></table>'
 		}
 		
 	}
@@ -217,6 +223,7 @@
         document.getElementById("badgeIcons").disabled = true;
 		document.getElementById("generate").disabled = true;
 		if (a === undefined) {
+		  usedAchievements.clear();
 		  if (!randomized) {
 			for (i = 0; i < bingoSize; i++) {
 				for (j = 0; j < bingoSize; j++) {
@@ -235,11 +242,14 @@
 						const achievements = data.Achievements || [];
 						if (!achievements.length) {	
 							const achievementsObj = data.Achievements || {};
-							const max = (data.NumAchievements);
-							const rand = Math.floor(Math.random() * (max - 0));
-							const keys = Object.keys(achievementsObj);
-							const firstKey = keys[rand];
-							const firstAchievement = achievementsObj[firstKey];
+                            const keys = Object.keys(achievementsObj);
+                     		let firstKey;
+							let firstAchievement;
+							do {
+    							firstKey = keys[Math.floor(Math.random() * keys.length)];
+							    firstAchievement = achievementsObj[firstKey];
+							} while (usedAchievements.has(`${GAME_ID}-${firstKey}`));
+							usedAchievements.add(`${GAME_ID}-${firstKey}`);
                             if (!document.getElementById("badgeIcons").checked) {
 							  document.getElementById(i + "-" + j).innerHTML = "<img src='https://media.retroachievements.org" + data.ImageIcon + "'>";
                             } else {
@@ -272,11 +282,14 @@
 				const achievements = data.Achievements || [];
 				if (!achievements.length) {	
 					const achievementsObj = data.Achievements || {};
-					const max = (data.NumAchievements);
-					const rand = Math.floor(Math.random() * (max - 0 + 1));
 					const keys = Object.keys(achievementsObj);
-					const firstKey = keys[rand];
-					const firstAchievement = achievementsObj[firstKey];
+					let firstKey;
+					let firstAchievement;
+					do {
+					    firstKey = keys[Math.floor(Math.random() * keys.length)];
+					    firstAchievement = achievementsObj[firstKey];
+					} while (usedAchievements.has(`${GAME_ID}-${firstKey}`));
+					usedAchievements.add(`${GAME_ID}-${firstKey}`);
                     if (!document.getElementById("badgeIcons").checked) {
 			        	document.getElementById(a + "-" + b).innerHTML = "<img src='https://media.retroachievements.org" + data.ImageIcon + "'>";
                     } else {
