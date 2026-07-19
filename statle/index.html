@@ -1387,9 +1387,11 @@ function newGame() {
     document.getElementById("xspd").style.opacity = "0";
     document.getElementById("xspe").style.opacity = "0";
     document.getElementById("newGame").style.display = "none";
+
     shuffledArr = [...monList].sort(() => Math.random() - 0.5);
     currentMon = 0;
     totalBST = 0;
+
     document.getElementById("btn0").disabled = false;
     document.getElementById("btn0").innerHTML = "HP";
     document.getElementById("btn1").disabled = false;
@@ -1402,81 +1404,119 @@ function newGame() {
     document.getElementById("btn4").innerHTML = "Special Defense";
     document.getElementById("btn5").disabled = false;
     document.getElementById("btn5").innerHTML = "Speed";
+
     document.getElementById("result").innerHTML = "Total BST: " + totalBST;
+
     loadMon();
+
     const best = calculateBestScore(shuffledArr.slice(0, 6));
-    document.getElementById("bestScore").childNodes[0].textContent = "Best possible score: " + best.score + " ";
-    best.assignment.forEach((pick, index) => {
-        if (best.assignment[index].stat == "hp") {
-            document.getElementById("best0").innerHTML = "<img src='images/" + pick.pokemon.name + ".png'> <br>" + statLabels[pick.stat] + ": " + pick.value;
-        } else if (best.assignment[index].stat == "attack") {
-            document.getElementById("best1").innerHTML = "<img src='images/" + pick.pokemon.name + ".png'> <br>" + statLabels[pick.stat] + ": " + pick.value;
-        } else if (best.assignment[index].stat == "defense") {
-            document.getElementById("best2").innerHTML = "<img src='images/" + pick.pokemon.name + ".png'> <br>" + statLabels[pick.stat] + ": " + pick.value;
-        } else if (best.assignment[index].stat == "specialAttack") {
-            document.getElementById("best3").innerHTML = "<img src='images/" + pick.pokemon.name + ".png'> <br>" + statLabels[pick.stat] + ": " + pick.value;
-        } else if (best.assignment[index].stat == "specialDefense") {
-            document.getElementById("best4").innerHTML = "<img src='images/" + pick.pokemon.name + ".png'> <br>" + statLabels[pick.stat] + ": " + pick.value;
-        } else if (best.assignment[index].stat == "speed") {
-            document.getElementById("best5").innerHTML = "<img src='images/" + pick.pokemon.name + ".png'> <br>" + statLabels[pick.stat] + ": " + pick.value;
+    document.getElementById("bestScore").childNodes[0].textContent =
+        "Best possible score: " + best.score + " ";
+
+    best.assignment.forEach((pick) => {
+        const name = pick.pokemon.name;
+        const capName = name.charAt(0).toUpperCase() + name.slice(1);
+
+        const image =
+            "<img src='images/" + name.toLowerCase() + ".png' " +
+            "onerror=\"this.onerror=null;this.src='images/" + capName + ".png';\">";
+
+        if (pick.stat == "hp") {
+            document.getElementById("best0").innerHTML =
+                image + "<br>" + statLabels[pick.stat] + ": " + pick.value;
+        } else if (pick.stat == "attack") {
+            document.getElementById("best1").innerHTML =
+                image + "<br>" + statLabels[pick.stat] + ": " + pick.value;
+        } else if (pick.stat == "defense") {
+            document.getElementById("best2").innerHTML =
+                image + "<br>" + statLabels[pick.stat] + ": " + pick.value;
+        } else if (pick.stat == "specialAttack") {
+            document.getElementById("best3").innerHTML =
+                image + "<br>" + statLabels[pick.stat] + ": " + pick.value;
+        } else if (pick.stat == "specialDefense") {
+            document.getElementById("best4").innerHTML =
+                image + "<br>" + statLabels[pick.stat] + ": " + pick.value;
+        } else if (pick.stat == "speed") {
+            document.getElementById("best5").innerHTML =
+                image + "<br>" + statLabels[pick.stat] + ": " + pick.value;
         }
     });
 }
 
 function loadMon() {
-	isShiny = false;
-	var shinyRoll = Math.floor(Math.random() * shinyOdds);
+    isShiny = false;
+    var shinyRoll = Math.floor(Math.random() * shinyOdds);
     document.getElementById("pokemonName").textContent = shuffledArr[currentMon].name;
-    if (shinyRoll == 0 && shuffledArr[currentMon].shiny == true) {      
-      isShiny = true;
-      document.getElementById("pokemonSprite").src = "images/shiny_" + shuffledArr[currentMon].name + ".png";
+    const img = document.getElementById("pokemonSprite");
+    const name = shuffledArr[currentMon].name;
+    let filename;
+    
+    if (shinyRoll === 0 && shuffledArr[currentMon].shiny === true) {
+        isShiny = true;
+        filename = "images/shiny_" + name.toLowerCase() + ".png";
     } else {
-      document.getElementById("pokemonSprite").src = "images/" + shuffledArr[currentMon].name + ".png";
+        filename = "images/" + name.toLowerCase() + ".png";
     }
+
+    img.onerror = function () {
+        this.onerror = null;
+        const capName = name.charAt(0).toUpperCase() + name.slice(1);
+        if (isShiny) {
+            this.src = "images/shiny_" + capName + ".png";
+        } else {
+            this.src = "images/" + capName + ".png";
+        }
+    };
+    img.src = filename;
 }
 
 function submit(val) {
-	var imageSrc = "<img src='images/";
-	if (isShiny) {
-    	imageSrc = "<img src='images/shiny_";
-    } else {
-    	imageSrc = "<img src='images/";
-    }
+    const name = shuffledArr[currentMon].name;
+    const capName = name.charAt(0).toUpperCase() + name.slice(1);
+    const prefix = isShiny ? "shiny_" : "";
+
+    const imageSrc =
+        "<img src='images/" + prefix + name.toLowerCase() + ".png' " +
+        "onerror=\"this.onerror=null;this.src='images/" + prefix + capName + ".png';\">";
+
     if (val == 0) {
         totalBST += shuffledArr[currentMon].stats.hp;
         document.getElementById("btn0").innerHTML = "HP: " + shuffledArr[currentMon].stats.hp;
-        document.getElementById("your0").innerHTML = imageSrc + shuffledArr[currentMon].name + ".png'> <br>HP: " + shuffledArr[currentMon].stats.hp;
+        document.getElementById("your0").innerHTML = imageSrc + "<br>HP: " + shuffledArr[currentMon].stats.hp;
     } else if (val == 1) {
         totalBST += shuffledArr[currentMon].stats.attack;
-        document.getElementById("btn1").innerHTML = "Attack : " + shuffledArr[currentMon].stats.attack;
-        document.getElementById("your1").innerHTML = imageSrc + shuffledArr[currentMon].name + ".png'> <br>Attack: " + shuffledArr[currentMon].stats.attack;
+        document.getElementById("btn1").innerHTML = "Attack: " + shuffledArr[currentMon].stats.attack;
+        document.getElementById("your1").innerHTML = imageSrc + "<br>Attack: " + shuffledArr[currentMon].stats.attack;
     } else if (val == 2) {
         totalBST += shuffledArr[currentMon].stats.defense;
         document.getElementById("btn2").innerHTML = "Defense: " + shuffledArr[currentMon].stats.defense;
-        document.getElementById("your2").innerHTML = imageSrc + shuffledArr[currentMon].name + ".png'> <br>Defense: " + shuffledArr[currentMon].stats.defense;
+        document.getElementById("your2").innerHTML = imageSrc + "<br>Defense: " + shuffledArr[currentMon].stats.defense;
     } else if (val == 3) {
         totalBST += shuffledArr[currentMon].stats.specialAttack;
         document.getElementById("btn3").innerHTML = "Special Attack: " + shuffledArr[currentMon].stats.specialAttack;
-        document.getElementById("your3").innerHTML = imageSrc + shuffledArr[currentMon].name + ".png'> <br>Special Attack: " + shuffledArr[currentMon].stats.specialAttack;
+        document.getElementById("your3").innerHTML = imageSrc + "<br>Special Attack: " + shuffledArr[currentMon].stats.specialAttack;
     } else if (val == 4) {
         totalBST += shuffledArr[currentMon].stats.specialDefense;
         document.getElementById("btn4").innerHTML = "Special Defense: " + shuffledArr[currentMon].stats.specialDefense;
-        document.getElementById("your4").innerHTML = imageSrc + shuffledArr[currentMon].name + ".png'> <br>Special Defense: " + shuffledArr[currentMon].stats.specialDefense;
+        document.getElementById("your4").innerHTML = imageSrc + "<br>Special Defense: " + shuffledArr[currentMon].stats.specialDefense;
     } else if (val == 5) {
         totalBST += shuffledArr[currentMon].stats.speed;
         document.getElementById("btn5").innerHTML = "Speed: " + shuffledArr[currentMon].stats.speed;
-        document.getElementById("your5").innerHTML = imageSrc + shuffledArr[currentMon].name + ".png'> <br>Speed: " + shuffledArr[currentMon].stats.speed;
+        document.getElementById("your5").innerHTML = imageSrc + "<br>Speed: " + shuffledArr[currentMon].stats.speed;
     }
+
     document.getElementById("btn" + val).disabled = true;
     document.getElementById("result").innerHTML = "Total BST: " + totalBST;
+
     document.getElementById("xhp").style.opacity = "1";
     document.getElementById("xatk").style.opacity = "1";
     document.getElementById("xdef").style.opacity = "1";
     document.getElementById("xspa").style.opacity = "1";
     document.getElementById("xspd").style.opacity = "1";
     document.getElementById("xspe").style.opacity = "1";
+
     clearTimeout(a);
-    a = setTimeout(function() {
+    a = setTimeout(function () {
         document.getElementById("xhp").style.opacity = "0";
         document.getElementById("xatk").style.opacity = "0";
         document.getElementById("xdef").style.opacity = "0";
