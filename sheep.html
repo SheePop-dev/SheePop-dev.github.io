@@ -67,9 +67,12 @@ var worldMap = [[map00, map01],
             
 var currentMap = worldMap[0][0];
 
+var solidObjects = [3, 4];
+
+
 function startGame() {
   myGameArea.start();
-  myPlayer = new player(32, 32, 10, 120);
+  myPlayer = new player(64, 64, 64, 64);
 }
 
 var myGameArea = {
@@ -102,7 +105,9 @@ function player(width, height, x, y) {
   this.mapX = 0;
   this.mapY = 0;
   this.x = x;
-  this.y = y;    
+  this.y = y;   
+  this.tileX = Math.floor((x + 0) / 64);;
+  this.tileY = Math.floor((y + + 63) / 64);;
   this.isMoving = false;
   this.canMove = true;
   this.sourceY = 0;
@@ -117,6 +122,7 @@ function player(width, height, x, y) {
     this.y += this.speedY;        
   }    
 }
+
 
 function component(width, height, color, x, y) {
   this.gamearea = myGameArea;
@@ -147,15 +153,46 @@ var mapTransition = false;
 
 function updateGameArea() {
 
+  myPlayer.tileX = Math.floor((myPlayer.x + 0) / 64);
+  myPlayer.tileY = Math.floor((myPlayer.y + 63) / 64);
+
   currentMap = worldMap[myPlayer.mapY][myPlayer.mapX];
   myGameArea.clear();
     
   myPlayer.speedX = 0;
   myPlayer.speedY = 0;    
-  if (myGameArea.keys && myGameArea.keys[37]) {myPlayer.speedX = -3; }
-  if (myGameArea.keys && myGameArea.keys[39]) {myPlayer.speedX = 3; }
-  if (myGameArea.keys && myGameArea.keys[38]) {myPlayer.speedY = -3; }
-  if (myGameArea.keys && myGameArea.keys[40]) {myPlayer.speedY = 3; }
+  if (myGameArea.keys && myGameArea.keys[37]) {
+    myPlayer.sourceY = 32;
+    if (solidObjects.indexOf(currentMap[myPlayer.tileY][myPlayer.tileX - 1]) >= 0) {
+      myPlayer.speedX = 0; 
+    } else {
+      myPlayer.speedX = -3; 
+    }
+  }
+  if (myGameArea.keys && myGameArea.keys[39]) {
+    myPlayer.sourceY = 48;
+    if (solidObjects.indexOf(currentMap[myPlayer.tileY][myPlayer.tileX + 1]) >= 0) {
+      myPlayer.speedX = 0; 
+    } else {
+      myPlayer.speedX = 3;
+    }
+  }
+  if (myGameArea.keys && myGameArea.keys[38]) {
+    myPlayer.sourceY = 16;
+    if (solidObjects.indexOf(currentMap[myPlayer.tileY - 1][myPlayer.tileX]) >= 0) {
+      myPlayer.speedY = 0; 
+    } else {
+      myPlayer.speedY = -3;
+    }
+  }
+  if (myGameArea.keys && myGameArea.keys[40]) {
+    myPlayer.sourceY = 0;
+    if (solidObjects.indexOf(currentMap[myPlayer.tileY + 1][myPlayer.tileX]) >= 0) {
+      myPlayer.speedY = 0; 
+    } else {
+      myPlayer.speedY = 3;
+    }
+  }
   myPlayer.newPos();    
   myPlayer.update();
   // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
@@ -189,14 +226,20 @@ function updateGameArea() {
   } 
     
   if (myPlayer.x <= -8) {
-    
-    myPlayer.mapX -= 1;
-    myPlayer.x = 448;
-    //myPlayer.x = -8;
+    if (myPlayer.mapX > 0) {
+      myPlayer.mapX -= 1;
+      myPlayer.x = 448;
+    } else {
+      myPlayer.x = -8;
+    }
   }
   if (myPlayer.x >= 456) {
-    myPlayer.mapX += 1;
-    myPlayer.x = 0;
+    if (myPlayer.mapX < worldMap.length-1) {
+      myPlayer.mapX += 1;
+      myPlayer.x = 0;
+    } else {
+      myPlayer.x = 456;
+    }
   }
   if (myPlayer.y <= -8) {
     myPlayer.mapY -= 1;
@@ -207,7 +250,7 @@ function updateGameArea() {
     myPlayer.y = 0;
   }
     
-  document.getElementById("debug").innerHTML = myPlayer.x + ", " + myPlayer.y + " [" + Math.floor((myPlayer.x + 16) /64) + ", " + Math.floor((myPlayer.y + 16)/64) + "]<br>" + myPlayer.speedX + ", " + myPlayer.speedY;
+  document.getElementById("debug").innerHTML = myPlayer.x + ", " + myPlayer.y + " [" + myPlayer.tileX + ", " + myPlayer.tileY + "]<br>" + myPlayer.speedX + ", " + myPlayer.speedY + "<br>" + worldMap.length;
   step++;
     
   if (step%16 >= 7 && player.isMoving) {
