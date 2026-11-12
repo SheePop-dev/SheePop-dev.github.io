@@ -126,7 +126,6 @@ function player(width, height, x, y) {
   }    
 }
 
-
 function component(width, height, color, x, y) {
   this.gamearea = myGameArea;
   this.width = width;
@@ -260,12 +259,20 @@ function updateGameArea() {
     }
   }
   if (myPlayer.y <= -8) {
-    myPlayer.mapY -= 1;
-    myPlayer.y = 448;
+    if (myPlayer.mapY > 0) {
+      myPlayer.mapY -= 1;
+      myPlayer.y = 448;
+    } else {
+      myPlayer.y = -8;
+    }
   }
   if (myPlayer.y >= 456) {
-    myPlayer.mapY += 1;
-    myPlayer.y = 0;
+    if (myPlayer.mapY < worldMap[0].length-1) {
+      myPlayer.mapY += 1;
+      myPlayer.y = 0;
+    } else {
+      myPlayer.y = 456;
+    }
   }
     
   document.getElementById("debug").innerHTML = myPlayer.x + ", " + myPlayer.y + " [" + myPlayer.tileX + ", " + myPlayer.tileY + "]<br>" + myPlayer.speedX + ", " + myPlayer.speedY + "<br>" + worldMap.length + "<br>" + (myPlayer.x - 32) % 64 + ", " + (myPlayer.y - 32) % 64 ;
