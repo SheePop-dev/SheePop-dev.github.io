@@ -106,14 +106,17 @@ function player(width, height, x, y) {
   this.mapY = 0;
   this.x = x;
   this.y = y;   
-  this.tileX = Math.floor((x + 0) / 64);;
-  this.tileY = Math.floor((y + + 63) / 64);;
+  this.tileX = Math.floor((x + 31) / 64);
+  this.tileY = Math.floor((y + + 31) / 64);
   this.isMoving = false;
   this.canMove = true;
   this.sourceY = 0;
   this.sourceX = 0;
   this.update = function() {
     ctx = myGameArea.context;
+    
+    // Occupied Tile
+    // ctx.fillRect(this.tileX * 64, this.tileY * 64, 64, 64);
     ctx.drawImage(img, this.sourceX, this.sourceY, 16, 16, this.x, this.y, 16 * scale, 16 * scale);
     ctx.imageSmoothingEnabled = false;
   }
@@ -153,41 +156,45 @@ var mapTransition = false;
 
 function updateGameArea() {
 
-  myPlayer.tileX = Math.floor((myPlayer.x + 0) / 64);
-  myPlayer.tileY = Math.floor((myPlayer.y + 63) / 64);
+  myPlayer.tileX = Math.floor((myPlayer.x + 31) / 64);
+  myPlayer.tileY = Math.floor((myPlayer.y + 31) / 64);
 
   currentMap = worldMap[myPlayer.mapY][myPlayer.mapX];
   myGameArea.clear();
     
   myPlayer.speedX = 0;
   myPlayer.speedY = 0;    
+  // LEFT
   if (myGameArea.keys && myGameArea.keys[37]) {
     myPlayer.sourceY = 32;
-    if (solidObjects.indexOf(currentMap[myPlayer.tileY][myPlayer.tileX - 1]) >= 0) {
+    if (solidObjects.indexOf(currentMap[myPlayer.tileY][myPlayer.tileX - 1]) >= 0 && (myPlayer.x - 33) % 64 < 32) {
       myPlayer.speedX = 0; 
     } else {
       myPlayer.speedX = -3; 
     }
   }
+  // RIGHT
   if (myGameArea.keys && myGameArea.keys[39]) {
     myPlayer.sourceY = 48;
-    if (solidObjects.indexOf(currentMap[myPlayer.tileY][myPlayer.tileX + 1]) >= 0) {
+    if (solidObjects.indexOf(currentMap[myPlayer.tileY][myPlayer.tileX + 1]) >= 0 && (myPlayer.x - 32) % 64 > 32) {
       myPlayer.speedX = 0; 
     } else {
       myPlayer.speedX = 3;
     }
   }
+  // UP
   if (myGameArea.keys && myGameArea.keys[38]) {
     myPlayer.sourceY = 16;
-    if (solidObjects.indexOf(currentMap[myPlayer.tileY - 1][myPlayer.tileX]) >= 0) {
+    if (solidObjects.indexOf(currentMap[myPlayer.tileY - 1][myPlayer.tileX]) >= 0 && (myPlayer.y - 33) % 64 < 32) {
       myPlayer.speedY = 0; 
     } else {
       myPlayer.speedY = -3;
     }
   }
+  // DOWN
   if (myGameArea.keys && myGameArea.keys[40]) {
     myPlayer.sourceY = 0;
-    if (solidObjects.indexOf(currentMap[myPlayer.tileY + 1][myPlayer.tileX]) >= 0) {
+    if (solidObjects.indexOf(currentMap[myPlayer.tileY + 1][myPlayer.tileX]) >= 0 && (myPlayer.y - 32) % 64 > 32) {
       myPlayer.speedY = 0; 
     } else {
       myPlayer.speedY = 3;
@@ -250,7 +257,7 @@ function updateGameArea() {
     myPlayer.y = 0;
   }
     
-  document.getElementById("debug").innerHTML = myPlayer.x + ", " + myPlayer.y + " [" + myPlayer.tileX + ", " + myPlayer.tileY + "]<br>" + myPlayer.speedX + ", " + myPlayer.speedY + "<br>" + worldMap.length;
+  document.getElementById("debug").innerHTML = myPlayer.x + ", " + myPlayer.y + " [" + myPlayer.tileX + ", " + myPlayer.tileY + "]<br>" + myPlayer.speedX + ", " + myPlayer.speedY + "<br>" + worldMap.length + "<br>" + (myPlayer.x - 32) % 64 + ", " + (myPlayer.y - 32) % 64 ;
   step++;
     
   if (step%16 >= 7 && player.isMoving) {
