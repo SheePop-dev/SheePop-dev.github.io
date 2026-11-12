@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+body, * {
+  margin: 0px;
+  background: black;
+  color: white;
+  text-align: center;
+}
+canvas {
+  border:4px solid gold;
+}
+</style>
+</head>
+<body onload="startGame()">
+<div id="debug"></div>
+<script>
+var myPlayer;
+
+let img = new Image();
+img.src = 'https://raw.githubusercontent.com/SheePop-dev/SheePop-dev.github.io/refs/heads/main/assets/sheep-walk.png';
+
+let tileset = new Image();
+tileset.src = 'https://raw.githubusercontent.com/SheePop-dev/SheePop-dev.github.io/refs/heads/main/assets/outside.png';
+
+var map00 = [[3, 3, 3, 3, 3, 3, 3, 3],
+             [2, 1, 2, 2, 2, 2, 4, 4],
+             [0, 0, 2, 1, 1, 2, 2, 4],
+             [2, 0, 2, 2, 2, 1, 2, 4],
+             [2, 0, 0, 0, 0, 0, 0, 0],
+             [2, 2, 2, 2, 2, 2, 2, 4],
+             [2, 1, 2, 2, 2, 1, 2, 4],
+             [1, 2, 1, 2, 2, 2, 4, 4]];
+           
+var map01 = [[3, 3, 3, 3, 3, 3, 3, 3],
+             [4, 4, 4, 2, 3, 3, 3, 3],
+             [4, 4, 4, 4, 4, 2, 2, 4],
+             [4, 2, 1, 2, 2, 1, 2, 4],
+             [0, 0, 0, 0, 0, 0, 0, 0],
+             [4, 2, 2, 2, 2, 2, 2, 4],
+             [4, 4, 4, 2, 2, 1, 2, 4],
+             [4, 4, 4, 4, 2, 2, 4, 4]];
+            
+var map10 = [[2, 2, 2, 2, 2, 2, 2, 2],
+             [2, 2, 2, 2, 2, 2, 2, 2],
+             [2, 2, 2, 2, 2, 2, 2, 2],
+             [2, 2, 2, 2, 2, 2, 2, 2],
+             [2, 2, 2, 2, 2, 2, 2, 2],
+             [2, 2, 2, 2, 2, 2, 2, 2],
+             [2, 2, 2, 2, 2, 2, 2, 2],
+             [2, 2, 2, 2, 2, 2, 2, 2]];
+           
+var map11 = [[1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1]];
+            
+            
+var worldMap = [[map00, map01],
+                [map10, map11]];
+            
+var currentMap = worldMap[0][0];
+
+function startGame() {
+  myGameArea.start();
+  myPlayer = new player(32, 32, 10, 120);
+}
+
+var myGameArea = {
+  canvas : document.createElement("canvas"),
+  start : function() {
+    this.canvas.width = 512;
+    this.canvas.height = 512;
+    this.context = this.canvas.getContext("2d");
+    document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+    this.interval = setInterval(updateGameArea, 20);
+    window.addEventListener('keydown', function (e) {
+      myGameArea.keys = (myGameArea.keys || []);
+      myGameArea.keys[e.keyCode] = (e.type == "keydown");
+    })
+    window.addEventListener('keyup', function (e) {
+      myGameArea.keys[e.keyCode] = (e.type == "keydown");           
+    })
+  }, 
+  clear : function(){
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  }
+}
+
+function player(width, height, x, y) {
+  this.gamearea = myGameArea;
+  this.width = width;
+  this.height = height;
+  this.speedX = 0;
+  this.speedY = 0;    
+  this.mapX = 0;
+  this.mapY = 0;
+  this.x = x;
+  this.y = y;    
+  this.isMoving = false;
+  this.canMove = true;
+  this.sourceY = 0;
+  this.sourceX = 0;
+  this.update = function() {
+    ctx = myGameArea.context;
+    ctx.drawImage(img, this.sourceX, this.sourceY, 16, 16, this.x, this.y, 16 * scale, 16 * scale);
+    ctx.imageSmoothingEnabled = false;
+  }
+  this.newPos = function() {
+    this.x += this.speedX;
+    this.y += this.speedY;        
+  }    
+}
+
+function component(width, height, color, x, y) {
+  this.gamearea = myGameArea;
+  this.width = width;
+  this.height = height;
+  this.speedX = 0;
+  this.speedY = 0;    
+  this.x = x;
+  this.y = y;    
+  this.update = function() {
+    ctx = myGameArea.context;
+    ctx.fillStyle = color;
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+  }
+  this.newPos = function() {
+    this.x += this.speedX;
+    this.y += this.speedY;        
+  }    
+}
+
+const scale = 4;
+var step = 0;
+var tileStep = 0;
+var mapX = 0;
+var mapY = 0;
+
+var mapTransition = false;
+
+function updateGameArea() {
+
+  currentMap = worldMap[myPlayer.mapY][myPlayer.mapX];
+  myGameArea.clear();
+    
+  myPlayer.speedX = 0;
+  myPlayer.speedY = 0;    
+  if (myGameArea.keys && myGameArea.keys[37]) {myPlayer.speedX = -3; }
+  if (myGameArea.keys && myGameArea.keys[39]) {myPlayer.speedX = 3; }
+  if (myGameArea.keys && myGameArea.keys[38]) {myPlayer.speedY = -3; }
+  if (myGameArea.keys && myGameArea.keys[40]) {myPlayer.speedY = 3; }
+  myPlayer.newPos();    
+  myPlayer.update();
+  // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+      
+  for (i=0;i<8;i++) {
+    for (j=0;j<8;j++) {
+      if (step >= 15 && (currentMap[j][i] == 3 || currentMap[j][i] == 1)) {
+        tileStep = 1;
+      } else {
+        tileStep = 0;
+      }
+      ctx.drawImage(tileset, tileStep * 16, currentMap[j][i] * 16, 16, 16, 16 * i * scale, 16 * j * scale, 16 * scale, 16 * scale);
+    }
+  }
+  
+  myPlayer.update();
+    
+  player.isMoving = false;
+  if (myPlayer.speedX > 0) {
+    myPlayer.sourceY = 48;
+    player.isMoving = true;
+  } else if (myPlayer.speedX < 0) {
+    myPlayer.sourceY = 32;
+    player.isMoving = true;
+  } else if (myPlayer.speedY > 0) {
+    myPlayer.sourceY = 0;
+    player.isMoving = true;
+  } else if (myPlayer.speedY < 0) {
+    myPlayer.sourceY = 16;
+    player.isMoving = true;
+  } 
+    
+  if (myPlayer.x <= -8) {
+    
+    myPlayer.mapX -= 1;
+    myPlayer.x = 448;
+    //myPlayer.x = -8;
+  }
+  if (myPlayer.x >= 456) {
+    myPlayer.mapX += 1;
+    myPlayer.x = 0;
+  }
+  if (myPlayer.y <= -8) {
+    myPlayer.mapY -= 1;
+    myPlayer.y = 448;
+  }
+  if (myPlayer.y >= 456) {
+    myPlayer.mapY += 1;
+    myPlayer.y = 0;
+  }
+    
+  document.getElementById("debug").innerHTML = myPlayer.x + ", " + myPlayer.y + " [" + Math.floor((myPlayer.x + 16) /64) + ", " + Math.floor((myPlayer.y + 16)/64) + "]<br>" + myPlayer.speedX + ", " + myPlayer.speedY;
+  step++;
+    
+  if (step%16 >= 7 && player.isMoving) {
+    myPlayer.sourceX = 16;
+  } else {
+    myPlayer.sourceX = 0;
+  }
+    
+  if (step >= 32) {
+    step = 0;
+  }
+}
+</script>
+</body>
+</html>
