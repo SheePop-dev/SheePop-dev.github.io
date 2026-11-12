@@ -65,7 +65,7 @@ var map11 = [[1, 1, 1, 1, 1, 1, 1, 1],
 var worldMap = [[map00, map01],
                 [map10, map11]];
             
-var currentMap = worldMap[0][0];
+var currentMap = worldMap[1][0];
 
 var solidObjects = [3, 4];
 
@@ -154,6 +154,17 @@ var mapY = 0;
 
 var mapTransition = false;
 
+function checkCollision(y, x) {
+  if (y == 8 || x == 8 || y == -1 || x == -1) {
+    return false;
+  }
+  if (solidObjects.indexOf(currentMap[y][x]) >= 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function updateGameArea() {
 
   myPlayer.tileX = Math.floor((myPlayer.x + 31) / 64);
@@ -167,7 +178,7 @@ function updateGameArea() {
   // LEFT
   if (myGameArea.keys && myGameArea.keys[37]) {
     myPlayer.sourceY = 32;
-    if (solidObjects.indexOf(currentMap[myPlayer.tileY][myPlayer.tileX - 1]) >= 0 && (myPlayer.x - 33) % 64 < 32) {
+    if (checkCollision(myPlayer.tileY, myPlayer.tileX - 1) && (myPlayer.x - 33) % 64 < 32) {
       myPlayer.speedX = 0; 
     } else {
       myPlayer.speedX = -3; 
@@ -176,7 +187,7 @@ function updateGameArea() {
   // RIGHT
   if (myGameArea.keys && myGameArea.keys[39]) {
     myPlayer.sourceY = 48;
-    if (solidObjects.indexOf(currentMap[myPlayer.tileY][myPlayer.tileX + 1]) >= 0 && (myPlayer.x - 32) % 64 > 32) {
+    if (checkCollision(myPlayer.tileY, myPlayer.tileX + 1) && (myPlayer.x - 32) % 64 > 32) {
       myPlayer.speedX = 0; 
     } else {
       myPlayer.speedX = 3;
@@ -185,7 +196,7 @@ function updateGameArea() {
   // UP
   if (myGameArea.keys && myGameArea.keys[38]) {
     myPlayer.sourceY = 16;
-    if (solidObjects.indexOf(currentMap[myPlayer.tileY - 1][myPlayer.tileX]) >= 0 && (myPlayer.y - 33) % 64 < 32) {
+    if (checkCollision(myPlayer.tileY - 1, myPlayer.tileX) && (myPlayer.y - 33) % 64 < 32) {
       myPlayer.speedY = 0; 
     } else {
       myPlayer.speedY = -3;
@@ -194,7 +205,7 @@ function updateGameArea() {
   // DOWN
   if (myGameArea.keys && myGameArea.keys[40]) {
     myPlayer.sourceY = 0;
-    if (solidObjects.indexOf(currentMap[myPlayer.tileY + 1][myPlayer.tileX]) >= 0 && (myPlayer.y - 32) % 64 > 32) {
+    if (checkCollision(myPlayer.tileY + 1, myPlayer.tileX) && (myPlayer.y - 32) % 64 > 32) {
       myPlayer.speedY = 0; 
     } else {
       myPlayer.speedY = 3;
