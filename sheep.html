@@ -25,6 +25,12 @@ img.src = 'https://raw.githubusercontent.com/SheePop-dev/SheePop-dev.github.io/r
 let tileset = new Image();
 tileset.src = 'https://raw.githubusercontent.com/SheePop-dev/SheePop-dev.github.io/refs/heads/main/assets/outside.png';
 
+let atk = new Image();
+atk.src = 'https://raw.githubusercontent.com/SheePop-dev/SheePop-dev.github.io/refs/heads/main/assets/sheep-attack.png';
+
+let swd = new Image();
+swd.src = 'https://raw.githubusercontent.com/SheePop-dev/SheePop-dev.github.io/refs/heads/main/assets/sheep-sword.png';
+
 var map00 = [[3, 3, 3, 3, 3, 3, 3, 3],
              [2, 1, 2, 2, 2, 2, 4, 4],
              [0, 0, 2, 1, 1, 2, 2, 4],
@@ -112,12 +118,19 @@ function player(width, height, x, y) {
   this.canMove = true;
   this.sourceY = 0;
   this.sourceX = 0;
+  this.isAttacking = false;
   this.update = function() {
     ctx = myGameArea.context;
-    
     // Occupied Tile
     // ctx.fillRect(this.tileX * 64, this.tileY * 64, 64, 64);
-    ctx.drawImage(img, this.sourceX, this.sourceY, 16, 16, this.x, this.y, 16 * scale, 16 * scale);
+    
+    if (this.isAttacking) {
+      // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+      ctx.drawImage(atk, this.sourceX, this.sourceY, 16, 16, this.x, this.y, 16 * scale, 16 * scale);
+      ctx.drawImage(swd, this.sourceX * 2, this.sourceY, 32, 32, this.x, this.y, 32 * scale, 32 * scale);
+    } else {
+      ctx.drawImage(img, this.sourceX, this.sourceY, 16, 16, this.x, this.y, 16 * scale, 16 * scale);
+    }
     ctx.imageSmoothingEnabled = false;
   }
   this.newPos = function() {
@@ -164,6 +177,20 @@ function checkCollision(y, x) {
   }
 }
 
+function attack() {
+  if (!myPlayer.isAttacking) {
+    myPlayer.isAttacking = true;
+    attackFrame = 0;
+  }
+}
+
+window.addEventListener('keydown', function(e) {
+  if (e.key.toLowerCase() === 'x' && !e.repeat) {
+    attack();
+  }
+});
+
+var atkStep = 0;
 function updateGameArea() {
 
   myPlayer.tileX = Math.floor((myPlayer.x + 31) / 64);
@@ -175,41 +202,68 @@ function updateGameArea() {
   myPlayer.speedX = 0;
   myPlayer.speedY = 0;    
   // LEFT
-  if (myGameArea.keys && myGameArea.keys[37]) {
-    myPlayer.sourceY = 32;
-    if (checkCollision(myPlayer.tileY, myPlayer.tileX - 1) && (myPlayer.x - 33) % 64 < 32) {
-      myPlayer.speedX = 0; 
-    } else {
-      myPlayer.speedX = -3; 
-    }
+  
+  if (myPlayer.isAttacking) {
+    myPlayer.canMove = false;
+  } else {
+    myPlayer.canMove = true;
   }
-  // RIGHT
-  if (myGameArea.keys && myGameArea.keys[39]) {
-    myPlayer.sourceY = 48;
-    if (checkCollision(myPlayer.tileY, myPlayer.tileX + 1) && (myPlayer.x - 32) % 64 > 32) {
-      myPlayer.speedX = 0; 
-    } else {
-      myPlayer.speedX = 3;
+  
+  if (myPlayer.canMove) {
+    if (myGameArea.keys && myGameArea.keys[37]) {
+      myPlayer.sourceY = 32;
+      if (checkCollision(myPlayer.tileY, myPlayer.tileX - 1) && (myPlayer.x - 33) % 64 < 32) {
+        myPlayer.speedX = 0; 
+      } else {
+        myPlayer.speedX = -3; 
+      }
     }
-  }
-  // UP
-  if (myGameArea.keys && myGameArea.keys[38]) {
-    myPlayer.sourceY = 16;
-    if (checkCollision(myPlayer.tileY - 1, myPlayer.tileX) && (myPlayer.y - 33) % 64 < 32) {
-      myPlayer.speedY = 0; 
-    } else {
-      myPlayer.speedY = -3;
+    // RIGHT
+    if (myGameArea.keys && myGameArea.keys[39]) {
+      myPlayer.sourceY = 48;
+      if (checkCollision(myPlayer.tileY, myPlayer.tileX + 1) && (myPlayer.x - 32) % 64 > 32) {
+        myPlayer.speedX = 0; 
+      } else {
+        myPlayer.speedX = 3;
+      }
     }
-  }
-  // DOWN
-  if (myGameArea.keys && myGameArea.keys[40]) {
-    myPlayer.sourceY = 0;
-    if (checkCollision(myPlayer.tileY + 1, myPlayer.tileX) && (myPlayer.y - 32) % 64 > 32) {
-      myPlayer.speedY = 0; 
-    } else {
-      myPlayer.speedY = 3;
+    // UP
+    if (myGameArea.keys && myGameArea.keys[38]) {
+      myPlayer.sourceY = 16;
+      if (checkCollision(myPlayer.tileY - 1, myPlayer.tileX) && (myPlayer.y - 33) % 64 < 32) {
+        myPlayer.speedY = 0; 
+      } else {
+        myPlayer.speedY = -3;
+      }
     }
-  }
+    // DOWN
+    if (myGameArea.keys && myGameArea.keys[40]) {
+      myPlayer.sourceY = 0;
+      if (checkCollision(myPlayer.tileY + 1, myPlayer.tileX) && (myPlayer.y - 32) % 64 > 32) {
+        myPlayer.speedY = 0; 
+      } else {
+        myPlayer.speedY = 3;
+      }
+    }
+  }  
+  
+  if (myPlayer.isAttacking) {
+    attackFrame++;
+    if (attackFrame <= 3) {
+      myPlayer.sourceX = 0;
+    } 
+    else if (attackFrame <= 5) {
+      myPlayer.sourceX = 16;
+    } 
+    else if (attackFrame <= 10) {
+      myPlayer.sourceX = 32;
+    } 
+    else {
+      myPlayer.isAttacking = false;
+      attackFrame = 0;
+    }
+}
+  
   myPlayer.newPos();    
   myPlayer.update();
   // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
@@ -275,7 +329,7 @@ function updateGameArea() {
     }
   }
     
-  document.getElementById("debug").innerHTML = myPlayer.x + ", " + myPlayer.y + " [" + myPlayer.tileX + ", " + myPlayer.tileY + "]<br>" + myPlayer.speedX + ", " + myPlayer.speedY + "<br>" + worldMap.length + "<br>" + (myPlayer.x - 32) % 64 + ", " + (myPlayer.y - 32) % 64 ;
+  document.getElementById("debug").innerHTML = myPlayer.x + ", " + myPlayer.y + " [" + myPlayer.tileX + ", " + myPlayer.tileY + "]<br>" + myPlayer.speedX + ", " + myPlayer.speedY + "<br>" + worldMap.length + "<br>" + (myPlayer.x - 32) % 64 + ", " + (myPlayer.y - 32) % 64 + "<br>" + step;
   step++;
     
   if (step%16 >= 7 && player.isMoving) {
