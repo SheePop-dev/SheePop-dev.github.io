@@ -128,11 +128,11 @@ function player(width, height, x, y) {
       // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
       ctx.drawImage(atk, this.sourceX, this.sourceY, 16, 16, this.x, this.y, 16 * scale, 16 * scale);
       if (this.sourceY == 16) {
-        ctx.drawImage(swd, this.sourceX * 2, this.sourceY * 2, 32, 32, this.x - 48, this.y - 48, 32 * scale, 32 * scale);
+        ctx.drawImage(swd, this.sourceX * 2, this.sourceY * 2, 32, 32, this.x - 64, this.y - 64, 32 * scale, 32 * scale);
       } else if (this.sourceY == 32) {
-        ctx.drawImage(swd, this.sourceX * 2, this.sourceY * 2, 32, 32, this.x - 48, this.y, 32 * scale, 32 * scale);
+        ctx.drawImage(swd, this.sourceX * 2, this.sourceY * 2, 32, 32, this.x - 64, this.y, 32 * scale, 32 * scale);
       } else if (this.sourceY == 48) {
-        ctx.drawImage(swd, this.sourceX * 2, this.sourceY * 2, 32, 32, this.x, this.y - 48, 32 * scale, 32 * scale);
+        ctx.drawImage(swd, this.sourceX * 2, this.sourceY * 2, 32, 32, this.x, this.y - 64, 32 * scale, 32 * scale);
       } else {
         ctx.drawImage(swd, this.sourceX * 2, this.sourceY * 2, 32, 32, this.x, this.y, 32 * scale, 32 * scale);
         
@@ -289,6 +289,20 @@ function updateGameArea() {
   }
   
   myPlayer.update();
+  
+  if (checkCollision(myPlayer.tileY, myPlayer.tileX)) {
+    if (myPlayer.x % 32 < 16) {
+      myPlayer.x -= 4;
+    } else {
+      myPlayer.x += 4;
+    }
+    
+    if (myPlayer.y % 32 < 16) {
+      myPlayer.y -= 4;
+    } else {
+      myPlayer.y += 4;
+    }
+  }
     
   player.isMoving = false;
   if (myPlayer.speedX > 0) {
