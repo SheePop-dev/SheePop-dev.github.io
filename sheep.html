@@ -31,6 +31,9 @@ atk.src = 'https://raw.githubusercontent.com/SheePop-dev/SheePop-dev.github.io/r
 let swd = new Image();
 swd.src = 'https://raw.githubusercontent.com/SheePop-dev/SheePop-dev.github.io/refs/heads/main/assets/sheep-sword.png';
 
+let shrub = new Image();
+shrub.src = 'https://raw.githubusercontent.com/SheePop-dev/SheePop-dev.github.io/refs/heads/main/assets/shrub.png';
+
 var map00 = [[3, 3, 3, 3, 3, 3, 3, 3],
              [2, 1, 2, 2, 2, 2, 4, 4],
              [0, 0, 2, 1, 1, 2, 2, 4],
@@ -67,6 +70,8 @@ var map11 = [[4, 4, 3, 3, 1, 1, 4, 4],
              [2, 1, 3, 3, 1, 1, 1, 4],
              [1, 1, 3, 3, 2, 1, 1, 4]];
             
+            
+var mapObjects = [5, 5];
             
 var worldMap = [[map00, map01],
                 [map10, map11]];
@@ -207,10 +212,9 @@ function updateGameArea() {
 
   currentMap = worldMap[myPlayer.mapY][myPlayer.mapX];
   myGameArea.clear();
-    
+  
   myPlayer.speedX = 0;
   myPlayer.speedY = 0;    
-  // LEFT
   
   if (myPlayer.isAttacking) {
     myPlayer.canMove = false;
@@ -218,7 +222,9 @@ function updateGameArea() {
     myPlayer.canMove = true;
   }
   
+  
   if (myPlayer.canMove) {
+    // LEFT
     if (myGameArea.keys && myGameArea.keys[37]) {
       myPlayer.sourceY = 32;
       if (checkCollision(myPlayer.tileY, myPlayer.tileX - 1) && (myPlayer.x - 33) % 64 < 32) {
@@ -285,6 +291,9 @@ function updateGameArea() {
         tileStep = 0;
       }
       ctx.drawImage(tileset, tileStep * 16, currentMap[j][i] * 16, 16, 16, 16 * i * scale, 16 * j * scale, 16 * scale, 16 * scale);
+      if (currentMap == map00 && j == 5 && i == 5) {
+        ctx.drawImage(shrub, 0, 0, 16, 16, 16 * i * scale, 16 * j * scale, 16 * scale, 16 * scale);
+      }
     }
   }
   
