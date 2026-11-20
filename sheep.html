@@ -143,12 +143,16 @@ function player(width, height, x, y) {
       // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
       ctx.drawImage(atk, this.sourceX, this.sourceY, 16, 16, this.x, this.y, 16 * scale, 16 * scale);
       if (this.sourceY == 16) {
+        attackHitbox((this.x) - 64, this.y, this.x, this.y - 64, this.x - 32, this.y - 48, false);
         ctx.drawImage(swd, this.sourceX * 2, this.sourceY * 2, 32, 32, this.x - 64, this.y - 64, 32 * scale, 32 * scale);
       } else if (this.sourceY == 32) {
+        attackHitbox(this.x, this.y + 64, this.x - 64, this.y, this.x - 48, this.y + 40, true);
         ctx.drawImage(swd, this.sourceX * 2, this.sourceY * 2, 32, 32, this.x - 64, this.y, 32 * scale, 32 * scale);
       } else if (this.sourceY == 48) {
+        attackHitbox(this.x + 40, this.y - 64, this.x + 64, this.y, this.x + 48, this.y - 40, true);
         ctx.drawImage(swd, this.sourceX * 2, this.sourceY * 2, 32, 32, this.x, this.y - 64, 32 * scale, 32 * scale);
       } else {
+        attackHitbox((this.x) + 64, this.y + 40, this.x, this.y + 64, this.x + 32, this.y + 48, false);
         ctx.drawImage(swd, this.sourceX * 2, this.sourceY * 2, 32, 32, this.x, this.y, 32 * scale, 32 * scale);
         
       }
@@ -213,6 +217,19 @@ function checkCollision(y, x) {
     return true;
   } else {
     return false;
+  }
+}
+
+function attackHitbox(x0, y0, x1, y1, x2, y2, horizontal) {
+  ctx.fillStyle = "red";
+  if (horizontal) {
+    ctx.fillRect(x0, y0, 24, 64);
+    ctx.fillRect(x1, y1, 64, 64);
+    ctx.fillRect(x2, y2, 64, 64);
+  } else {
+    ctx.fillRect(x0, y0, 64, 24);
+    ctx.fillRect(x1, y1, 64, 64);
+    ctx.fillRect(x2, y2, 64, 64);
   }
 }
 
